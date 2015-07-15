@@ -16,6 +16,20 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<a class="panel-title" data-toggle="collapse"
+					data-parent="#panel-864199" href="#panel-element-541274">首页管理</a>
+			</div>
+			<div id="panel-element-541274" class="panel-collapse collapse">
+				<div class="panel-body">
+					<a href="management/shouYeSort">分类选项</a>
+				</div>
+				<div class="panel-body">
+					<a href="management/shouyeproductslist">内容列表</a>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="panel-title" data-toggle="collapse"
 					data-parent="#panel-864199" href="#panel-element-540274">分类管理</a>
 			</div>
 			<div id="panel-element-540274" class="panel-collapse collapse">

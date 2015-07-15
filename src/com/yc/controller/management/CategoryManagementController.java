@@ -2,8 +2,12 @@ package com.yc.controller.management;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +21,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yc.entity.AgriculturalsSort;
 import com.yc.entity.Brand;
+import com.yc.entity.Language;
+import com.yc.entity.News;
+import com.yc.entity.Products;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommodity;
 import com.yc.entity.Specifications;
+import com.yc.service.IAgriculturalsSortService;
 import com.yc.service.IBrandService;
+import com.yc.service.INewsService;
+import com.yc.service.IProductsService;
 import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
 import com.yc.service.ISpecificationsService;
@@ -46,6 +59,15 @@ public class CategoryManagementController {
 	
 	@Autowired
 	IShopCommodityService shopCommoidtyService;
+	
+	@Autowired
+	INewsService newsService;
+	
+	@Autowired
+	IAgriculturalsSortService	sortService;
+	
+	@Autowired
+	IProductsService productsService;
 	
 	/**
 	 * 查询类别
@@ -644,4 +666,257 @@ public class CategoryManagementController {
 		}
 	}
 	
+	@RequestMapping(value = "shouYeSort", method = RequestMethod.GET)
+	public ModelAndView shouyesortList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<AgriculturalsSort> list = sortService.getSortByParent();
+		ModelMap mode = new ModelMap();
+		mode.put("treeList1", list);
+		return new ModelAndView("management/shouYeSort", mode);
+	}
+
+	@RequestMapping(value = "shouyeaddOrUpdateDep", method = RequestMethod.POST)
+	public String addOrUpdateDep(String page, Integer departmentID, String departmentname, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AgriculturalsSort department = sortService.findById(departmentID);
+		AgriculturalsSort depart = null;
+		depart = shoueyeaddDepartment(department, departmentname);
+		return "redirect:/management/shouyegetAgriculturalsSort?id=" + depart.getId() + "&page=sortList";
+	}
+
+	private AgriculturalsSort shoueyeaddDepartment(AgriculturalsSort parentDepartment, String departmentname) {
+		AgriculturalsSort department = new AgriculturalsSort();
+		department.setParentLevel(parentDepartment);
+		department.setDepartmentname(departmentname);
+		department = sortService.save(department);
+		if (parentDepartment != null) {
+			parentDepartment.getChildren().add(department);
+			sortService.update(parentDepartment);
+		}
+		return department;
+	}
+
+	@RequestMapping(value = "shouyegetAgriculturalsSort", method = RequestMethod.GET)
+	public ModelAndView shouyegetAgriculturalsSort(Integer id, String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AgriculturalsSort department = sortService.findById(id);
+		List<AgriculturalsSort> list = sortService.getSortByParent();
+		ModelMap mode = new ModelMap();
+		mode.put("department", department);
+		mode.put("treeList1", list);
+		if (page.equals("sortList")) {
+			return new ModelAndView("management/shouYeSort", mode);
+		} else {
+			return new ModelAndView("management/shouyeaddProducts", mode);
+		}
+	}
+
+	@RequestMapping(value = "shouyeupdateDepartmen", method = RequestMethod.POST)
+	public String shouyeupdateDepartmen(Integer departmentId, String departmentname, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AgriculturalsSort department = sortService.findById(departmentId);
+		AgriculturalsSort depart = null;
+		if (department != null) {
+			depart = shouyeupdateDepartment(department, departmentname);
+		}
+		return "redirect:/management/shouyegetAgriculturalsSort?id=" + depart.getId() + "&page=sortList";
+	}
+
+	private AgriculturalsSort shouyeupdateDepartment(AgriculturalsSort department, String departmentname) {
+		department.setDepartmentname(departmentname);
+		department = sortService.update(department);
+		return department;
+	}
+
+	@RequestMapping(value = "shouyedeleteDepartmen", method = RequestMethod.POST)
+	public String shoyedeleteDepartmen(Integer departmentId, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AgriculturalsSort department = sortService.findById(departmentId);
+		getNodeshouye(department);
+		return "redirect:/management/shouYeSort";
+	}
+
+	private void getNodeshouye(AgriculturalsSort department) {
+		Set<AgriculturalsSort> list = department.getChildren();
+		if (list != null && list.size() > 0) {
+			Iterator<AgriculturalsSort> iter = list.iterator();
+			while (iter.hasNext()) {
+				AgriculturalsSort dep = iter.next();
+				if (dep.getChildren() != null && dep.getChildren().size() > 0) {
+					getNodeshouye(dep);
+				}
+				Set<Products> depAndPos = dep.getProducts();
+				if (depAndPos != null && depAndPos.size() > 0) {
+					Iterator<Products> iterator = depAndPos.iterator();
+					while (iterator.hasNext()) {
+						Products depAndPoss = iterator.next();
+						productsService.delete(depAndPoss.getId());
+					}
+				}
+				sortService.deleteSort(dep);
+			}
+		}
+		Set<Products> depAndPos = department.getProducts();
+		if (depAndPos != null && depAndPos.size() > 0) {
+			Iterator<Products> iterator = depAndPos.iterator();
+			while (iterator.hasNext()) {
+				Products depAndPoss = iterator.next();
+				productsService.delete(depAndPoss.getId());
+			}
+		}
+		sortService.deleteSort(department);
+	}
+
+	@RequestMapping(value = "shouyeproductslist", method = RequestMethod.GET)
+	public ModelAndView shouyeproductslist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
+		List<Products> list = productsService.getAll();
+		mode.put("list", list);
+		return new ModelAndView("management/shouyeproductslist", mode);
+	}
+
+	@RequestMapping(value = "shouyeaddProducts", method = RequestMethod.GET)
+	public ModelAndView shouyeaddProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
+		List<AgriculturalsSort> tree1 = sortService.getSortByParent();
+		mode.put("treeList1", tree1);
+		return new ModelAndView("management/shouyeaddProducts", mode);
+	}
+
+	@RequestMapping(value = "shouyeaddProducts", method = RequestMethod.POST)
+	public String shouyeaddProducts(Integer productsID, Integer departmentID, String productsName, String effect, String benefits, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		AgriculturalsSort sort = sortService.findById(departmentID);
+		List<AgriculturalsSort> list = sortService.getSortByParent();
+		ModelMap mode = new ModelMap();
+		mode.put("department", sort);
+		mode.put("treeList1", list);
+		if (sort != null) {
+			Products products = productsService.findById(productsID);
+			if (multipartResolver.isMultipart(request)) {
+				String productsPhoto = "content/static/images/";
+				List<String> recommends = new ArrayList<String>();
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+				// 取得request中的所有文件名
+				Iterator<String> iter = multiRequest.getFileNames();
+				while (iter.hasNext()) {
+					// 取得上传文件
+					MultipartFile file = multiRequest.getFile(iter.next());
+					System.out.println("file========="+file.getSize());
+					if (file != null ) {
+						// 取得当前上传文件的文件名称
+						String myFileName = file.getOriginalFilename();
+						// 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+						if (myFileName.trim() != "") {
+							// 重命名上传后的文件名
+							String fileName = file.getOriginalFilename();
+							System.out.println("fileName=========="+fileName);
+							System.out.println("isChineseName(fileName)=========="+isChineseName(fileName));
+							if(isChineseName(fileName)){
+								fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())+fileName.substring(fileName.lastIndexOf("."));;
+							}else{
+								fileName.toLowerCase();
+							}
+							// 定义上传路径
+							System.out.println("file.getName().equals()" + file.getName());
+							if (file.getName().equals("sendFile")) {
+								String logoRealPathDir = request.getSession().getServletContext().getRealPath(productsPhoto);
+								File file1 = new File(logoRealPathDir);
+								if (!file1.exists())
+									file1.mkdirs();
+								File file2 = new File(logoRealPathDir, fileName);
+								if (file2.getParentFile() == null)
+									file2.mkdirs();
+								file.transferTo(file2);
+								productsPhoto = productsPhoto + fileName;
+							} else {
+								String recommend = "content/static/images/";
+								String logoRealPathDir = request.getSession().getServletContext().getRealPath(recommend);
+								File file1 = new File(logoRealPathDir);
+								if (!file1.exists())
+									file1.mkdirs();
+								File file2 = new File(logoRealPathDir, fileName);
+								if (file2.getParentFile() == null)
+									file2.mkdirs();
+								file.transferTo(file2);
+								recommend = recommend + fileName;
+								recommends.add(recommend);
+							}
+						}
+					}
+				}
+				if (products == null) {
+					products = new Products();
+
+				}
+				products.setEffect(effect);
+				products.setProductsName(productsName);
+				products.setBenefits(benefits);
+				if (!productsPhoto.replace("content/static/images/", "").equals("")) {
+					products.setProductsPhoto(productsPhoto);
+				}
+				if (recommends.size() > 0) {
+					products.setRecommends(recommends);
+				}
+				products.setAgriculturalsSort(sort);
+				products = productsService.save(products);
+				sort.getProducts().add(products);
+				mode.put("products", products);
+			}
+		}
+		return "redirect:/management/shouyeproductslist";
+	}
+
+	private boolean isChineseName(String name) {
+		return (name.getBytes().length == name.length())?false:true;
+	}
+
+	@RequestMapping(value = "shouyeupdateProducts", method = RequestMethod.GET)
+	public ModelAndView updateProducts(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
+		List<AgriculturalsSort> tree1 = sortService.getSortByParent();
+		Products products = productsService.findById(id);
+		mode.put("treeList1", tree1);
+		mode.put("products", products);
+		mode.put("department", products.getAgriculturalsSort());
+		return new ModelAndView("management/shouyeaddProducts", mode);
+	}
+
+	@RequestMapping(value = "shouyedeleteProducts", method = RequestMethod.GET)
+	public String deleteProducts(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		productsService.delete(id);
+		return "redirect:/management/shouyeproductslist";
+	}
+
+	@RequestMapping(value = "shouyenews", method = RequestMethod.GET)
+	public ModelAndView news(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<News> list = newsService.getAll();
+		ModelMap mode = new ModelMap();
+		mode.put("list", list);
+		return new ModelAndView("management/shouyenews", mode);
+	}
+
+	@RequestMapping(value = "shouyegetNews", method = RequestMethod.GET)
+	public ModelAndView getNews(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		News news = newsService.findById(id);
+		ModelMap mode = new ModelMap();
+		mode.put("notice", news);
+		return new ModelAndView("management/shouyegetNews", mode);
+	}
+
+	@RequestMapping(value = "shouyedeleteNews", method = RequestMethod.GET)
+	public String deleteNews(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		newsService.delete(id);
+		return "redirect:/management/shouyenews";
+	}
+
+	@RequestMapping(value = "shouyeaddNews", method = RequestMethod.GET)
+	public ModelAndView addNews(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return new ModelAndView("management/shouyeaddNews");
+	}
+
+	@RequestMapping(value = "shouyeaddNews", method = RequestMethod.POST)
+	public String shouyeaddNew(String languages, String contentNews, String title, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		News news = new News();
+		news.setContent(contentNews);
+		news.setTitle(title);
+		news.setLanguage(Language.valueOf(languages));
+		newsService.save(news);
+		return "redirect:/management/shouyenews";
+	}
 }

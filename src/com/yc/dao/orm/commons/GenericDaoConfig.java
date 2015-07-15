@@ -9,6 +9,7 @@ import com.yc.entity.ActivityStyle;
 import com.yc.entity.AddressDivision;
 import com.yc.entity.AdvertiseDistribution;
 import com.yc.entity.Advertisement;
+import com.yc.entity.AgriculturalsSort;
 import com.yc.entity.Blacklist;
 import com.yc.entity.Brand;
 import com.yc.entity.BuyCar;
@@ -23,6 +24,7 @@ import com.yc.entity.MissionPlan;
 import com.yc.entity.News;
 import com.yc.entity.OrderForm;
 import com.yc.entity.OrderGroup;
+import com.yc.entity.Products;
 import com.yc.entity.Shop;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommImage;
@@ -175,5 +177,13 @@ public class GenericDaoConfig {
     @Bean
     public GenericDao<MissionPlan> getMissionPlanDao() {
     	return new GenericDaoSupport<MissionPlan>(MissionPlan.class);
+    }
+    @Bean
+    public GenericDao<AgriculturalsSort> getAgriculturalsSortDao() {
+    	return new GenericDaoSupport<AgriculturalsSort>(AgriculturalsSort.class);
+    }
+    @Bean
+    public GenericDao<Products> getProductsDao() {
+    	return new GenericDaoSupport<Products>(Products.class);
     }
 }

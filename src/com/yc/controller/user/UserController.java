@@ -61,17 +61,17 @@ public class UserController {
 
 	@Autowired
 	ICollectionService collectionService;
-	
+
 	@Autowired
-	IShopReviewsService	shopReviewsService;
-	
+	IShopReviewsService shopReviewsService;
+
 	@Autowired
 	IShopCommodityService shopCommodityService;
-	
+
 	@Autowired
 	ICommodityService commodityService;
 
-	@RequestMapping(value = "login", method = { RequestMethod.POST, RequestMethod.GET })
+	@RequestMapping(value = "login", method = { RequestMethod.POST })
 	public String login(String page, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("mobile");
 		String pwd = KL(JM(KL(MD5(request.getParameter("password")))));
@@ -85,7 +85,7 @@ public class UserController {
 				session.setAttribute("loginUser", personnel);
 				session.removeAttribute("loginPage");
 				if (page.equals("")) {
-					return "redirect:/index";
+					return "redirect:/hthjin";
 				} else {
 					return "redirect:" + page;
 				}
@@ -94,6 +94,13 @@ public class UserController {
 				return "redirect:/user/regist?page=" + page;
 			}
 		}
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		session.removeAttribute("message");
+		return new ModelAndView("user/login");
 	}
 
 	@RequestMapping(value = "regist", method = RequestMethod.GET)
@@ -117,18 +124,12 @@ public class UserController {
 	@RequestMapping(value = "regist", method = RequestMethod.POST)
 	public String registing(String page, String phone, String password, String mobile_code, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		AppUser user = userService.getUser(phone);
-		if(user ==  null){
-			HttpSession session = request.getSession();
-			Object session_code = session.getAttribute("mobile_code");
-			 user = new AppUser();
-			if (session_code != null) {
-				String session_mobileCode = session_code.toString();
-				if (session_mobileCode.equals(mobile_code.trim())) {
-					user.setPhone(phone);
-					user.setPassword(KL(MD5(password)));
-					user = userService.save(user);
-				}
-			}
+		if (user == null) {
+			user = new AppUser();
+			user.setPhone(phone);
+			user.setPassword(KL(MD5(password)));
+			user = userService.save(user);
+
 		}
 		return "redirect:/user/login?mobile=" + user.getPhone() + "&password=" + user.getPassword() + "&page=" + page;
 	}
@@ -136,14 +137,14 @@ public class UserController {
 	@RequestMapping(value = "personalCenter", method = RequestMethod.GET)
 	public ModelAndView personalCenter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelMap mode = new ModelMap();
-		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
 		List<ShopCategory> list = categoryService.getAllByParent();
-		OrderForm orderForm=orderFormService.searchNewst();
-		List<Collection> collections=collectionService.searchPart();
-	    mode.put("orderForm", orderForm);
-	    mode.put("collections", collections);
+		OrderForm orderForm = orderFormService.searchNewst();
+		List<Collection> collections = collectionService.searchPart();
+		mode.put("orderForm", orderForm);
+		mode.put("collections", collections);
 		mode.put("categories", list);
-		mode.put("user",user);
+		mode.put("user", user);
 		return new ModelAndView("user/personalCenter", mode);
 	}
 
@@ -218,40 +219,45 @@ public class UserController {
 		collectionService.delete(collectionID);
 		return "redirect:/user/collection";
 	}
+
 	// 跳转经典红酒
 	@RequestMapping(value = "skipWinePage", method = RequestMethod.GET)
 	public ModelAndView skipWinePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return new ModelAndView("user/wineRecommend", null);
 	}
+
 	// 跳转经典白酒
 	@RequestMapping(value = "skipLiqueurPage", method = RequestMethod.GET)
 	public ModelAndView skipLiqueurPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return new ModelAndView("user/liqueurRecommend", null);
 	}
+
 	// 跳转经典啤酒
 	@RequestMapping(value = "skipBierPage", method = RequestMethod.GET)
 	public ModelAndView skipBierPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return new ModelAndView("user/bierRecommend", null);
 	}
+
 	// 跳转经典洋酒
 	@RequestMapping(value = "skipSpiritsPage", method = RequestMethod.GET)
 	public ModelAndView skipSpiritsPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return new ModelAndView("user/spiritsRecommend", null);
 	}
+
 	// 跳转酒具和小菜
 	@RequestMapping(value = "skipToolPage", method = RequestMethod.GET)
 	public ModelAndView skipToolPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return new ModelAndView("user/wineTool", null);
 	}
-	
+
 	// 点评
 	@RequestMapping(value = "reviews", method = RequestMethod.POST)
-	public String reviews(Integer orderFormID,Integer commCode, String reviewsRank,String businessreply, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ShopReviews reviews = shopReviewsService.getAllByOrderAndComm(orderFormID,commCode);
+	public String reviews(Integer orderFormID, Integer commCode, String reviewsRank, String businessreply, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ShopReviews reviews = shopReviewsService.getAllByOrderAndComm(orderFormID, commCode);
 		OrderForm orderform = orderFormService.findById(orderFormID);
 		ShopCommodity commodity = shopCommodityService.findById(commCode);
-		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
-		if(reviews == null){
+		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
+		if (reviews == null) {
 			reviews = new ShopReviews();
 			reviews.setReviews(businessreply);
 			reviews.setReviewsRank(ReviewsRank.valueOf(reviewsRank));
@@ -261,33 +267,33 @@ public class UserController {
 			reviews.setShopscommodity(commodity);
 			reviews.setUser(user);
 			shopReviewsService.save(reviews);
-		}else{
+		} else {
 			reviews.setAdditionalReviews(businessreply);
 			shopReviewsService.update(reviews);
 		}
-		return "redirect:"+request.getHeader("Referer");
+		return "redirect:" + request.getHeader("Referer");
 	}
-	
+
 	@RequestMapping(value = "myrReviews", method = RequestMethod.GET)
-	public ModelAndView myrReviews( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView myrReviews(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelMap mode = new ModelMap();
 		List<ShopCategory> list2 = categoryService.getAllByParent();
 		mode.put("categories", list2);
-		AppUser user =(AppUser)request.getSession().getAttribute("loginUser");
+		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
 		List<ShopReviews> list = shopReviewsService.getReviewsByUser(user.getId());
 		mode.put("list", list);
-		return new ModelAndView("user/myrReviews",mode);
+		return new ModelAndView("user/myrReviews", mode);
 	}
-	
+
 	@RequestMapping(value = "comitComm", method = RequestMethod.GET)
 	public String comitComm(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("id=-==========="+id);
+		System.out.println("id=-===========" + id);
 		OrderForm orderform = orderFormService.findById(id);
 		orderform.setOrderstatus(OrderStatus.completionTransaction);
 		orderFormService.update(orderform);
 		return "redirect:/user/perscentBonuses?orderDate=-1&orderStatus=-1";
 	}
-	
+
 	@RequestMapping(value = "quxiao", method = RequestMethod.GET)
 	public String quxiao(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		OrderForm orderform = orderFormService.findById(id);
@@ -297,12 +303,13 @@ public class UserController {
 		orderFormService.delete(id);
 		return "redirect:/user/perscentBonuses?orderDate=-1&orderStatus=-1";
 	}
-	
+
 	@RequestMapping(value = "wuliu", method = RequestMethod.GET)
-	public ModelAndView wuliu( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	public ModelAndView wuliu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		return new ModelAndView("user/wuliu");
 	}
+
 	// MD5加码。32位
 	public static String MD5(String inStr) {
 		MessageDigest md5 = null;

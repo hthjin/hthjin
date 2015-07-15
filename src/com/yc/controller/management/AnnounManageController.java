@@ -107,30 +107,6 @@ public class AnnounManageController {
 		return new ModelAndView("management/addNews");
 	}
 
-	@RequestMapping(value = "addNews", method = RequestMethod.POST)
-	public String addNew(String isThrough, String type, String contentNews, String activityUrl, String activityTitle, String title, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		News news = null;
-		if (type.equals("news")) {
-			if (!contentNews.equals("输入内容…")) {
-				news = new News();
-				news.setContent(contentNews);
-				news.setTitle(title);
-				news.setAnnounType(AnnounType.valueOf(type));
-				news.setIsThrough(Boolean.valueOf(isThrough));
-				news.setNewsDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-			}
-		} else {
-			news = new News();
-			news.setTitle(activityTitle);
-			news.setActivityUrl(activityUrl);
-			news.setAnnounType(AnnounType.valueOf(type));
-			news.setIsThrough(Boolean.valueOf(isThrough));
-			news.setNewsDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		}
-		newsService.save(news);
-		return "redirect:/management/news";
-	}
-
 	@RequestMapping(value = "updateNews", method = RequestMethod.GET)
 	public ModelAndView updateNews(Integer id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		News news = newsService.findById(id);
@@ -138,28 +114,6 @@ public class AnnounManageController {
 		model.put("news", news);
 		model.put("page", "update");
 		return new ModelAndView("management/addNews", model);
-	}
-
-	@RequestMapping(value = "updateNews", method = RequestMethod.POST)
-	public String updateNewsPost(String isThrough, Integer noticeId, String type, String contentNews, String activityUrl, String activityTitle, String title, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		News news = newsService.findById(noticeId);
-		if (news != null) {
-			if (type.equals("news")) {
-				if (!contentNews.equals("")) {
-					news.setContent(contentNews);
-					news.setTitle(title);
-					news.setAnnounType(AnnounType.valueOf(type));
-					news.setIsThrough(Boolean.valueOf(isThrough));
-				}
-			} else {
-				news.setTitle(activityTitle);
-				news.setActivityUrl(activityUrl);
-				news.setAnnounType(AnnounType.valueOf(type));
-				news.setIsThrough(Boolean.valueOf(isThrough));
-			}
-			newsService.update(news);
-		}
-		return "redirect:/management/news";
 	}
 
 	// 广告

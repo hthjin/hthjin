@@ -66,4 +66,9 @@ public class IndexController {
     public ModelAndView homePage(String page,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  		return new ModelAndView("personnel/login");
     }
+ 	
+ 	@RequestMapping(value = "hthjin", method = RequestMethod.GET)
+ 	public ModelAndView hthjin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 		return new ModelAndView("hthjin");
+ 	}
 }

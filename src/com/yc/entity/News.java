@@ -23,48 +23,15 @@ public class News {
 	private String title;
 	
 	@Column
-	private String activityUrl;
-	
-	@Column
-	private String newsDate;
-	
-	@Column(columnDefinition="bit default 0")
-	private Boolean  isThrough = false;
-	
-	@Column
 	@Enumerated(EnumType.STRING)
-	private AnnounType announType;
+	private Language language;
 
-	public String getNewsDate() {
-		return newsDate;
+	public Language getLanguage() {
+		return language;
 	}
 
-	public void setNewsDate(String newsDate) {
-		this.newsDate = newsDate;
-	}
-
-	public Boolean getIsThrough() {
-		return isThrough;
-	}
-
-	public void setIsThrough(Boolean isThrough) {
-		this.isThrough = isThrough;
-	}
-
-	public String getActivityUrl() {
-		return activityUrl;
-	}
-
-	public void setActivityUrl(String activityUrl) {
-		this.activityUrl = activityUrl;
-	}
-
-	public AnnounType getAnnounType() {
-		return announType;
-	}
-
-	public void setAnnounType(AnnounType announType) {
-		this.announType = announType;
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
 
 	public Integer getNoticeId() {
