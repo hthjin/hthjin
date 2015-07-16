@@ -8,7 +8,7 @@
 <% String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; %>
 <base href="<%=basePath%>">
-<title>不倒翁后台管理系统</title>
+<title>华腾汇金后台管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>分类管理</title>
 <link href="content/static/css/bootstrap/navbar.css" rel="stylesheet">

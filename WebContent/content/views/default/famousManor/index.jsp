@@ -24,59 +24,89 @@
 <link rel="stylesheet" type="text/css" href="content/static/css/animation.css" />
 <link rel="stylesheet" type="text/css" href="content/static/css/b_style.css" />
 <script type="text/javascript"  src="content/static/js/tumbler/tz.js"></script>
+<style>
+	.bgimg{ opacity:0.3;}
+</style>
 <script type="text/javascript">
          $(function(){
-        	 $.getJSON(
-        		  "/toJsonFmatUtil/getAdvertisement",
+        	   $.getJSON(
+        		  "toJsonFmatUtil/getAdvertisement",
         		  {
-        			  whichPage: "famousManor"
+        			  whichPage: "名庄特卖"
         		   }, function(json) {
         			   $.each(json.advertisementList, function(i,item){
 //         				   alert(item.id);	//id
 //         				   alert(item.imagePath);//宣传图片
 //         				   alert(item.link);//链接
 //         				   alert(item.adverDistribution.position);//广告所在位置
-        				   if(item.adverDistribution.position==1){
-                       	    $("#Adv_1").append("<li><a href=\""+item.link+"\"><div class=\"m-width\"style=\"width: 100%; height: 571px; background: url("+item.imagePath+") center center;\"></div></a></li>");
-                         }else if(item.adverDistribution.position==2){
-                       	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                         }else if(item.adverDistribution.position==3){
-                       	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                         }else if(item.adverDistribution.position==4){
-                       	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                         }else if(item.adverDistribution.position==5){
+        				   if(item.adverDistribution.position=='名庄特卖大眼睛'){
+                       	    $("#Adv_1").append("<li><a href=\""+item.link+"\"><div class=\"m-width\"style=\"width: 100%; height: 450px; background: url("+item.imagePath+") center center;\"></div></a></li>");
+                         }else if(item.adverDistribution.position=='名庄特卖强力推荐A1'){
+                       	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 225px;border-bottom:1px #ccc dashed;background: url("+item.imagePath+") center center;\"></div></a>");
+                         }else if(item.adverDistribution.position=='名庄特卖强力推荐A2'){
+                       	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 225px;background: url("+item.imagePath+") center center;\"></div></a>");
+                         }else if(item.adverDistribution.position=='名庄特卖名庄单品A'){
                        	     $("#Adv_5").append("<div class=\"bander_class\" style=\"border-top:none; border-left:none;\"><a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" /></a></div>");
-                         }else if(item.adverDistribution.position==6){
+                         }else if(item.adverDistribution.position=='名庄特卖名庄单品B'){
                        	     $("#Adv_6").append("<div class=\"bander_class\" style=\"border-top:none; border-left:none;\"><a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" /></a></div>");
-                         }else if(item.adverDistribution.position==7){
+                         }else if(item.adverDistribution.position=='名庄特卖名庄单品C'){
                        	     $("#Adv_7").append("<div class=\"bander_class\" style=\"border-top:none; border-left:none;\"><a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" /></a></div>");
                          }
-                         
-                         
-                                $("#csdiv").animate({
-  		        					width : 290
-  		        				}, 5000).css("transition", "all 0.5s").css("right", "350px");
-                                
-  		        				$(".prev,.next").hover(function() {
-  		        					$(this).stop(true, false).fadeTo("show", 0.9);
-  		        				}, function() {
-  		        					$(this).stop(true, false).fadeTo("show", 0.4);
-  		        				});
-  		        	            
-  		        				$(".banner-box").slide({
-  		        					titCell : ".hd ul",	
-  		        					mainCell : ".bd ul",
-  		        					effect : "fold",
-  		        					interTime : 3500,
-  		        					delayTime : 500,
-  		        					autoPlay : true,
-  		        					autoPage : true,
-  		        					trigger : "click"
-  		        				});
-        			   });
+        			   });//动态生成广告
+        				   if(window.screen.width<=1680){
+           					$("#csdiv").animate(
+           								{width:190},5000).css("transition","all 0.5s").css("right","120px");
+           						}else{
+           					$("#csdiv").animate(
+           								{width:190},5000).css("transition","all 0.5s").css("right","350px");
+           						}
+           						 		
+           					$(".prev,.next").hover(function(){
+           						$(this).stop(true,false).fadeTo("show",0.9);
+           					},function(){
+           						$(this).stop(true,false).fadeTo("show",0.4);
+           					});
+           					
+           					$(".banner-box").slide({
+           						titCell:".hd ul",
+           						mainCell:".bd ul",
+           						effect:"fold",
+           						interTime:3500,
+           						delayTime:500,
+           						autoPlay:true,
+           						autoPage:true, 
+           						trigger:"click" 
+           					});
+   		        				$(".banner-box2").slide({
+   		        					titCell : ".hd ul",	
+   		        					mainCell : ".bd ul",
+   		        					effect : "fold",
+   		        					interTime : 3500,
+   		        					delayTime : 500,
+   		        					autoPlay : true,
+   		        					autoPage : true,
+   		        					trigger : "click"
+   		        				});
+   		        				//start
+   		        				$("#csdiv").children(this).hover(function(){
+   		            				var index=$("#csdiv").children(this).index($(this)); //当前鼠标悬停索引
+   		            				var a = new Array(2);
+   		            				a[0]=0;
+   		            				a[1]=1;
+   		            				for(var i=0;i<a.length;i++){
+   		            					if(index==i){
+   		    		            			$("#csdiv").children(this).eq(i).children($("#csdiv").children(this).eq(i)).html("");
+   		            						}else{
+   		            							$("#csdiv").children(this).eq(i).children($("#csdiv").children(this).eq(i)).html("<img class='bgimg' src='content/static/images/bgblack.jpg'/>");
+   		            							}
+   		            					}
+   		            				},function(){
+   		            			$(this).css("position","all 0.1s").css("marginLeft","0px");
+   		            			$("#csdiv").children(this).children($("#csdiv").children(this)).find("img").remove();
+   		            				});
+   		            			//end
         		   });
          });
-        		
 </script>
 </head>
 <body>
@@ -85,7 +115,7 @@
 	<!--banner-->
 	<div class="banner">
 	    <div class="banner-box">
-	        <div id="csdiv" style="border: 0px solid red; width: 290px; height: 570px; float: left; position: absolute; z-index: 9999; right: -300px;"></div>
+	        <div id="csdiv" style="border: 0px solid red; width: 190px; height: 450px; float: left; position: absolute; z-index: 9999; right: -300px;"></div>
 		    <jsp:include page="../frontDesk/cate.jsp" />
 	    	<div class="bd">
 				<ul id="Adv_1">

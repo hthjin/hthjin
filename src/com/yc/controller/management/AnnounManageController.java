@@ -277,7 +277,7 @@ public class AnnounManageController {
 				}
 				if(advertisements.size()<=advertiseDistribution.getNum()){
 					String name = imagePath.getOriginalFilename();
-					String pathDir = "../images/advertiseImage/";
+					String pathDir = "content/static/img/advertiseImage/";
 					if (!name.equals("")) {
 						String logoRealPathDir = request.getSession().getServletContext().getRealPath(pathDir);
 						File file1 = new File(logoRealPathDir);

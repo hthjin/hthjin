@@ -15,8 +15,7 @@
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>不倒翁</title>
-<meta name="description"
-	content="CSS3 Full Screen Vertical Scroller with jQuery animation fallback" />
+<meta name="description" content="CSS3 Full Screen Vertical Scroller with jQuery animation fallback" />
 <meta name="viewport" content="width=device-width, user-scalable=no" />
 <script type="text/javascript" src="content/static/js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="content/static/js/tumbler/jquery-1.7.2.min.js"></script>
@@ -24,7 +23,6 @@
 <link rel="stylesheet" type="text/css" href="content/static/css/style.css" />
 <link rel="stylesheet" type="text/css" href="content/static/css/right.css" />
 <link rel="stylesheet" type="text/css" href="content/static/css/daxuewen1012.css" />
-<link href="content/static/css/daxuewen1012.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="content/static/css/animation.css" />
 <link rel="stylesheet" type="text/css" href="content/static/css/b_style.css" />
 <style>
@@ -36,7 +34,9 @@
 .yslia {
 	background: url(content/static/images/tab.png) scroll 0px 25px no-repeat;
 }
-
+</style>
+<style>
+	.bgimg{ opacity:0.3;}
 </style>
 <!--搜索框-->
 <script>
@@ -45,83 +45,87 @@
 		d1.onclick = function() {
 			d1.placeholder = "";
 		}
+	};
+</script>
+<script>
 
-	}
 </script>
 <script type="text/javascript">
          $(function(){
         	 $.getJSON(
-        		  "/toJsonFmatUtil/getAdvertisement",
+        		  "toJsonFmatUtil/getAdvertisement",
         		  {
-        			  whichPage: "homePage"
+        			  whichPage: "首页"
         		   }, function(json) {
         			   $.each(json.advertisementList, function(i,item){
-//         				   alert(item.id);	//id
+        				//  alert(item.id);	//id
 //         				   alert(item.imagePath);//宣传图片
 //         				   alert(item.link);//链接
 //         				   alert(item.adverDistribution.position);//广告所在位置
-                                  if(item.adverDistribution.position==1){
-                                	    $("#Adv_1").append("<li><a href=\""+item.link+"\"><div class=\"m-width\"style=\"width: 100%; height: 571px; background: url("+item.imagePath+") center center;\"></div></a></li>");
-                                  }else if(item.adverDistribution.position==2){
-                                	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                                  }else if(item.adverDistribution.position==3){
-                                	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                                  }else if(item.adverDistribution.position==4){
-                                	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 185px;margin-top: 5px;background: url("+item.imagePath+") center center;\"></div></a>");
-                                  }else if(item.adverDistribution.position==5){
+                                  if(item.adverDistribution.position=='首页大眼睛'){
+                                	    $("#Adv_1").append("<li><a href=\""+item.link+"\"><div class=\"m-width\"style=\"width: 100%; height: 450px; background: url("+item.imagePath+") center center;\"></div></a></li>");
+                                  }else if(item.adverDistribution.position=='首页强力推荐A1'){
+                                	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 225px;border-bottom:1px #ccc dashed;background: url("+item.imagePath+") center center;\"></div></a>");
+                                  }else if(item.adverDistribution.position=='首页强力推荐A2'){
+                                	     $("#csdiv").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 225px;background: url("+item.imagePath+") center center;\"></div></a>");
+                                  }else if(item.adverDistribution.position=='首页网站热卖A'){
                                 	     $("#test1_1").append("<dd><a href=\""+item.link+"\"><div class=\"list_box\"><img src=\""+item.imagePath+"\"/></div></a></dd>");
-                                  }else if(item.adverDistribution.position==6){
+                                  }else if(item.adverDistribution.position=='首页网站热卖B'){
                                 	     $("#test1_2").append("<dd><a href=\""+item.link+"\"><div class=\"list_box\"><img src=\""+item.imagePath+"\"/></div></a></dd>");
-                                  }else if(item.adverDistribution.position==7){
+                                  }else if(item.adverDistribution.position=='首页网站热卖C'){
                                 	     $("#test1_3").append("<dd><a href=\""+item.link+"\"><div class=\"list_box\"><img src=\""+item.imagePath+"\"/></div></a></dd>");
-                                  }else if(item.adverDistribution.position==8){
+                                  }else if(item.adverDistribution.position=='首页网站小促销'){
                                 	     $("#Adv_8").append("<a href=\""+item.link+"\"><div style=\"width: 100%; height: 115px; background: url("+item.imagePath+") center center;\"></div></a>");
-                                  }else if(item.adverDistribution.position==9){
+                                  }else if(item.adverDistribution.position=='名庄推荐'){
                                 	     $("#Adv_9").append("<li><a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a></li>");
-                                  }else if(item.adverDistribution.position==10){
+                                  }else if(item.adverDistribution.position=='红酒馆主推'){
                                 	     $("#Adv_10").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a>");
-                                  }else if(item.adverDistribution.position==11){
+                                  }else if(item.adverDistribution.position=='红酒馆单品'){
                                 	     $("#Adv_11").append( "<li class=\"jgca\"><a href=\""+item.link+"\"><div class=\"p_img\"><img src=\""+item.imagePath+"\"/></div></a></li>");
-                                  }else if(item.adverDistribution.position==12){
+                                  }else if(item.adverDistribution.position=='白酒馆主推'){
                                 	     $("#Adv_12").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a>");
-                                  }else if(item.adverDistribution.position==13){
+                                  }else if(item.adverDistribution.position=='白酒馆单品'){
                                 	     $("#Adv_13").append( "<li class=\"jgca\"><a href=\""+item.link+"\"><div class=\"p_img\"><img src=\""+item.imagePath+"\"/></div></a></li>");
-                                  }else if(item.adverDistribution.position==14){
+                                  }else if(item.adverDistribution.position=='洋酒馆主推'){
                                 	     $("#Adv_14").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a>");
-                                  }else if(item.adverDistribution.position==15){
+                                  }else if(item.adverDistribution.position=='洋酒馆单品'){
                                 	     $("#Adv_15").append( "<li class=\"jgca\"><a href=\""+item.link+"\"><div class=\"p_img\"><img src=\""+item.imagePath+"\"/></div></a></li>");
-                                  }else if(item.adverDistribution.position==16){
+                                  }else if(item.adverDistribution.position=='啤酒馆主推'){
                                 	     $("#Adv_16").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a>");
-                                  }else if(item.adverDistribution.position==17){
+                                  }else if(item.adverDistribution.position=='啤酒馆单品'){
                                 	     $("#Adv_17").append( "<li class=\"jgca\"><a href=\""+item.link+"\"><div class=\"p_img\"><img src=\""+item.imagePath+"\"/></div></a></li>");
-                                  }else if(item.adverDistribution.position==18){
+                                  }else if(item.adverDistribution.position=='首页滚动条幅'){
                                 	     $("#Adv_18").append(   "<li><a href=\""+item.link+"\"><div class=\"m-width\"style=\"width: 100%; height: 100px; background: url("+item.imagePath+") center center;\"></div></a></li>");
-                                  }else if(item.adverDistribution.position==16){
+                                  }else if(item.adverDistribution.position=='周边主推'){
                                 	     $("#Adv_19").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\"/></a>");
-                                  }else if(item.adverDistribution.position==17){
+                                  }else if(item.adverDistribution.position=='周边单品'){
                                 	     $("#Adv_20").append( "<li class=\"jgca\"><a href=\""+item.link+"\"><div class=\"p_img\"><img src=\""+item.imagePath+"\"/></div></a></li>");
                                   }
         			   });//动态生成广告
-		        			   $("#csdiv").animate({
-		        					width : 290
-		        				}, 5000).css("transition", "all 0.5s").css("right", "350px");
-		
-		        				$(".prev,.next").hover(function() {
-		        					$(this).stop(true, false).fadeTo("show", 0.9);
-		        				}, function() {
-		        					$(this).stop(true, false).fadeTo("show", 0.4);
-		        				});
-		        	            
-		        				$(".banner-box").slide({
-		        					titCell : ".hd ul",	
-		        					mainCell : ".bd ul",
-		        					effect : "fold",
-		        					interTime : 3500,
-		        					delayTime : 500,
-		        					autoPlay : true,
-		        					autoPage : true,
-		        					trigger : "click"
-		        				});
+        			   if(window.screen.width<=1680){
+        					$("#csdiv").animate(
+        								{width:190},5000).css("transition","all 0.5s").css("right","120px");
+        						}else{
+        					$("#csdiv").animate(
+        								{width:190},5000).css("transition","all 0.5s").css("right","350px");
+        						}
+        						 		
+        					$(".prev,.next").hover(function(){
+        						$(this).stop(true,false).fadeTo("show",0.9);
+        					},function(){
+        						$(this).stop(true,false).fadeTo("show",0.4);
+        					});
+        					
+        					$(".banner-box").slide({
+        						titCell:".hd ul",
+        						mainCell:".bd ul",
+        						effect:"fold",
+        						interTime:3500,
+        						delayTime:500,
+        						autoPlay:true,
+        						autoPage:true, 
+        						trigger:"click" 
+        					});
 		        				$(".banner-box2").slide({
 		        					titCell : ".hd ul",	
 		        					mainCell : ".bd ul",
@@ -132,54 +136,34 @@
 		        					autoPage : true,
 		        					trigger : "click"
 		        				});
+		        				//start
+		        				$("#csdiv").children(this).hover(function(){
+		            				var index=$("#csdiv").children(this).index($(this)); //当前鼠标悬停索引
+		            				var a = new Array(2);
+		            				a[0]=0;
+		            				a[1]=1;
+		            			
+		            				for(var i=0;i<a.length;i++){
+		            					if(index==i){
+		    		            			$("#csdiv").children(this).eq(i).children($("#csdiv").children(this).eq(i)).html("");
+		            						}else{
+		            							$("#csdiv").children(this).eq(i).children($("#csdiv").children(this).eq(i)).html("<img class='bgimg' src='content/static/images/bgblack.jpg'/>");
+		            							}
+		            					}
+		            				},function(){
+		            			$(this).css("position","all 0.1s").css("marginLeft","0px");
+		            			$("#csdiv").children(this).children($("#csdiv").children(this)).find("img").remove();
+		            				});
+		            			//end
         		   });
-        		   
          });
 </script>
+
+
 </head>
 <body>
 
-<style>
-.bgimg {
-	opacity: 0.3;
-}
-</style>
-	<script>
-		$(function() {
-			$("#csdiv")
-					.children(this)
-					.hover(
-							function() {
-								var index = $("#csdiv").children(this).index(
-										this); //当前鼠标悬停索引
-								$(this).css("position", "all 1s").css(
-										"marginLeft", "1px");
-
-								var a = new Array(3);
-								a[0] = 0;
-								a[1] = 1;
-								a[2] = 2;
-								for (var i = 0; i < a.length; i++) {
-									if (index == i) {
-									} else {
-										$("#csdiv").children(this).eq(i).text(
-												"");
-										$("#csdiv")
-												.children(this)
-												.eq(i)
-												.html(
-														"<img class='bgimg' src='content/static/images/bgblack.jpg'/>");
-									}
-								}
-							},
-							function() {
-								$(this).css("position", "all 0.1s").css(
-										"marginLeft", "0px");
-								$("#csdiv").children(this).html(" ");
-							});
-
-		});
-	</script>
+	
 	<!--顶部内容-->
 
 	<script type="text/javascript">
@@ -235,9 +219,12 @@
 		}
 	</script>
 	<jsp:include page="frontDesk/header.jsp" />
+<style>
+	.bgimg{ opacity:0.3;}
+</style>
 	<!--banner-->
 	<div class="banner">
-		<div id="csdiv" style="border: 0px solid red; width: 290px; height: 570px; float: left; position: absolute; z-index: 9999; right: -300px;">
+		<div id="csdiv"  style="border:0px solid #fff; width:190px; height:450px; float:left; position:absolute; z-index:9999; right:-300px;" >
 		</div>
 		
 		<div class="menu_nav" id="menu_nav">
@@ -530,8 +517,8 @@
 				</ul>
 			</div>
 			<div class="banner-btn">
-				 <a class="prev" href="javascript:void(0);"></a>
-                 <a class="next" href="javascript:void(0);"></a> 
+			        <a class="prev" style="display:none;" href="javascript:void(0);"></a>
+                    <a class="next" style="display:none;" href="javascript:void(0);"></a>  
 			</div>
 			<div class="hd">
 				<ul></ul>
@@ -834,5 +821,154 @@
 	</div>
 	<!--脚部-->
 	<jsp:include page="frontDesk/foot.jsp" />
+ <div class="menu_l" id="menu_l">
+<style>
+.list00 li.bg_wg{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px 0;}
+.list00 li.bg_pm{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -40px;}
+.list00 li.bg_pz{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -80px;}
+.list00 li.bg_xt{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -120px;}
+.list00 li.bg_pz2{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -160px;}
+.list00 li.bg_xh{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -200px;}
+.list00 li.bg_sr{background:url("content/static/images/menu_bg.png")/*tpa=http://y1.ifengimg.com/314bd925cdd17196/2014/1014/menu_bg.gif*/ no-repeat -67px -239px;}
+.list00 li.bg_sr,.list00 li.bg_sr a{height:40px; line-height:40px;}
+</style>
+<div id="fixedTopDiv">
+  <ul class="list00"  id="scrollNavTab">
+    <li class="bg_wg"><a>世界名庄</a></li>
+    <li class="bg_pm"><a >红酒馆</a></li>
+    <li class="bg_pz"><a>白酒馆</a></li>
+    <li class="bg_xt"><a>洋酒馆</a></li>
+    <li class="bg_pz2"><a>啤酒馆</a></li>
+    <li class="bg_xh"><a>其他</a></li>
+    <li onClick="location.href='index.html'"  class="bg_sr"><a>返回顶部</a></li>
+  </ul>
+</div>
+<script>
+//20141009 李震庸
+$(function () {
+	$(".list00 li").hover(function () {
+		$(this).find("a").animate({right:30},300).css("display","block").css("width","68px").css("color","#fff").css("backgorundColor","#BC261F");
+	}, function () {
+		$(this).find("a").animate({right:0},300).css("display","none").css("width","0px").css("backgorundColor","none");
+		
+	});
+}
+);
+
+</script>
+ 	
+<script>
+	//20141009 李震庸
+	jQuery(document).ready(function ($){
+		//增加一个当前样式for滚轮滚动js用
+		var currentClass = "currentClass";
+		//固定效果
+		var attentionTop = jQuery("#fixedTopDiv").offset().top;	
+		var attentionHeight = jQuery("#fixedTopDiv").outerHeight();
+		var aList = $("#scrollNavTab li a");
+		var scrollBodyDivChildren = $("#slidedesc2").find(".kuangm01");
+		var divChiOffsetTopArray = (function (){
+			var arr = [];
+			for(var i = 0 ; i < scrollBodyDivChildren.length ; i ++){
+				arr[i] = $(scrollBodyDivChildren[i]).offset().top;
+			}
+			return arr;
+		})();
+		var lastChiHeight = divChiOffsetTopArray[divChiOffsetTopArray.length-1] + scrollBodyDivChildren.eq(scrollBodyDivChildren.length-1).height();
+		//导航右侧scroll
+		$("#scrollNavTab li").click(function (){
+			var index = $("#scrollNavTab li").index(this);
+			
+			$('html,body').stop().animate(
+				{scrollTop: scrollBodyDivChildren.eq(index).offset().top},
+				700,
+				function(){
+					//aList.removeClass(currentClass).eq(index).addClass(currentClass);	
+				}
+			);  
+		});
+		//误差
+		var  wucha = 10;
+		//滑动时，改变导航焦点颜色
+		function scrollFix(){
+			var scrollTop01 = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+			if(scrollTop01>200){						
+			   document.getElementById("menu_l").className="menu_l02"
+				}
+			else{
+				document.getElementById("menu_l").className="menu_l";
+				}	
+			var top=$(document).scrollTop() + wucha;
+			for(var i = 0; i < divChiOffsetTopArray.length; i++){
+				if(top >= divChiOffsetTopArray[i] && ((i==divChiOffsetTopArray.length-1) || top < divChiOffsetTopArray[i+1]) ){
+					//aList.removeClass(scrollStyle).eq(i).addClass(scrollStyle);
+					var m = aList.index($(".currentClass"));
+					if (m>-1) {
+						if (m==i) {
+							return;
+						}else{
+							aList.eq(m).removeClass("currentClass")
+									   .stop().animate({right:31,width:0},200)
+									   .css("background","").css("display","none");
+							aList.eq(i).addClass("currentClass")
+									   .stop().animate({right:31,width:68},200)
+									   .css("background","#BC261F");
+						}
+					}else if (top>=divChiOffsetTopArray[0] && top<=divChiOffsetTopArray[1]) {
+						//第一次
+						aList.eq(0).addClass("currentClass")
+								   .stop().animate({right:31,width:68},200)
+								   .css("background","#BC261F");		
+					}else if (top-20<=divChiOffsetTopArray[divChiOffsetTopArray.length-1] && top-20>=divChiOffsetTopArray[divChiOffsetTopArray.length-2]) {
+						//第一次
+						aList.eq(aList.size()-1).addClass("currentClass")
+								   .stop().animate({right:31,width:68},200)
+								   .css("background","#BC261F");		
+					}		
+				}else if (top < divChiOffsetTopArray[0]){
+					//第一条的未滚到
+					aList.eq(0).removeClass("currentClass")
+								.stop().animate({right:31,width:0},200)
+								.css("background","").css("display","none");
+				}else if (top >= lastChiHeight ) {
+					//最后一条
+					aList.eq(aList.size()-1).removeClass("currentClass")
+								.stop().animate({right:31,width:0},200)
+								.css("background","").css("display","none");
+				};
+			}
+		}
+		window.onscroll=scrollFix; 
+		window.onresize=scrollFix; 
+	});
+</script> 
+</div>
+	<div id="waidiv" style="width:100px; position:fixed; z-index:999; top:100px; right:130px;" >
+	<div id="xx" onClick="gb()" style="position:fixed; top:98px; z-index:9999; right:136px; display:none;" ><a href="javascrpt:;" ><img src="content/static/images/xx.png"/></a></div>
+    	<img class="overimg" src="content/static/images/wzxt.png" width="46" style="margin-left:25px;"  />
+        <div style="color:#901531; text-align:center;" >下载APP<br/>首单立减8元</div>
+    <img class="wxxs" style="position:fixed; top:190px; right:131px; z-index:999999;" src="content/static/images/wx.jpg" width="100" />
+    </div>
+    <script>
+      $("#waidiv").hover(function(){
+		  $(".wxxs").css("display","block");
+		  $("#xx").css("display","block");
+		  },function(){
+		  $("#xx").css("display","none");
+		  });
+		 $("#waidiv").hover(function(){
+		  $("#xx").css("display","block");
+		  },function(){
+		  $("#xx").css("display","none");
+		  }); 
+		  $("#xx").hover(function(){
+		  $("#xx").css("display","block");
+		  },function(){
+		  });
+		  
+		 function gb(){
+			 $("#waidiv").animate({},200).css("display","none");
+			 }
+    </script>
 </body>
 </html>

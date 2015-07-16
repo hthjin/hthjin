@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="foot">
-	<div class="center">
-    	<div class="center_top">
+	<div class="center" >
+    	<div class="center_top" >
         	<ul>
             	<li>
                 	<img src="content/static/images/footer1.jpg" />
@@ -42,7 +43,6 @@
             </div>
         </div>
         <div class="center_center">
-        	<div style="font-size:14px; color:#666666; margin-left:40px; margin-top:50px;">雨岑不倒翁</div>
             <div class="center_center_big">
             <dl>
             	<dt><a  href="#">关于我们</a></dt>
@@ -52,28 +52,21 @@
                 <dd><a  href="#">媒体报道</a></dd>
              </dl>
              <dl>
-                
-                <dt><a  href="#">新手指南</a></dt>
-                <dd><a  href="#">新用户注册</a></dd>
-                <dd><a  href="#">购物流程</a></dd>
-                <dd><a  href="#">雨岑优势</a></dd>
-               </dl>
-             <dl>
-                <dt><a  href="#">配送服务</a></dt>
+                <dt><a  href="#">配送须知</a></dt>
                 <dd><a  href="#">配送范围及时</a></dd>
                 <dd><a  href="#">配送运费</a></dd>
                 <dd><a  href="#">运输包装说明</a></dd>
                 <dd><a  href="#">发票制度</a></dd>
                 </dl>
              <dl> 
-                <dt><a  href="#">售后服务</a></dt>
+                <dt><a  href="#">客户服务</a></dt>
                 <dd><a  href="#">退换货流程</a></dd>
                 <dd><a  href="#">退款说明</a></dd>
                 <dd><a  href="#">正品保障</a></dd>
                 <dd><a  href="#">投诉建议</a></dd>
                  </dl>
              <dl>
-                <dt><a  href="#">支付方式</a></dt>
+                <dt><a  href="#">隐私条款</a></dt>
                 <dd><a  href="#">货到付款</a></dd>
                 <dd><a  href="#">在线支付</a></dd>
                <dd><a  href="#"> 优惠券</a></dd>
@@ -84,29 +77,87 @@
         <div class="center_right">
         	<div class="center_right_left">
             <p>关注不倒翁酒网</p>
-            <img src="content/static/images/erwerma1.jpg"></img>
+            <img src="content/static/images/erwerma1.jpg">
             </div>
             <div class="center_right_right">
             <p>下载不倒翁APP</p>
-            <img src="content/static/images/erweima2.jpg"></img>
+            <img src="content/static/images/erweima2.jpg">
             </div>
         </div>
     </div>
 <div class="copy">Copyright © 2015 乌鲁木齐市雨岑信息科技有限公司   联系电话：4008-888-888  联系我们.隐私声明.媒体报道.消费者保护.真伪鉴别</div>
 </div>
-
+<script>
+var bool=true;
+ function cardiv(){
+	var t=$(".jcsdiv").offset().top;
+	var sTop=document.body.scrollTop+document.documentElement.scrollTop;
+	
+	 if(t==sTop){
+		 $(".jcsdiv").animate(
+				{width:290},100).css("transition","all 0.5s").css("top","100px").css("right","-300px");
+				bool=true;
+		 }
+	 if(bool){
+	 bool=false;
+	 $("#cardiv").css("transition","all 0.5s").css("right","0px");
+	 $(".sidebar").css("transition","all 0.5s").css("right","300px");
+	 $("#menu_l").css("transition","all 0.5s").css("right","290px");
+		 }else{ 
+	 bool=true;
+	 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
+	 $(".sidebar").css("transition","all 0.5s").css("right","9px");
+	 $("#menu_l").css("transition","all 0.5s").css("right","0px");
+			 }
+	 }
+	 /*鼠标脱离当前div*/
+	 	   $(document).on('click', function(event){
+                var $this = $(event.target),
+                    $parent = $this.closest('.sidebar'),
+                    isSearch = $parent.length == 0 || $this.hasClass('sidebar');
+                if(isSearch){
+	 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
+	 $(".sidebar").css("transition","all 0.5s").css("right","9px");
+	 $("#menu_l").css("transition","all 0.5s").css("right","0px");
+                }
+            });
+</script>
 <!--右侧购物车-->
 <div class="sidebar">
-	<div class="car">
+	<div class="car" onClick="cardiv()" >
     	<a href="#"></a>
     </div>
-    
-   <div class="bar">
+   <div class="bar" onClick="bardiv()" >
    </div>
-   <div class="cs" onclick="popupWin('http://webim.qiao.baidu.com//im/index?siteid=6901645&ucid=10598660');" >
+   <div class="cs">
    </div>
-   <div  id="cardiv" class="cardiv" style="height:100%; width:290px;  float:right; position:fixed;  right:0; z-index:9999; top:0; right:-305px; background-color:#901531" >
-    <div class="gwcdiv" style="background-color:#ccc; width:290px; position:absolute; z-index:2;  margin-left:10px; margin-top:0px; height:100%; display:block;" >
+   <script>
+   var bools=false;
+   		function bardiv(){
+			var t=$(".jcsdiv").offset().top;	
+	var sTop=document.body.scrollTop+document.documentElement.scrollTop;
+	 if($(".jcsdiv").offset().top>sTop){
+			$(".jcsdiv").css("z-index","2");
+			$(".gwcdiv").css("z-index","1");
+			$(".jcsdiv").animate(
+				{width:290},100).css("transition","all 0.5s").css("top","0px").css("right","0px");
+				bools=true;
+		 		}
+	 if(bools){
+	 $("#cardiv").css("transition","all 0.5s").css("right","0px");
+	 $(".sidebar").css("transition","all 0.5s").css("right","300px");
+	 $("#menu_l").css("transition","all 0.5s").css("right","290px");
+	 bools=false;
+		 }else{ 
+	 bools=true;
+	 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
+	 $(".sidebar").css("transition","all 0.5s").css("right","9px");
+	 $("#menu_l").css("transition","all 0.5s").css("right","0px");
+			 }
+			}
+   </script>
+   <div  id="cardiv" class="cardiv" style="height:100%; width:290px;  float:right; position:fixed;  right:0; z-index:0; top:0; right:-305px; background-color:#901531" >
+    <div class="gwcdiv" style="background-color:#ccc; width:290px; position:absolute; z-index:0;  margin-left:10px; margin-top:0px; height:100%; display:block;" >
             <div style="width:100%; height:100%; position:absolute; top:0px; left:0px;  background-color:#f1f1f1">
             	<!--购物车列表-->
             		<div>
@@ -117,7 +168,7 @@
                         <hr style="width:240px; margin-top:0px; border:1px solid ; border-bottom:none; "/>
                     	<ul style="height:80px; margin-top:-5px;  margin-left:15px; ">
                         	<li style="line-height:80px;float:left; " ><input type="checkbox"  /></li>
-                            <li style="float:left; margin-top:0px;"><img src="images/sp.png" /></li>
+                            <li style="float:left; margin-top:0px;"><img src="content/static/images/sp.png" /></li>
                             <li style="float:left;"><div style="font-size:12px; color:#333; width:50px; overflow:hidden; height:30px; margin-top:20px;" >78941...<br/>白酒</div></li>
                             <li style="float:left; font-size:12px;color:#333; line-height:80px; margin-left:20px;">1</li>
                             <li style="float:left; font-size:12px;color:#333; line-height:80px; margin-left:25px;">888.00</li>
@@ -192,84 +243,15 @@
                 	  <span>A:挺好喝的</span>
                 	</div>
                 </li>
-                
             		<li>
             	     <div style="font-size:14px; width:250px; background-color:#fff; margin-top:15px; line-height:20px;" >
                 	  <span>Q:这个酒好喝吗？</span><br/>
                 	  <span>A:挺好喝的</span>
                 	</div>
                 </li>
-                
                 </ul>
                 </div>
-                
             </div>
     </div>
 </div>
 </div>
-<script type="text/javascript">
-		// Popup window code
-		function popupWin(url) {
-			window
-					.open(
-							url,
-							'popUpWindow',
-							'height=700,width=1000,left=90,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes')
-		}
-		var bool=true;
-		 function cardiv(){
-			var t=$(".jcsdiv").offset().top;
-			var sTop=document.body.scrollTop+document.documentElement.scrollTop;
-			
-			 if(t==sTop){
-				 $(".jcsdiv").animate(
-						{width:290},100).css("transition","all 0.5s").css("top","100px").css("right","-300px");
-						bool=true;
-				 }
-			 if(bool){
-			 bool=false;
-			 $("#cardiv").css("transition","all 0.5s").css("right","0px");
-			 $(".sidebar").css("transition","all 0.5s").css("right","290px");
-			 $("#menu_l").css("transition","all 0.5s").css("right","290px");
-				 }else{ 
-			 bool=true;
-			 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
-			 $(".sidebar").css("transition","all 0.5s").css("right","0px");
-			 $("#menu_l").css("transition","all 0.5s").css("right","0px");
-					 }
-			 }
-			 /*鼠标脱离当前div*/
-			 	   $(document).on('click', function(event){
-		                var $this = $(event.target),
-		                    $parent = $this.closest('.sidebar'),
-		                    isSearch = $parent.length == 0 || $this.hasClass('sidebar');
-		                if(isSearch){
-			 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
-			 $(".sidebar").css("transition","all 0.5s").css("right","0px");
-			 $("#menu_l").css("transition","all 0.5s").css("right","0px");
-		                }
-		            });
-			 	  var bools=false;
-			   		function bardiv(){
-						var t=$(".jcsdiv").offset().top;	
-				var sTop=document.body.scrollTop+document.documentElement.scrollTop;
-				 if($(".jcsdiv").offset().top>sTop){
-						$(".jcsdiv").css("z-index","2");
-						$(".gwcdiv").css("z-index","1");
-						$(".jcsdiv").animate(
-							{width:290},100).css("transition","all 0.5s").css("top","0px").css("right","0px");
-							bools=true;
-					 		}
-				 if(bools){
-				 $("#cardiv").css("transition","all 0.5s").css("right","0px");
-				 $(".sidebar").css("transition","all 0.5s").css("right","290px");
-				 $("#menu_l").css("transition","all 0.5s").css("right","290px");
-				 bools=false;
-					 }else{ 
-				 bools=true;
-				 $("#cardiv").css("transition","all 0.5s").css("right","-290px");
-				 $(".sidebar").css("transition","all 0.5s").css("right","0px");
-				 $("#menu_l").css("transition","all 0.5s").css("right","0px");
-						 }
-						}
-</script>

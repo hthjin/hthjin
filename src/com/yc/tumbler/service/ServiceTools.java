@@ -33,7 +33,7 @@ public class ServiceTools {
 	IShopCommodityService shopcommodityService;
 	@Autowired
 	IBuyCarService buyCarService;
-	
+
 	/**
 	 * 货品加入购物车
 	 * 
@@ -41,25 +41,31 @@ public class ServiceTools {
 	 * @return
 	 * @throws ParseException
 	 */
-	public ModelMap addCarCommodity(Integer buyAmount, Integer shopCommId, ModelMap mode, AppUser user) {
+	public ModelMap addCarCommodity(Integer buyAmount, Integer shopCommId,
+			ModelMap mode, AppUser user) {
 		BuyCar buyCar = buyCarService.getBuyCarByUserName(user.getPhone());
-		if(buyCar == null){
+		if (buyCar == null) {
 			buyCar = new BuyCar();
 			buyCar.setAppUser(user);
 			buyCar = buyCarService.save(buyCar);
 		}
 		ShopCommodity shopCommodity = shopcommodityService.findById(shopCommId);
-		if(shopCommodity != null){
-			CarCommodity carCommodity = carcommoidtyService.getCarCommodityByShopCommId(shopCommId, user.getPhone());
+		if (shopCommodity != null) {
+			CarCommodity carCommodity = carcommoidtyService
+					.getCarCommodityByShopCommId(shopCommId, user.getPhone());
 			if (carCommodity != null) {
-				if (shopCommodity.getCommCode() == carCommodity.getShopCommodity().getCommCode()) {
+				if (shopCommodity.getCommCode() == carCommodity
+						.getShopCommodity().getCommCode()) {
 					if (shopCommodity.getIsSpecial()) {
-						carCommodity.setUnitPrice(shopCommodity.getUnitPrice() * shopCommodity.getSpecial());
+						carCommodity.setUnitPrice(shopCommodity.getUnitPrice()
+								* shopCommodity.getSpecial());
 					} else {
 						carCommodity.setUnitPrice(shopCommodity.getUnitPrice());
 					}
-					carCommodity.setAmount(buyAmount + carCommodity.getAmount());
-					carCommodity.setPrice(carCommodity.getUnitPrice() * carCommodity.getAmount());
+					carCommodity
+							.setAmount(buyAmount + carCommodity.getAmount());
+					carCommodity.setPrice(carCommodity.getUnitPrice()
+							* carCommodity.getAmount());
 					carCommodity.setBuyCar(buyCar);
 					carCommodity = carcommoidtyService.update(carCommodity);
 					List<CarCommodity> list = buyCar.getCarCommodities();
@@ -78,11 +84,13 @@ public class ServiceTools {
 				carCommodity.setCarCategory(shopCate);
 				carCommodity.setAmount(buyAmount);
 				if (shopCommodity.getIsSpecial()) {
-					carCommodity.setUnitPrice(shopCommodity.getUnitPrice() * shopCommodity.getSpecial());
+					carCommodity.setUnitPrice(shopCommodity.getUnitPrice()
+							* shopCommodity.getSpecial());
 				} else {
 					carCommodity.setUnitPrice(shopCommodity.getUnitPrice());
 				}
-				carCommodity.setPrice(carCommodity.getUnitPrice() * carCommodity.getAmount());
+				carCommodity.setPrice(carCommodity.getUnitPrice()
+						* carCommodity.getAmount());
 				carCommodity.setBuyCar(buyCar);
 				carCommodity = carcommoidtyService.save(carCommodity);
 				List<CarCommodity> list = buyCar.getCarCommodities();
@@ -108,10 +116,13 @@ public class ServiceTools {
 	 * @return
 	 * @throws ParseException
 	 */
-	public List<CarCommodity> handleCarCommodity(List<CarCommodity> carcommodities, String userName) throws ParseException {
+	public List<CarCommodity> handleCarCommodity(
+			List<CarCommodity> carcommodities, String userName)
+			throws ParseException {
 		List<CarCommodity> handleCarCommodities = new ArrayList<CarCommodity>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("carcommodities====" + carcommodities.size() + "---" + userName);
+		System.out.println("carcommodities====" + carcommodities.size() + "---"
+				+ userName);
 		for (int i = 0; i < carcommodities.size(); i++) {
 			CarCommodity carcommodity = carcommodities.get(i);// 循环获得购物车商品
 			ShopCommodity shopcommodity = carcommodity.getShopCommodity();// 获得购物车商品所属的shopCommodity
@@ -119,12 +130,17 @@ public class ServiceTools {
 			Boolean isSign = shopcommodity.getIsSpecial();// 是否打折的开关量
 			if (flag == false) {
 				if (isSign) {// 不活动打折情况(1)
-					carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-					carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+					carcommodity.setUnitPrice(shopcommodity.getSpecial()
+							* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+					carcommodity.setPrice(shopcommodity.getSpecial()
+							* carcommodity.getAmount()
+							* shopcommodity.getUnitPrice());// 重新计算购物车总价
 					carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 					if (shopcommodity.getUsers().size() > 0) {
 						for (int j = 0; j < shopcommodity.getUsers().size(); j++) {
-							shopcommodity.getUsers().get(j).getActivityCommodities().remove(shopcommodity);
+							shopcommodity.getUsers().get(j)
+									.getActivityCommodities()
+									.remove(shopcommodity);
 						}
 						shopcommodity.getUsers().clear();// 团购时间结束 当前商品的user集合清空
 						shopcommodityService.update(shopcommodity);
@@ -132,11 +148,14 @@ public class ServiceTools {
 					handleCarCommodities.add(carcommodity);
 				} else {
 					carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-					carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+					carcommodity.setPrice(shopcommodity.getUnitPrice()
+							* carcommodity.getAmount());// 重新计算购物车总价
 					carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 					if (shopcommodity.getUsers().size() > 0) {
 						for (int j = 0; j < shopcommodity.getUsers().size(); j++) {
-							shopcommodity.getUsers().get(j).getActivityCommodities().remove(shopcommodity);
+							shopcommodity.getUsers().get(j)
+									.getActivityCommodities()
+									.remove(shopcommodity);
 						}
 						shopcommodity.getUsers().clear();// 团购时间结束 当前商品的user集合清空
 						shopcommodityService.update(shopcommodity);
@@ -150,16 +169,21 @@ public class ServiceTools {
 				Date now = sdf.parse(sdf.format(new Date()));// 现在时间
 				Date endDate = sdf.parse(activity.getEndDate());// 活动截止时间
 				Boolean sign = endDate.before(now);// 判断截止日期(endDate)是否当前日期(now)之前，false即活动进行中
-				System.out.println("activityStyleName===" + activityStyle.getActivityStyleId() + "  " + activityStyle.getActivityType() + " " + sign);
+				System.out.println("activityStyleName==="
+						+ activityStyle.getActivityStyleId() + "  "
+						+ activityStyle.getActivityType() + " " + sign);
 				if (activityStyle.getActivityType().equals("限时抢购")) {
 					if (sign == false) {
-						carcommodity.setUnitPrice(shopcommodity.getSpecialPrice());// 把购物车商品更新为限时活动价位
-						carcommodity.setPrice(shopcommodity.getSpecialPrice() * carcommodity.getAmount());// 重新计算购物车总价
+						carcommodity.setUnitPrice(shopcommodity
+								.getSpecialPrice());// 把购物车商品更新为限时活动价位
+						carcommodity.setPrice(shopcommodity.getSpecialPrice()
+								* carcommodity.getAmount());// 重新计算购物车总价
 						carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 						handleCarCommodities.add(carcommodity);
 					} else {
 						carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-						carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+						carcommodity.setPrice(shopcommodity.getUnitPrice()
+								* carcommodity.getAmount());// 重新计算购物车总价
 						carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 						shopcommodity.setIsAcitvity(false);
 						shopcommodityService.update(shopcommodity);
@@ -170,8 +194,11 @@ public class ServiceTools {
 					if (sign == false) {
 						if (activityamount > 0) {
 							if (activityamount > carcommodity.getAmount()) {
-								carcommodity.setUnitPrice(shopcommodity.getSpecialPrice());// 把购物车商品更新为限量活动价位
-								carcommodity.setPrice(shopcommodity.getSpecialPrice() * carcommodity.getAmount());// 重新计算购物车总价
+								carcommodity.setUnitPrice(shopcommodity
+										.getSpecialPrice());// 把购物车商品更新为限量活动价位
+								carcommodity.setPrice(shopcommodity
+										.getSpecialPrice()
+										* carcommodity.getAmount());// 重新计算购物车总价
 								carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 								handleCarCommodities.add(carcommodity);
 							} else {
@@ -179,8 +206,12 @@ public class ServiceTools {
 							}
 						} else {
 							// 活动数量不足 修改为原价并且关闭活动
-							carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-							carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+							carcommodity.setUnitPrice(shopcommodity
+									.getSpecial()
+									* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+							carcommodity.setPrice(shopcommodity.getSpecial()
+									* carcommodity.getAmount()
+									* shopcommodity.getUnitPrice());// 重新计算购物车总价
 							carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 							shopcommodity.setIsAcitvity(false);
 							shopcommodityService.update(shopcommodity);
@@ -188,15 +219,21 @@ public class ServiceTools {
 						}
 					} else {
 						if (isSign) {
-							carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-							carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+							carcommodity.setUnitPrice(shopcommodity
+									.getSpecial()
+									* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+							carcommodity.setPrice(shopcommodity.getSpecial()
+									* carcommodity.getAmount()
+									* shopcommodity.getUnitPrice());// 重新计算购物车总价
 							carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 							shopcommodity.setIsAcitvity(false);
 							shopcommodityService.update(shopcommodity);
 							handleCarCommodities.add(carcommodity);
 						} else {
-							carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-							carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+							carcommodity.setUnitPrice(shopcommodity
+									.getUnitPrice());// 把购物车商品更新为现实价位
+							carcommodity.setPrice(shopcommodity.getUnitPrice()
+									* carcommodity.getAmount());// 重新计算购物车总价
 							carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 							shopcommodity.setIsAcitvity(false);
 							shopcommodityService.update(shopcommodity);
@@ -211,25 +248,37 @@ public class ServiceTools {
 							Boolean isExist = false;// //判断用户是否在团购名单中 false
 													// 不在团购名单
 							for (int j = 0; j < appUserList.size(); j++) {
-								if (appUserList.get(j).getPhone().equals(userName)) {
+								if (appUserList.get(j).getPhone()
+										.equals(userName)) {
 									isExist = true;
 									break;
 								}
 							}
 							if (isExist) {
-								carcommodity.setUnitPrice(shopcommodity.getSpecialPrice());// 把购物车商品更新为团购活动价位
-								carcommodity.setPrice(shopcommodity.getSpecialPrice() * carcommodity.getAmount());// 重新计算购物车总价
+								carcommodity.setUnitPrice(shopcommodity
+										.getSpecialPrice());// 把购物车商品更新为团购活动价位
+								carcommodity.setPrice(shopcommodity
+										.getSpecialPrice()
+										* carcommodity.getAmount());// 重新计算购物车总价
 								carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 								handleCarCommodities.add(carcommodity);
 							} else {
 								if (isSign) {// 折扣
-									carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-									carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+									carcommodity.setUnitPrice(shopcommodity
+											.getSpecial()
+											* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+									carcommodity.setPrice(shopcommodity
+											.getSpecial()
+											* carcommodity.getAmount()
+											* shopcommodity.getUnitPrice());// 重新计算购物车总价
 									carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 									handleCarCommodities.add(carcommodity);
 								} else {
-									carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-									carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+									carcommodity.setUnitPrice(shopcommodity
+											.getUnitPrice());// 把购物车商品更新为现实价位
+									carcommodity.setPrice(shopcommodity
+											.getUnitPrice()
+											* carcommodity.getAmount());// 重新计算购物车总价
 									carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 									handleCarCommodities.add(carcommodity);
 								}
@@ -237,26 +286,41 @@ public class ServiceTools {
 
 						} else if (appUserList.size() < activityAmount) {
 							if (isSign) {
-								carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-								carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+								carcommodity.setUnitPrice(shopcommodity
+										.getSpecial()
+										* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+								carcommodity.setPrice(shopcommodity
+										.getSpecial()
+										* carcommodity.getAmount()
+										* shopcommodity.getUnitPrice());// 重新计算购物车总价
 								carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 								handleCarCommodities.add(carcommodity);
 							} else {
-								carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-								carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+								carcommodity.setUnitPrice(shopcommodity
+										.getUnitPrice());// 把购物车商品更新为现实价位
+								carcommodity.setPrice(shopcommodity
+										.getUnitPrice()
+										* carcommodity.getAmount());// 重新计算购物车总价
 								carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 								handleCarCommodities.add(carcommodity);
 							}
 						}
 					} else {
 						if (isSign) {
-							carcommodity.setUnitPrice(shopcommodity.getSpecial() * shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
-							carcommodity.setPrice(shopcommodity.getSpecial() * carcommodity.getAmount() * shopcommodity.getUnitPrice());// 重新计算购物车总价
+							carcommodity.setUnitPrice(shopcommodity
+									.getSpecial()
+									* shopcommodity.getUnitPrice());// 把购物车商品更新为折扣价位
+							carcommodity.setPrice(shopcommodity.getSpecial()
+									* carcommodity.getAmount()
+									* shopcommodity.getUnitPrice());// 重新计算购物车总价
 							carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 							shopcommodity.setIsAcitvity(false);
 							if (shopcommodity.getUsers().size() > 0) {
-								for (int j = 0; j < shopcommodity.getUsers().size(); j++) {
-									shopcommodity.getUsers().get(j).getActivityCommodities().remove(shopcommodity);
+								for (int j = 0; j < shopcommodity.getUsers()
+										.size(); j++) {
+									shopcommodity.getUsers().get(j)
+											.getActivityCommodities()
+											.remove(shopcommodity);
 								}
 								shopcommodity.getUsers().clear();// 团购时间结束
 																	// 当前商品的user集合清空
@@ -265,13 +329,18 @@ public class ServiceTools {
 							handleCarCommodities.add(carcommodity);
 
 						} else {
-							carcommodity.setUnitPrice(shopcommodity.getUnitPrice());// 把购物车商品更新为现实价位
-							carcommodity.setPrice(shopcommodity.getUnitPrice() * carcommodity.getAmount());// 重新计算购物车总价
+							carcommodity.setUnitPrice(shopcommodity
+									.getUnitPrice());// 把购物车商品更新为现实价位
+							carcommodity.setPrice(shopcommodity.getUnitPrice()
+									* carcommodity.getAmount());// 重新计算购物车总价
 							carcommoidtyService.update(carcommodity);// 更新购物车商品信息
 							shopcommodity.setIsAcitvity(false);
 							if (shopcommodity.getUsers().size() > 0) {
-								for (int j = 0; j < shopcommodity.getUsers().size(); j++) {
-									shopcommodity.getUsers().get(j).getActivityCommodities().remove(shopcommodity);
+								for (int j = 0; j < shopcommodity.getUsers()
+										.size(); j++) {
+									shopcommodity.getUsers().get(j)
+											.getActivityCommodities()
+											.remove(shopcommodity);
 								}
 								shopcommodity.getUsers().clear();// 团购时间结束
 																	// 当前商品的user集合清空

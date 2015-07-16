@@ -34,6 +34,14 @@ public class OtherController {
 	@Autowired
 	IShopCommodityService shopCommoidtyService;
 	
+    /**
+     * 品牌
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
     @RequestMapping(value = "brand", method = RequestMethod.GET)
     public ModelAndView bander(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	List<ShopCategory> list = categoryService.getAllByParent();
@@ -41,7 +49,36 @@ public class OtherController {
     	mode.put("categories", list);
     	return new ModelAndView("reception/brand",mode);
     }
-    
+    /**
+     * 整箱购
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @RequestMapping(value = "fclBuy", method = RequestMethod.GET)
+    public ModelAndView fclBuy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	List<ShopCategory> list = categoryService.getAllByParent();
+    	ModelMap mode = new ModelMap();
+    	mode.put("categories", list);
+    	return new ModelAndView("reception/fclBuy",mode);
+    }
+    /**
+     * 酒翁精品
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @RequestMapping(value = "boutique", method = RequestMethod.GET)
+    public ModelAndView boutique(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	ModelMap mode = new ModelMap();
+    	List<ShopCategory> list = categoryService.getAllByParent();
+    	mode.put("categories", list);
+    	return new ModelAndView("reception/boutique",mode);
+    }
     /**
 	 * 小食品查询
 	 * @param categoryID
@@ -56,6 +93,38 @@ public class OtherController {
 		ModelMap mode = new ModelMap();
 		List<ShopCommodity> snacksList=shopCommoidtyService.getAllByShopCategoryID(categoryID, new String(),-1,-1);
 		mode.put("snacksList", snacksList);
+		List<ShopCategory> list = categoryService.getAllByParent();
+    	mode.put("categories", list);
 		return new ModelAndView("reception/snacks", mode);
+	}
+	/**
+	 * 地方名酒
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "areaWine", method = RequestMethod.GET)
+	public ModelAndView areaWine(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
+	  	List<ShopCategory> list = categoryService.getAllByParent();
+    	mode.put("categories", list);
+		return new ModelAndView("reception/areaWine", mode);
+	}
+	/**
+	 * 团购页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "groupon", method = RequestMethod.GET)
+	public ModelAndView  groupon(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
+	  	List<ShopCategory> list = categoryService.getAllByParent();
+    	mode.put("categories", list);
+		return new ModelAndView("reception/groupon", mode);
 	}
 }
