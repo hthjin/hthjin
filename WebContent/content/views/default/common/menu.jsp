@@ -50,17 +50,11 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<a class="panel-title" data-toggle="collapse"
-					data-parent="#panel-864199" href="#panel-element-540272">商家管理</a>
+					data-parent="#panel-864199" href="#panel-element-540272">商品管理</a>
 			</div>
 			<div id="panel-element-540272" class="panel-collapse collapse">
 				<div class="panel-body">
-					<a href="management/settledMerchants">入驻商家管理</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/applyForEntry">申请入驻商家</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/blacklistStores">商家黑名单管理</a>
+					<a href="proscenium/openShop">商品管理</a>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -32,30 +34,7 @@
 
 <body>
 <!--头部开始-->
-<div class="head">
-	<div class="nav">
-    	<a href="hthjin"><img src="content/static/images/logo_shop.png" /></a>
-        <div class="nav_class">
-        	<ul id="oul">
-                 <a href="hthjin"><li style="background-color:#EB4642; color:#fff; width:95px;">/首页/</li></a>
-                <a href="productCenter/shopIndex"><li>/ 产品中心/ </li></a>
-                <a href="news.html"><li>/ 公告通知/ </li></a>
-                <a href="jianjie.html"><li>/ 公司简介/ </li></a>
-                <a href="about.html"><li>/ 关于我们/ </li></a>
-            </ul>
-        </div>
-        <div class="search">
-        	<div class="btn">
-            	<a href="user/login"><div class="dl">登陆</div></a>
-                <a href="user/regist"><div class="zc">注册</div></a>
-            </div>
-            <div class="ser_box"> 
-            	<input type="search" placeholder="请搜索产品..."style="color:#999; width:175px; height:30px; border:none;"  />                
-            </div>
-            <a href="produtclist.html"><input class="se_img" type="image" src="content/static/images/search_03.png"/></a>
-        </div>
-    </div>
-</div>
+<jsp:include page="nav.jsp" />
 <!--头部结束-->
  <!--banner开始-->
  <script type="text/javascript">
@@ -86,7 +65,7 @@ $(document).ready(function(){
         <ul>          	    
             <li style="background:#F3E5D8;">
                 <div class="m-width">
-                <a href="javascript:void(0);"><img src="content/static/images/banner.jpg" /></a>
+                	<a href="javascript:void(0);"><img src="content/static/images/banner.jpg" /></a>
                 </div>
             </li>
             <li style="background:#B01415">
@@ -160,38 +139,18 @@ $(document).ready(function(){
 	<div class="box">
     	<div class="zi">运输服务</div>
         <ul>
-        	<li class="li1">
-            	<a href="wuliu.html"><div class="aa">
-                    <img src="content/static/images/yun1.jpg"/>
-                    <div class="jie">
-                        <div class="top1">铁路公路双线</div>
-                        <p>企业简介：我公司是一家专业从事以铁路物流为主，公路物流为辅，集生产加工为一体的综合性仓储物流企业</p>
-                    </div>
-                </div></a>
-                <div class="bb1" style="display:none;"></div>
-            </li>
-           
-          <li class="li2" >
-          		<a href="wuliu.html"><div class="aa">
-                    <img src="content/static/images/yun2.jpg" />
-                    <div class="jie">
-                        <div class="top1">全方位全天候</div>
-                        <p>按照客户的要求有效利用物流设施和网络资源，制定合理、全方位、全天候的物流配送服务</p>
-                    </div>
-                </div></a>
-                <div class="bb2" style="display:none;"></div>
-            </li>
-            
-           <li class="li3">
-           		<a href="wuliu.html"><div class="aa">
-                    <img src="content/static/images/yun3.jpg" />
-                    <div class="jie">
-                        <div class="top1">综合性仓储物流</div>
-                        <p>当前企业的发展目标：打造南北疆第一大铁路物流基地。计划建设以棉花、农副产品贸易、大宗商品、仓储物流为集散...</p>
-                    </div>
-                </div></a>
-                <div class="bb3" style="display:none;"></div>
-            </li>
+        	<c:forEach items="${yunshufangshi }" var="yunshu" varStatus="loop">
+	        	<li class="li${loop.count }">
+	            	<a href="wuliu?id=${yunshu.id }"><div class="aa">
+	                    <img src="${yunshu.productsPhoto }"/>
+	                    <div class="jie">
+	                        <div class="top1">${yunshu.productsName }</div>
+	                        <p>企业简介：我公司是一家专业从事以铁路物流为主，公路物流为辅，集生产加工为一体的综合性仓储物流企业</p>
+	                    </div>
+	                </div></a>
+	                <div class="bb${loop.count }" style="display:none;"></div>
+	            </li>
+        	</c:forEach>
         </ul>
     </div>
 </div>
@@ -204,7 +163,7 @@ $(document).ready(function(){
                 <p class="p2">企业文化</p>
             </div>
         </div>
-        <img src="content/static/images/c4.jpg" />
+        <img src="${qiyewenhua.productsPhoto }" />
         <div class="right">
         	<ul>            	
                 <li>
@@ -241,7 +200,7 @@ $(document).ready(function(){
                     <p class="p2">公司战略</p>
                 </div>
        		</div>
-            <img src="content/static/images/c5.jpg" />
+            <img src="${gongsizhanlue.productsPhoto }" />
             <p>近年来，公司的棉花加工、仓储、化纤、物流行业等得到了长足发展，我们将不断优化经济结构，加快构建现代化产业体系，不断增强自主创新能力，研发具有自主知识产权的品牌，不断培育企业文化精神，争当推进新疆经济跨越式发展和社会长治久安的排头兵。我们坚信，经过我们的不断努力和追求，一定可以完成企业与社会的互利共赢。</p>
         </div>
     	<div class="right">
@@ -254,16 +213,12 @@ $(document).ready(function(){
        		 </div>
             <div class="box">
             	<ul id="newlog">
-                	<a href="news.html"><li><span>1.</span> 专业铁路、公路综合性仓储物流企业...</li></a>
-                    <a href="news.html"><li><span>2.</span> 设施和网络资源  制定合作物流配送服...</li></a>
-                    <a href="news.html"><li><span>3.</span> 公路物流基地计划物流配送服务企业的...</li>
-                    <a href="news.html"><li><span>4.</span> 打造南北疆第一铁路物流铁路物流基地...</li></a>
-                    <a href="news.html"><li><span>5.</span> 企业的发展铁路物流基地计划建设...</li></a>
-                    <a href="news.html"><li><span>6.</span> 集生产加工  农副产品贸易大宗商品...</li></a>
-                    <a href="news.html"><li><span>7.</span> 打造南北疆第一铁路物流配送服务企业...</li></a>
-                    <a href="news.html"><li><span>8.</span> 铁路物流基地计划建设物流基地计划...</li></a>
-                    <a href="news.html"><li><span>9.</span> 物流配送服务企业的发展物流配送服务...</li></a>
-                    <a href="news.html"><li><span>10.</span> 公路物流为辅  集生产加工基地计划...</li></a>
+            		<c:forEach items="${news }" var="xinwen" varStatus="loop">
+                	<a href="production?agricID=${xinwen.id }"><li><span>${loop.count }.</span> 
+                		<c:if test="${fn:length(xinwen.productsName)<=20}">${xinwen.productsName }</c:if>
+											<c:if test="${fn:length(xinwen.productsName )>20}">${fn:substring(xinwen.productsName, 0, 20)}.....</c:if>
+										</li></a>
+                    </c:forEach>
                 </ul>
             </div>
         </div>
@@ -283,9 +238,10 @@ $(document).ready(function(){
             <p>按照客户的要求有效利用物流设施和网络资源，制定合理、全方位、全天候的物流配送服务。当前企业的发展目标：打造南北疆第一大铁路物流基地。计划建设以棉花、农副产品贸易、大宗商品、仓储物流为集散...<a href="jianjie.html" style="margin-left:40px;">[全部]</a></p>
             
         </div>
-    	<img src="content/static/images/c6.png" />
+    	<img src="${gongsijianjie.productsPhoto }" />
     </div>
 </div>
+<!---------------------foot-------------------------->
 <jsp:include page="frontDesk/foot.jsp" />
 </body>
 </html>

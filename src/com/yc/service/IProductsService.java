@@ -12,4 +12,6 @@ public interface IProductsService extends IGenericService<Products> {
 
 	List<Products> getAllByParams(String text);
 
+	List<Products> getProductsInAgricult(int i, int j, int k);
+
 }

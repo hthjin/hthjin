@@ -37,14 +37,14 @@ public class LoginFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpSession session = request.getSession();
 		String url = request.getRequestURI();
-		if (url.contains("/management/")) {
+		if (url.contains("/management/") || url.contains("/proscenium/") ) {
 			if (session.getAttribute("loginPersonnle") == null && needLogin(request)) {
 				HttpServletResponse response = (HttpServletResponse) rsp;
 				response.sendRedirect(request.getContextPath() + "/login");
 				return;
 			}
 		}
-		if (url.contains("/user/") || url.contains("/proscenium/")) {
+		if (url.contains("/user/")) {
 			if (session.getAttribute("loginUser") == null && needLoginUser(request)) {
 				session.removeAttribute("loginPage");
 				HttpServletResponse response = (HttpServletResponse) rsp;
@@ -54,7 +54,7 @@ public class LoginFilter implements Filter {
 				}
 				String page = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getRequestURI() + param;
 				session.setAttribute("loginPage", page);
-				response.sendRedirect(request.getContextPath() + "/user/regist");
+				response.sendRedirect(request.getContextPath() + "/user/login");
 				return;
 			}
 		}

@@ -8,17 +8,16 @@
         	<div class="xins">
             	<ul>
                 	<a href="about.html"><li style="padding-left:5px;">关于我们</li></a>
-                    <a href="wuliu.html"><li>运输服务</li></a>
-                    <a href="lianxi.html"><li>联系我们</li></a>
-                    <a href="ditu.html"><li style="border-right:none; padding-right:5px;">网站地图</li></a>
+                    <a href="wuliu"><li>运输服务</li></a>
+                    <a href="lianxiUS"><li>联系我们</li></a>
+                    <a href="getDitu"><li style="border-right:none; padding-right:5px;">网站地图</li></a>
                 </ul>
             </div>
             <div class="lianjie">
             	<span style="color:#;">友情链接 :</span>
-                <a href="http://www.cncexj.com/">新疆监管棉花网</a>
-                <a href="http://www.ccqsc.gov.cn/">中国棉花公证检验</a>
-                <a href="http://www.88086609.cn/">全国棉花交易市场</a>
-                <a href="http://www.china-50.com/">中国纺织网</a>
+            	<c:forEach items="${youqings }" var="youqing" >
+            	 	<a href="${youqing.effect }">${youqing.productsName }</a>
+            	</c:forEach>
             </div>
             <div class="copy">Copyright ©2015 乌鲁木齐市信息科技有限公司</div>
         </div>

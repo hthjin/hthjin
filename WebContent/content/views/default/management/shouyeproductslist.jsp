@@ -85,8 +85,8 @@
 						<td>${cdc.agriculturalsSort.departmentname }</td>
 						<td><img alt="" src="${cdc.productsPhoto }"> </td>
 						<td>
-							<a href="management/updateProducts?id=${cdc.id }"><span class="badge">修改</span></a>
-							<a onclick="" href="management/deleteProducts?id=${cdc.id }"><span class="badge">删除</span></a></td>
+							<a href="management/shouyeupdateProducts?id=${cdc.id }"><span class="badge">修改</span></a>
+							<a onclick="" href="management/shouyedeleteProducts?id=${cdc.id }"><span class="badge">删除</span></a></td>
 						</tr>
 					</c:forEach>
 				</table>

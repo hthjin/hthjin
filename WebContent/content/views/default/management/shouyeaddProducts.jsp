@@ -37,6 +37,19 @@
 	src="content/static/js/echart/ie10-viewport-bug-workaround.js"></script>
 <link href="content/static/css/bootstrap/bootstrap-tree.css"
 	rel="stylesheet">
+<link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+<script type="text/javascript"
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+
+<!-- include summernote -->
+<link rel="stylesheet"
+	href="content/static/css/bootstrap/summernote.css" />
+<script type="text/javascript" src="content/static/js/lib/summernote.js"></script>
+<script type="text/javascript"
+	src="content/static/js/lib/summernote-zh-CN.js"></script>
 </head>
 <body>
 	<jsp:include page='../common/header.jsp' />
@@ -83,13 +96,23 @@
 							</div>
 						</div>
 						<input name="productsID" type="hidden" value="${products.id }">
-						<div class="form-group" id="text">
-							<label for="inputIdentifier" class="col-sm-2 control-label">课程安排:</label>
-							<div class="col-sm-10">
-								<textarea class="summernote">${products.effect }</textarea>
-								<input type="hidden" name="effect" id="effect">
+						<c:if test="${ department.id != 5 }">
+							<div class="form-group" id="text">
+								<label for="inputIdentifier" class="col-sm-2 control-label">内容:</label>
+								<div class="col-sm-10">
+									<textarea class="summernote">${products.effect }</textarea>
+									<input type="hidden" name="effect" id="effect">
+								</div>
 							</div>
-						</div>
+						</c:if>
+						<c:if test="${department.id == 5 }">
+								<div class="form-group" id="text">
+								<label for="inputIdentifier" class="col-sm-2 control-label">URL:</label>
+								<div class="col-sm-10">
+									<textarea rows="2" class="form-control" name="effect">${products.effect }</textarea>
+								</div>
+							</div>
+						</c:if>
 						<script type="text/javascript">
 							$(function() {
 								$('.summernote').summernote({
@@ -101,18 +124,61 @@
 								});
 							});
 						</script>
-						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">
-								宣传上传： </label> <input id="lAndW" type="hidden" value="310*360">
-							<br>
-							<div class="col-sm-8">
-								<input name="sendFile" type="file" class="form-control"
-									size="40" maxlength="40" onchange="PreviewImage(this);">
-								310*360
-							</div>
-							<br>
-
-						</div>
+						<input type="hidden" name="page" value="${page }">
+						<c:if test="${department.id != 1 }">
+							<c:if test="${department.id == 2 }">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">
+										宣传照片： </label> <input id="lAndW" type="hidden" value="1030*440">
+									<br>
+									<div class="col-sm-8">
+										<input name="sendFile" type="file" class="form-control"
+											size="40" maxlength="40" onchange="PreviewImage(this);">
+										1030*440
+									</div>
+									<br>
+								</div>
+							</c:if>
+							<c:if test="${department.id == 6 }">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">
+										宣传照片： </label> <input id="lAndW" type="hidden" value="720*430">
+									<br>
+									<div class="col-sm-8">
+										<input name="sendFile" type="file" class="form-control"
+											size="40" maxlength="40" onchange="PreviewImage(this);">
+										720*430
+									</div>
+									<br>
+								</div>
+							</c:if>
+							<c:if test="${department.id == 7 }">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">
+										宣传照片： </label> <input id="lAndW" type="hidden" value="876*250">
+									<br>
+									<div class="col-sm-8">
+										<input name="sendFile" type="file" class="form-control"
+											size="40" maxlength="40" onchange="PreviewImage(this);">
+										876*250
+									</div>
+									<br>
+								</div>
+							</c:if>
+							<c:if test="${department.id == 9 }">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label">
+										宣传照片： </label> <input id="lAndW" type="hidden" value="300*210">
+									<br>
+									<div class="col-sm-8">
+										<input name="sendFile" type="file" class="form-control"
+											size="40" maxlength="40" onchange="PreviewImage(this);">
+										300*210
+									</div>
+									<br>
+								</div>
+							</c:if>
+						</c:if>
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">
 							</label>
@@ -156,7 +222,7 @@
 		}
 		function imgExceedSize(w, h) {
 			if (!document.IUpload.sendFile.value == "") {
-				if (picshow.width >= w || picshow.height >= h) {
+				if (picshow.width > w || picshow.height > h) {
 					alert("图像尺寸：" + picshow.width + "X" + picshow.height
 							+ "。图像尺寸不符合！你只能上传尺寸为 " + w + "×" + h
 							+ "的图像，请重新浏览图片！");
@@ -211,12 +277,7 @@
 														.val(
 																$('.summernote')
 																		.code());
-												if ('${department.id}' == 4
-														|| '${department.id}' == 5
-														|| '${department.id}' == 6) {
-													if (!document.IUpload.sendFile.value == "") {
-
-													}
+												if ('${department.id}' == 1 || '${department.id}' == 3 || '${department.id}' == 4 || '${department.id}' == 5) {
 													document.IUpload.action = "management/shouyeaddProducts";
 													document.IUpload.submit();
 												} else {
@@ -239,6 +300,14 @@
 																document.IUpload
 																		.submit();
 															}
+														}
+													} else {
+														var page = $('#page')
+																.val();
+														if (page == 'update') {
+															document.IUpload.action = "management/shouyeaddProducts";
+															document.IUpload
+																	.submit();
 														}
 													}
 												}

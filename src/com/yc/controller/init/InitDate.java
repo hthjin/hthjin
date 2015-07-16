@@ -11,11 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import com.yc.entity.AgriculturalsSort;
 import com.yc.entity.Language;
+import com.yc.entity.Shop;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.user.Personnel;
 import com.yc.service.IAgriculturalsSortService;
 import com.yc.service.IPersonnelService;
 import com.yc.service.IShopCategoryService;
+import com.yc.service.IShopService;
 
 @SuppressWarnings("rawtypes")
 @Repository
@@ -30,6 +32,9 @@ public class InitDate implements ApplicationListener{
 	@Autowired
 	IAgriculturalsSortService sortService;
 	
+	@Autowired
+	IShopService shopService;
+	
 	@Override
 	public void onApplicationEvent(ApplicationEvent arg0) {
 		initArticleCategory();
@@ -43,7 +48,7 @@ public class InitDate implements ApplicationListener{
 			nat.setLoginName("admin");
 			nat.setPassword("000000");
 			nat.setForbidden(false);
-			personnelService.save(nat);
+			nat = personnelService.save(nat);
 		}
 		List<ShopCategory> categories = categoryService.getAllByParent();
 		if (categories==null || categories.size()==0) {
@@ -63,6 +68,16 @@ public class InitDate implements ApplicationListener{
 			cate4.setCategory("粮食");
 			cate4.setIsForbidden(false);
 			categoryService.save(cate4);
+		}
+		Shop shop = shopService.findById(1);
+		if(shop == null){
+			shop = new Shop();
+			shop.setUser(nat);
+			shop.setIsPermit(true);
+			shop.setShopName("华腾物流");
+			shop = shopService.save(shop);
+			nat.setShop(shop);
+			personnelService.update(nat);
 		}
 		String[] agrs = {"公告通知","公司简介","网站地图","联系我们","友情链接","企业文化","公司战略","业务范围","运输服务"};
 		AgriculturalsSort sort = sortService.findById(1);

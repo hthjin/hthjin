@@ -121,12 +121,12 @@ $(function(){
 <body>
 
 <!--头部-->
-<jsp:include page="../frontDesk/header.jsp"/>
+<jsp:include page="../nav.jsp"/>
 
 <!-- 左边部分 -->
 <jsp:include page="setupShopCommons/left.jsp" />
         <!--中间开始-->
-        <div>
+        <div >
          <div class="bread" >
          <% 
          	AppUser user = (AppUser)request.getSession().getAttribute("loginUser");

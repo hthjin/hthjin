@@ -64,7 +64,7 @@ function f1(div1,div2){
 
 <body>
 <!--头部-->
-<jsp:include page="../frontDesk/header.jsp"/>
+<jsp:include page="../nav.jsp"/>
 <!-- 左边部分 -->
 <jsp:include page="setupShopCommons/left.jsp" />
         <!--中间开始-->
@@ -92,7 +92,6 @@ function f1(div1,div2){
         </div>
       </div>
       <script type="text/javascript">
-      
       	function changeColor(flag){
       		var red = document.getElementById("red");
       		var white = document.getElementById("white");

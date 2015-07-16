@@ -32,7 +32,7 @@ function setTab(name,m,n){
 
 <body>
 <!--头部-->
-<jsp:include page="../frontDesk/header.jsp"/>
+<jsp:include page="../nav.jsp"/>
 <!-- 左边部分 -->
 <jsp:include page="setupShopCommons/left.jsp" />
 <!--中间内容-->

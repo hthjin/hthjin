@@ -853,6 +853,7 @@ public class CategoryManagementController {
 				if (recommends.size() > 0) {
 					products.setRecommends(recommends);
 				}
+				products.setBenefits(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 				products.setAgriculturalsSort(sort);
 				products = productsService.save(products);
 				sort.getProducts().add(products);

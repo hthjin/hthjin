@@ -37,4 +37,10 @@ public class ProductsService extends GenericService<Products> implements IProduc
 		StringBuffer hql = new StringBuffer("select * from Products where productsName like '%"+text+"%'");
 		return productsDao.getEntityManager().createNativeQuery(hql.toString(), Products.class).getResultList();
 	}
+	
+	@Override
+	public List<Products> getProductsInAgricult(int i, int j, int k) {
+		StringBuffer hql = new StringBuffer(" from Products where agriculturalsSort.id in ("+i+","+j+","+k+")");
+		return productsDao.find(hql.toString(), null, null);
+	}
 }

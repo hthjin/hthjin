@@ -14,10 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.yc.entity.CarCommodity;
+import com.yc.entity.Shop;
 
 @Entity
 @DiscriminatorValue("personnel")//员工
@@ -57,7 +59,18 @@ public class Personnel {
 	@OneToMany(mappedBy = "personnel")
 	private List<CarCommodity> carcommodities;//购物车商品
 
+	@OneToOne
+	@JoinColumn(name = "shop_id")
+	private Shop shop;
 	
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
 	public List<CarCommodity> getCarcommodities() {
 		return carcommodities;
 	}
