@@ -130,22 +130,20 @@
  <!---------------------individual-------------------------->
     <script type="text/javascript">
     //定义验证方法
-				  function checkOldPwd(){
-    	              var sign;
+				 function checkOldPwd(){
 				       	 $.getJSON(
 				       		  "toJsonFmatUtil/checkOldPwd",
 				       		  {
-				       			loginName: "18010036890",pwd:"00000"
+				       			loginName: "18010036890",pwd:"0000"
 				       		   }, function(json) {
 				       			   if(json.appUser==null){
 				       			    $(".indivters_pass ul li:first").children().last().text("原密码不正确");
-				       			     sign=false;
+				       			     return false;
 				       			   }else{
 				       				$(".indivters_pass ul li:first").children().last().text(""); 
-				       			     sign=true;
+				       			    return true;
 				       			   }
 				       		 });
-				       	 return sign;
 				   }
                   function checkNewPwd(){
                 	  var newPwd=$(".indivters_pass ul li").eq(1).children().next().val();
@@ -170,17 +168,14 @@
 				  }
       $(function(){
               //绑定失去焦点事件
-              $(".indivters_pass ul li:first").children().eq(1).blur(checkOldPwd);
+//               $(".indivters_pass ul li:first").children().eq(1).blur(checkOldPwd);
               $(".indivters_pass ul li").eq(1).children().eq(1).blur(checkNewPwd);
               $(".indivters_pass ul li").eq(2).children().eq(1).blur(checkRePwd);
     	       //提交按钮,所有验证通过方可提交
                $("#myform").submit(function(){
             	   var flag=true;
-            	   alert(checkOldPwd());
-            	   if(!checkOldPwd()) flag=false;
-            	   alert(checkNewPwd());
+//             	   if(!checkOldPwd()) flag=false;
             	   if(!checkNewPwd()) flag=false;
-            	   alert(checkRePwd());
             	   if(!checkRePwd()) flag=false;
             	   return flag;
             	   alert(flag);
@@ -225,7 +220,7 @@
                 	<li class="indivters_til_onck">密码修改</li>
             	</ul>
             </div>
-          <form action="user/updatePwd"  id="myform">
+          <form action="user/updatePwd"  id="myform" method="post">
        	  <div class="indivters_pass">
             	<ul>
                 	<li><span>原密码</span><input name="" type="password"/><div style="float: right;margin-right: 100px;margin-top:5px;color: red"></div></li>
