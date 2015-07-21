@@ -197,132 +197,8 @@
  </script>
 <body>
 <!---------------------top-------------------------->
-	<div class="top_ban">
-    	<div class="centers">
-                <div class="main">
-                    <ul style="margin-left:200px;">
-                        <a href="password.html"><li>会员中心</li></a>
-                        <a href="my_shop1.html"><li>我的订单</li></a>
-                    </ul>
-              </div> 
-              <div class="ctt" style="width:140px; height:25px; float:right;  margin-top:-25px;">
-                    <a href="login.html"><span style=" line-height:25px; color:#FE0002;">[登陆]</span></a>
-                    <a href="register.html"><span style=" line-height:25px; color:#FE0002; ">[注册]</span></a>
-              </div>
-        </div>
-    </div>
-	<div class="top_head">
-    	<div class="main">
-        	<div class="left">
-   		    	<a href="index.html"><img src="content/static/images/logo.png" /></a>
-            </div>
-            <div class="right">            
-       	    	<div class="left">
-                	<dl>
-               	  		<dt><input name="" type="text"  placeholder="小黄米" style="color:#999;"/><a href="produtclass.html">搜索</a></dt>
-                        <dd>热门搜索：</dd>
-                         <dd><a class="red" href="produtclass.html">干果</a></dd>
-                        <dd><a href="produtclass.html">粮油</a></dd>
-                        <dd><a href="produtclass.html">小黄米</a></dd>
-                        <dd><a href="produtclass.html">液晶电视</a></dd>
-                    </dl>
-                </div>
-                <img class="right" src="content/static/images/tou.jpg" height="60" />
-            </div>
-            <div class="cl"></div>
-      </div>
-    </div>
-	<div class="top_nav">
-    	<div class="main">
-        	<div class="left">
-           	  <ul>
-              	<li id="til" class="yel"  onmouseover="f1()"><a href="produtclassall.html">全部分类</a>
-                <div id="nav" onmouseout="f2()">
-                <div class="category-content" id="guide_2" >
-                <div class="category" >
-                <div class="zi" align="center">全部商品分类</div>
-                <ul class="category-list" id="js_climit_li">
-                  <li class="appliance js_toggle relative first" >      
-                    <div class="category-info list-nz" style="border:0px green solid;" >
-                        <c:forEach items="${cateList}" var="cate">
-                                <c:if test="${cate.categoryID== 1}">
-                                      <h3 class="category-name b-category-name"><a id="s-category-289" href="productCenter/cottonFactory?cottonType=-1" target="_blank" class="ml-22" >${cate.category }</a></h3>
-                                      <p class="c-category-list limit-24">
-                                      <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="productCenter/cottonFactory?cottonType=${cate1.categoryID}" target="_blank">${cate1.category }</a> 
-                                      </c:forEach>
-                                      </p>
-                                </c:if>
-                        </c:forEach>
-                    </div>
-                    <hr/>
-                  </li> 
-                  <li class="appliance js_toggle relative first" >
-                    <div class="category-info list-nz" >
-                         <c:forEach items="${cateList}" var="cate">
-                                <c:if test="${cate.categoryID== 2}">
-                                      <h3 class="category-name b-category-name"><a id="s-category-289" href="javascript:void(0)" target="_blank" class="ml-22" >${cate.category }</a></h3>
-                                      <p class="c-category-list limit-24">
-                                      <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="javascript:void(0)" target="_blank">${cate1.category }</a> 
-                                      </c:forEach>
-                                      </p>
-                                </c:if>
-                        </c:forEach>
-                   </div>
-                  <hr/>
-                  </li> 
-                  <li class="appliance js_toggle relative first">
-                    <div class="category-info list-nz" >
-                           <c:forEach items="${cateList}" var="cate">
-                                <c:if test="${cate.categoryID== 3}">
-                                      <h3 class="category-name b-category-name"><a id="s-category-289" href="javascript:void(0)" target="_blank" class="ml-22" >${cate.category }</a></h3>
-                                      <p class="c-category-list limit-24">
-                                      <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="javascript:void(0)" target="_blank">${cate1.category }</a> 
-                                      </c:forEach>
-                                      </p>
-                                </c:if>
-                        </c:forEach>
-                    </div>
-                    <hr/>
-                  </li>
-                  <li class="appliance js_toggle relative first">
-                    <div class="category-info list-nz" >
-                            <c:forEach items="${cateList}" var="cate">
-                                <c:if test="${cate.categoryID== 4}">
-                                      <h3 class="category-name b-category-name"><a id="s-category-289" href="javascript:void(0)" target="_blank" class="ml-22" >${cate.category }</a></h3>
-                                      <p class="c-category-list limit-24">
-                                      <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="javascript:void(0)" target="_blank">${cate1.category }</a> 
-                                      </c:forEach>
-                                      </p>
-                                </c:if>
-                        </c:forEach>
-                     </div>
-                      <hr/>
-                  </li>
-                </ul>
-<!--                 <img src="images/b1.png" style="width:220px;" /> -->
-                </div>
-                </div>
-                </div>
-               </li>
-                <li style=" margin-left:150px;"><a href="javascript:void(0)">首页</a></li>
-                <li><a href="productCenter/shopIndex?#mianhua">棉花</a></li>
-                <li><a href="productCenter/shopIndex?#nong">农副产品</a></li>
-                <li><a href="productCenter/shopIndex?#jia">家电百货</a></li>
-                <li><a href="productCenter/shopIndex?#liang">粮食</a></li>
-                
-              </ul>
-            </div>
-            <div class="right">            
-           	  <a href="shop-car.html" class="shop_car"></a>
-          	</div>
-            <div class="cl"></div>
-      	</div>
-	</div>
-
+<jsp:include page="../frontDesk/header.jsp" />
+<jsp:include page="../frontDesk/cate.jsp" />
 <!---------------------banner_img-------------------------->
 
     <div class="banner_img">
@@ -358,9 +234,6 @@
               </div>
     </div>
 <!---------------------notice-------------------------->
-    <div class="notice">
-    	<p><span class="red"><font color="#E84C3D">促销活动：</font></span><a>满一千免十单十！</a></p>
-    </div>
 
 <!---------------------layout_main-------------------------->
 	<script type="text/javascript">

@@ -39,7 +39,6 @@ import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
 import com.yc.service.IShopReviewsService;
 import com.yc.tumbler.service.TumblerService;
-import com.yc.util.ServiceException;
 
 @Controller
 @RequestMapping("/user")
@@ -147,32 +146,32 @@ public class UserController {
 		return new ModelAndView("user/personalCenter", mode);
 	}
 
-	@RequestMapping(value = "binding", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView load(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String action = request.getParameter("action");
-		ModelAndView mav = new ModelAndView();
-		if ("register".equals(action)) {
-			AppUser user = userService.findById(Integer.parseInt(request.getParameter("id")));
-			// 注册
-			String email = request.getParameter("email");
-			tumblerService.processregister(email, user);// 发邮箱激活
-			mav.addObject("text", "注册成功");
-			mav.setViewName("user/register_success");
-		} else if ("activate".equals(action)) {
-			// 激活
-			String email = request.getParameter("email");// 获取email
-			String validateCode = request.getParameter("validateCode");// 激活码
-
-			try {
-				tumblerService.processActivate(email, validateCode);// 调用激活方法
-				mav.setViewName("user/activate_success");
-			} catch (ServiceException e) {
-				request.setAttribute("message", e.getMessage());
-				mav.setViewName("user/activate_failure");
-			}
-		}
-		return mav;
-	}
+//	@RequestMapping(value = "binding", method = { RequestMethod.GET, RequestMethod.POST })
+//	public ModelAndView load(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String action = request.getParameter("action");
+//		ModelAndView mav = new ModelAndView();
+//		if ("register".equals(action)) {
+//			AppUser user = userService.findById(Integer.parseInt(request.getParameter("id")));
+//			// 注册
+//			String email = request.getParameter("email");
+//			tumblerService.processregister(email, user);// 发邮箱激活
+//			mav.addObject("text", "注册成功");
+//			mav.setViewName("user/register_success");
+//		} else if ("activate".equals(action)) {
+//			// 激活
+//			String email = request.getParameter("email");// 获取email
+//			String validateCode = request.getParameter("validateCode");// 激活码
+//
+//			try {
+//				tumblerService.processActivate(email, validateCode);// 调用激活方法
+//				mav.setViewName("user/activate_success");
+//			} catch (ServiceException e) {
+//				request.setAttribute("message", e.getMessage());
+//				mav.setViewName("user/activate_failure");
+//			}
+//		}
+//		return mav;
+//	}
 
 	// 订单
 	@RequestMapping(value = "perscentBonuses", method = RequestMethod.GET)
@@ -296,6 +295,44 @@ public class UserController {
 		}
 		orderFormService.delete(id);
 		return "redirect:/user/perscentBonuses?orderDate=-1&orderStatus=-1";
+	}
+	
+	
+	/**
+	 * 会员中心页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "userInfo", method = RequestMethod.GET)
+	public ModelAndView userInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		ModelMap mode=new ModelMap();
+//		mode.put("user", user);
+//		if(user!=null){
+			return new ModelAndView("user/userInfo",mode);
+//		}else{
+//			return new ModelAndView("user/login",null);
+//		}
+	}
+	@RequestMapping(value = "updatePwd", method = RequestMethod.POST)
+	public ModelAndView updatePwd(String newPwd,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("newPwd==="+newPwd);
+		return null;
+	}
+	/**
+	 * 完善个人资料
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "perfectUserInfo", method = RequestMethod.POST)
+	public String perfectUserInfo(AppUser appUser,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return null;
 	}
 	
 	// MD5加码。32位

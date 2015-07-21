@@ -1,9 +1,5 @@
 package com.yc.entity.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,7 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.yc.entity.Collection;
 import com.yc.entity.MissionPlan;
@@ -28,6 +25,7 @@ import com.yc.entity.ShopCommodity;
 
 @Entity
 @DiscriminatorValue("user")//用户
+@JsonIgnoreProperties(value = { "shop", "activityCommodities", "collections","orderForms","missionPlans"})
 public class AppUser {
 
 	@Id
@@ -35,7 +33,10 @@ public class AppUser {
 	private Integer id;
 
 	@Column(length = 32, unique = true, updatable = false)
-	private String phone;
+	private String loginName;
+	
+	@Column(length = 18, unique = true)
+	private String identityId;
 
 	@Column(length = 32)
 	private String password;
@@ -45,6 +46,9 @@ public class AppUser {
 
 	@Column
 	private String email;
+	
+	@Column(length = 11)
+	private String phone;
 	
 	@Column
 	private String validateCode;//邮箱激活码
@@ -80,6 +84,42 @@ public class AppUser {
 
 	@OneToMany(mappedBy = "toUser")
 	private List<MissionPlan> missionPlans;//消息
+	
+	@Column
+	private String address ;//居住地址
+	
+	
+	public String getIdentityId() {
+		return identityId;
+	}
+
+	public void setIdentityId(String identityId) {
+		this.identityId = identityId;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public List<MissionPlan> getMissionPlans() {
 		return missionPlans;
@@ -161,13 +201,6 @@ public class AppUser {
 		this.id = id;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 
 	public String getPassword() {
 		return password;
@@ -209,11 +242,4 @@ public class AppUser {
 		this.birthday = birthday;
 	}
 	
-	@Transient
-    public Date getLastActivateTime() throws ParseException {
-        Calendar cl = Calendar.getInstance();
-        cl.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(emailBindTime));
-        cl.add(Calendar.DATE , 2);
-        return cl.getTime();
-    }
 }

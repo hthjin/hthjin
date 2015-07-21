@@ -26,11 +26,13 @@ import com.yc.entity.ShopCommodity;
 import com.yc.entity.user.AppUser;
 import com.yc.service.IAdvertisementDistributionService;
 import com.yc.service.IAdvertisementService;
+import com.yc.service.IAppUserService;
 import com.yc.service.IBuyCarService;
 import com.yc.service.ICarCommodityService;
 import com.yc.service.ICollectionService;
 import com.yc.service.IShopCommodityService;
 import com.yc.service.IShopService;
+import com.yc.service.impl.AppUserService;
 import com.yc.tumbler.service.ServiceTools;
 
 @Controller
@@ -60,6 +62,9 @@ public class ToJsonFmatUtil {
 
 	@Resource
 	ServiceTools serviceTools;
+	
+	@Autowired
+	IAppUserService 	appUserService;
 
 	// 获得所选页面的广告位
 	@RequestMapping(value = "getAdverPositions", method = RequestMethod.GET)
@@ -183,5 +188,25 @@ public class ToJsonFmatUtil {
 		mode.put("advertisementList", advertisementList);
 		return mode;
 	}
+	/**
+	 * 验证原密码
+	 * @param whichPage
+	 * @param request
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "checkOldPwd", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> checkOldPwd(String loginName,String pwd,HttpServletRequest request) throws ServletException, IOException {
+		ModelMap mode=new ModelMap();
+		AppUser appUser=appUserService.getUser(loginName);
+		String checkPwd=appUser.getPassword();
+		if(pwd.equals(checkPwd)){
+			 mode.put("appUser", appUser);
+		}
+		return mode;
+	}
+	
 
 }
