@@ -38,6 +38,7 @@ import com.yc.service.IOrderFormService;
 import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
 import com.yc.service.IShopReviewsService;
+import com.yc.service.impl.AppUserService;
 import com.yc.tumbler.service.TumblerService;
 
 @Controller
@@ -51,6 +52,9 @@ public class UserController {
 
 	@Autowired
 	IShopCategoryService categoryService;
+	
+	@Autowired
+	IAppUserService appUserService;
 
 	@Resource
 	TumblerService tumblerService;
@@ -317,10 +321,22 @@ public class UserController {
 //			return new ModelAndView("user/login",null);
 //		}
 	}
+	/**
+	 * 修改密码
+	 * @param newPwd
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "updatePwd", method = RequestMethod.POST)
-	public ModelAndView updatePwd(String newPwd,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String updatePwd(String newPwd,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("newPwd==="+newPwd);
-		return null;
+		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		user.setPassword(newPwd);
+		appUserService.update(user);
+		return "redirect:/user/uerInfo";
 	}
 	/**
 	 * 完善个人资料
@@ -332,9 +348,9 @@ public class UserController {
 	 */
 	@RequestMapping(value = "perfectUserInfo", method = RequestMethod.POST)
 	public String perfectUserInfo(AppUser appUser,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		return null;
+		appUserService.update(appUser);
+		return "redirect:/user/uerInfo";
 	}
-	
 	// MD5加码。32位
 	public static String MD5(String inStr) {
 		MessageDigest md5 = null;
