@@ -22,12 +22,12 @@
 	href="content/static/css/news.css" />
 <link rel="stylesheet" type="text/css"
 	href="content/static/css/main.css" />
-<script src="content/static/js/tumbler/jquery-1.4.2.min.js"
+<script src="content/static/js/hthjin/jquery-1.4.2.min.js"
 	type="text/javascript"></script>
 <script type="text/javascript"
-	src="content/static/js/tumbler/jquery-1.7.2.min.js"></script>
+	src="content/static/js/hthjin/jquery-1.7.2.min.js"></script>
 <script type="text/javascript"
-	src="content/static/js/tumbler/jquery.SuperSlide.2.1.1.js"></script>
+	src="content/static/js/hthjin/jquery.SuperSlide.2.1.1.js"></script>
 <script type="text/javascript">
 	$(document).ready(
 			function() {

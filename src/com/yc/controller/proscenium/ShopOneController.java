@@ -197,8 +197,11 @@ public class ShopOneController {
 
 	// 发布商品主分类界面
 	@RequestMapping("publishComm")
-	public String publishComm() {
-		return "setupShop/publishComm";
+	public ModelAndView publishComm() {
+		List<ShopCategory> list =  shopCategService.getAllByParent();
+		ModelMap mode = new ModelMap();
+		mode.put("list", list);
+		return new ModelAndView("setupShop/publishComm",mode);
 	}
 
 	// 发布商品主分类界面
@@ -295,19 +298,10 @@ public class ShopOneController {
 			}
 			// 是否上架
 			Boolean shelves = Boolean.valueOf(req.getParameter("shelves").toString());
-			// 是否精品
-			Boolean iscChoice = Boolean.valueOf(req.getParameter("iscChoice").toString());
-			// 是否团购
-			Boolean auction = Boolean.valueOf(req.getParameter("auction").toString());
 			// 是否折扣
 			Boolean isSpecial = Boolean.valueOf(req.getParameter("isSpecial").toString());
 			// 品牌名称
 			String brandName = req.getParameter("brandName");
-			// 设置名庄
-			Integer manorId = 0;
-			if (!req.getParameter("famousManorId").equals("") && req.getParameter("famousManorId") != null) {
-				manorId = Integer.parseInt(req.getParameter("famousManorId"));
-			}
 			// 打几折
 			float special = 10;
 			System.out.println(req.getParameter("special") + ":" + req.getParameter("special").equals(""));
@@ -368,17 +362,12 @@ public class ShopOneController {
 			commodity.setPerBoxnum(perBoxnum);
 			commodity.setProbablyWeight(probablyWeight);
 			commodity.setShelves(shelves);
-			commodity.setIscChoice(iscChoice);
-			commodity.setAuction(auction);
 			commodity.setIsSpecial(isSpecial);
 			commodity.setSpecial(special);
 			ShopCategory shopCategory = shopCategService.findById(categoryid);
 			commodity.setShopCategory(shopCategory);
 			Brand brand = brandService.getBrandName(brandName);
 			commodity.setBrand(brand);
-			// 设置名庄：
-			FamousManor manor = famousManorService.findById(manorId);
-			commodity.setFamousManor(manor);
 			/**
 			 * 设置商品所属店面：setBelongTo commodity.setBelongTo(belongTo);
 			 */
@@ -459,25 +448,27 @@ public class ShopOneController {
 					Long fname = System.currentTimeMillis();
 					saveFileOfCommImage(fname, shop, commodity, req, file);
 					String name2 = file.getOriginalFilename();
-					// 得到要上传文件的后缀名
-					endType = name2.substring(name2.lastIndexOf("."), name2.length());
-					String root = req.getSession().getServletContext().getRealPath("../");
-					File uploadDir = new File(root, "images/").getCanonicalFile();
-					if (!uploadDir.exists() || uploadDir.isFile()) {
-						uploadDir.mkdir();
-					}
-					uploadDir = new File(root, "images/" + shop.getId() + "/").getCanonicalFile();
-					if (!uploadDir.exists() || uploadDir.isFile()) {
-						uploadDir.mkdir();
-					}
-					uploadDir = new File(root, "images/" + shop.getId() + "/" + commodity.getCommCode() + "/").getCanonicalFile();
-					if (!uploadDir.exists() || uploadDir.isFile()) {
-						uploadDir.mkdir();
-					}
+					if(name2!= null && !name2.equals("")){
+						// 得到要上传文件的后缀名
+						endType = name2.substring(name2.lastIndexOf("."), name2.length());
+						String root = req.getSession().getServletContext().getRealPath("../");
+						File uploadDir = new File(root, "images/").getCanonicalFile();
+						if (!uploadDir.exists() || uploadDir.isFile()) {
+							uploadDir.mkdir();
+						}
+						uploadDir = new File(root, "images/" + shop.getId() + "/").getCanonicalFile();
+						if (!uploadDir.exists() || uploadDir.isFile()) {
+							uploadDir.mkdir();
+						}
+						uploadDir = new File(root, "images/" + shop.getId() + "/" + commodity.getCommCode() + "/").getCanonicalFile();
+						if (!uploadDir.exists() || uploadDir.isFile()) {
+							uploadDir.mkdir();
+						}
 
-					commImage.setImagePath("images/" + shop.getId() + "/" + commodity.getCommCode() + "/" + fname + endType);
-					commImage.setShopCommoidty(commodity);
-					shopCommImageService.save(commImage);
+						commImage.setImagePath("images/" + shop.getId() + "/" + commodity.getCommCode() + "/" + fname + endType);
+						commImage.setShopCommoidty(commodity);
+						shopCommImageService.save(commImage);
+					}
 				}
 			}
 			return "setupShop/publishComm";
@@ -554,7 +545,7 @@ public class ShopOneController {
 		Integer commid = Integer.parseInt(req.getParameter("commid"));
 		ShopCommodity commodity = shopCommodityService.findById(commid);
 		// 1.葡萄酒
-		List<ShopCategory> list = shopCategService.getAllByParentLevel(commodity.getShopCategory().getParentLevel().getParentLevel().getCategoryID());
+		List<ShopCategory> list = shopCategService.getAllByParentLevel(commodity.getShopCategory().getParentLevel().getCategoryID());
 		mode.put("shopCategories", list);
 		// 后期改
 		List<ShopCategory> listtemp = new ArrayList<ShopCategory>();
@@ -635,6 +626,7 @@ public class ShopOneController {
 			System.out.println("已经得到了id:" + id);
 			ShopCommodity commodity = shopCommodityService.findById(id);
 			List<ShopCommImage> commImages = commodity.getShopCommImages();
+			System.out.println("commImages==="+commImages.size());
 			for (int j = 0; j < commImages.size(); j++) {
 				shopCommImageService.delete(commImages.get(j).getImageID());
 			}
@@ -1833,78 +1825,5 @@ public class ShopOneController {
 	// return new ModelAndView();
 	// }
 	// 填写开店信息：
-
-	// 购物Item
-	@RequestMapping(value = "shopItem", method = RequestMethod.GET)
-	public ModelAndView shopItem(Integer commID, Integer category, Integer shopID, String commoName, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelMap mode = new ModelMap();
-		ShopCategory cate = shopCategService.findById(category);
-		List<ShopReviews> reviewslist = shopReviewsService.getAllBycommCode(commID);
-		Integer hao = 0;
-		Integer zhong = 0;
-		Integer cha = 0;
-		for (int i = 0; i < reviewslist.size(); i++) {
-			if (reviewslist.get(i).getReviewsRank() == ReviewsRank.good) {
-				hao = hao + 1;
-			}
-			if (reviewslist.get(i).getReviewsRank() == ReviewsRank.better) {
-				zhong = zhong + 1;
-			}
-			if (reviewslist.get(i).getReviewsRank() == ReviewsRank.bad) {
-				cha = cha + 1;
-			}
-		}
-		mode.put("reviewslist", reviewslist);
-		mode.put("hao", hao);
-		mode.put("zhong", zhong);
-		mode.put("cha", cha);
-		List<ShopCategory> shopcates = new ArrayList<ShopCategory>();
-		shopcates.add(cate);
-		mode.put("specifications", cate.getSpecifications());
-		String strs = "";
-		while (cate.getParentLevel() != null) {
-			cate = shopCategService.findById(cate.getParentLevel().getCategoryID());
-			if (cate != null) {
-				shopcates.add(cate);
-			}
-		}
-		for (int i = shopcates.size() - 1; i >= 0; i--) {
-			strs = strs + shopcates.get(i).getCategoryID() + "-" + shopcates.get(i).getCategory() + "|";
-		}
-		List<ShopCategory> shopcategories = shopCategService.getAll();
-		mode.put("shopCategories", shopcategories);
-		mode.put("nvabar", strs.substring(0, strs.length() - 1));
-		ShopCommodity shopCommoidty = shopCommService.findById(commID);
-		Map<String, List<String>> map = new HashMap<String, List<String>>();
-		List<String> specStrs = null;
-		mode.put("shopCommoidty", shopCommoidty);
-		ShopCommoditySpecs shopSpecs = shopCommoidty.getCommsPecs();
-		if (shopSpecs != null) {
-			String spec = shopSpecs.getCommSpec();
-			String[] specs = spec.split(",");
-			if (specs.length > 0) {
-				for (int i = 0; i < specs.length; i++) {
-					if (!specs[i].equals("")) {
-						if (map.containsKey(specs[i].split("-")[0])) {
-							specStrs = map.get(specs[i].split("-")[0]);
-							if (!specStrs.contains(specs[i].split("-")[1])) {
-								specStrs.add(specs[i].split("-")[1]);
-							}
-						} else {
-							specStrs = new ArrayList<String>();
-							specStrs.add(specs[i].split("-")[1]);
-							map.put(specs[i].split("-")[0], specStrs);
-						}
-					}
-				}
-			}
-		}
-		List<ShopCategory> list = shopCategService.getAllByParent();
-		mode.put("categories", list);
-		mode.put("map", map);
-		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
-		mode.put("user", user);
-		return new ModelAndView("reception/shopItem", mode);
-	}
 
 }

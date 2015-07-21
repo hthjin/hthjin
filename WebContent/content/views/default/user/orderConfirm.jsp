@@ -16,62 +16,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/shop_css.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/style.css" />
-<script type="text/javascript" src="content/static/js/lib/jquery.min.js"></script>
-<script type="text/javascript" src="content/static/js/tumbler/lrtk.js"></script>
 <title>不倒翁</title>
-
-<script>
-	function up(div3, div4) {
-		div4.style.display = "none";
-	}
-</script>
-<script>
-	function down(div3, div4) {
-		div4.style.display = "block";
-	}
-</script>
+<link href="content/static/css/style2.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/index.css" rel="stylesheet"
+	type="text/css" />
+<script src="content/static/js/hthjin/jquery-1.4.2.min.js"
+	type="text/javascript"></script>
+<script src="content/static/js/hthjin/js.js" type="text/javascript"></script>
+<script src="content/static/js/hthjin/slide.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="content/static/js/hthjin/index_v20.js"></script>
 </head>
 <body>
 	<jsp:include page="../frontDesk/header.jsp" />
-<%-- 	<jsp:include page="../frontDesk/cate.jsp" /> --%>
-	<div class="breadCrumb"
-		style="background-color: #E8E8E8; height: 30px; line-height: 30px; width: 100%;">
-		<div class="con" style="width: 1200px; margin: 0px auto;">
-			<a href="index">首页</a> > <span>核对订单信息</span>
+	<jsp:include page="../frontDesk/cate.jsp" />
+	<%-- 	<jsp:include page="../frontDesk/cate.jsp" /> --%>
+	<div class="produta">
+		<div class="produta_til">
+			<p>
+				<a href="/productCenter/shopIndex">首页</a> > <span>核对订单信息</span>
+			</p>
 		</div>
 	</div>
-	<div class="shop_content">
-		<div class="top" style="width: 100%; height: 80px">
-			<div class="breadCrumb2"></div>
-		</div>
-
-		<div class="center">
-			<div class="title">
-				<img src="content/static/images/car.png" />
-				<div class="zi">送往哪里</div>
-			</div>
-			<hr />
-			<div class="address" id="address">
+	<div class="car-tu">
+		<div class="process-01"></div>
+	</div>
+	<div class="shop-car" style="margin-bottom: 100px;">
+		<hr />
+		<div class="info">
+			<div class="box">填写核对订单信息</div>
+			<div class="address">
+				<div class="add" style="font-size: 20px; margin-top: 20px;">
+					<b>收货地址</b>
+				</div>
 				<div class="shopcartabt2">
-					<div class="shcaadd">
-						<p class="shcaadds">
-							<select name="" id="addressChange">
-								<option value="-1" selected="selected">-----选择收件人----</option>
-								<c:forEach items="${addresses }" var="address">
-									<option value="${address.id }"
-										<c:if test="${address.theDefault == true }">selected</c:if>>${address.toName }</option>
-								</c:forEach>
-							</select> <a href="javascript:void(0);" ><font
-								color="blue">使用新地址</font></a>
-						</p>
-						<p class="shcaadds" id="addressShow"></p>
-						<div class="cl"></div>
-						<div class="shcaaddselink"></div>
-					</div>
+					<p class="shcaadds">
+						<select name="" id="addressChange">
+							<option value="-1" selected="selected">-----选择收件人----</option>
+							<c:forEach items="${addresses }" var="address">
+								<option value="${address.id }"
+									<c:if test="${address.theDefault == true }">selected</c:if>>${address.toName }</option>
+							</c:forEach>
+						</select> <a href="javascript:void(0);"><font color="blue">使用新地址</font></a>
+					</p>
+					<p class="shcaadds" id="addressShow"></p>
+					<div class="cl"></div>
+					<div class="shcaaddselink"></div>
+
 				</div>
 				<div class="xiugai" id="xiu">修改送货信息</div>
 			</div>
@@ -163,38 +157,40 @@
 				</div>
 			</div>
 			<div class="list">
-				<div>商品清单</div>
-				<div class="nav">
-					<ul>
-						<li style="width: 560px;">商品名称</li>
-						<li>商品单价</li>
-						<li style="width: 160px">购买数量</li>
-						<li>优惠金额</li>
-						<li>小计</li>
-					</ul>
-				</div>
+            	<div style="font-size:20px; margin-top:20px;  float:left;"><b>商品清单</b></div>
+                <a href="shop-car.html"><div style="float:right;margin-top:20px; font-size:12px;">回到购物车，修改商品>></div></a>
+                 <div style=" height:auto; width:900px;">
+                 <div class="nav-list">
+        			<ul> 
+            			<li style="margin-left:80px; margin-right:100px;">商品名称</li>
+           			 	<li>商品单价</li>
+           				<li>购买数量</li>
+           				<li>优惠金额</li>
+           			    <li>小计</li>
+           			    
+           		   </ul>
+       		  	</div>  
 				<c:set var="zhongliang" value="0"></c:set>
 				<c:set var="jine" value="0"></c:set>
 				<c:forEach items="${list }" var="carCommodity" varStatus="loop">
-					<div class="nav1">
+					<div class="nav-info">
 						<ul>
-							<li style="width: 560px;"><img
+							<li  style="float:left;margin-top:10px; width:200px; height:auto;"><img
 								src="${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
-								style="float: left; margin-top: 10px;" />
+								style="float: left; margin-top: 10px; width: 75px; height: 75px;" />
 								<div style="float: left; margin-top: 41px;">
 									${carCommodity.shopCommodity.commoidtyName }</div></li>
-							<li style="text-align: center; line-height: 100px;">￥<fmt:formatNumber
+							<li>￥<fmt:formatNumber
 									value="${carCommodity.shopCommodity.unitPrice }"
 									pattern="##.##" minFractionDigits="2"></fmt:formatNumber></li>
-							<li style="width: 160px">
-								<div
-									style="float: left; width: 50px; margin-top: 42px; margin-left: 70px;">${carCommodity.amount }</div>
+							<li>
+								<div >${carCommodity.amount }</div>
 							</li>
-							<li style="text-align: center; line-height: 100px;">￥<fmt:formatNumber
+							<li >￥<fmt:formatNumber
 									value="${carCommodity.unitPrice }" pattern="##.##"
 									minFractionDigits="2"></fmt:formatNumber>
 							</li>
-							<li style="text-align: center; line-height: 100px;"
+							<li
 								id="displayPrice${loop.index }">￥<fmt:formatNumber
 									value="${carCommodity.price }" pattern="##.##"
 									minFractionDigits="2"></fmt:formatNumber>
@@ -210,10 +206,8 @@
 				<div class="last_top">
 					<a href="javascript:void(0);" onclick="goBlack();"><div
 							class="back">返回购物车修改</div></a>
-					<div class="tatle">
-						<span>赠送积分：</span><span class="ap1"> <fmt:formatNumber
-								value="${jine }" pattern="##" minFractionDigits="0"></fmt:formatNumber>分
-						</span> <span>商品金额总计：</span><span class="ap1"> ￥<fmt:formatNumber
+					<div style="margin-left:618px; margin-top:40px;">
+						 <span>商品金额总计：</span><span class="ap1"> ￥<fmt:formatNumber
 								value="${jine }" pattern="##.##" minFractionDigits="2"></fmt:formatNumber></span>
 					</div>
 				</div>
@@ -222,82 +216,45 @@
 						window.location.href = document.referrer;
 					}
 				</script>
-				<div class="last_top2">
-					<div class="tatle2">
+				<div style="margin-left:618px; margin-top:10px;">
+					<div>
 						<span style="margin-right: 35px;">运费：</span> <span class="ap1">￥${zhongliang * 6 }</span>
 					</div>
 				</div>
-				<div class="last_top2">
-					<div class="tatle2">
+				<div style="margin-left:618px; margin-top:10px;">
+					<div >
 						<span>您共需支付：</span> <span class="ap1">￥<fmt:formatNumber
-								value="${zhongliang * 6 + jine}" pattern="##.##" minFractionDigits="2"></fmt:formatNumber></span>
+								value="${zhongliang * 6 + jine}" pattern="##.##"
+								minFractionDigits="2"></fmt:formatNumber></span>
 					</div>
 				</div>
-				<div class="last_top3">
-					<a href="javascript:void(0);" onclick="orderGenerate();"><div class="btn">提交订单</div></a>
+				<div style="margin-left:618px; margin-top:10px;">
+					<a href="javascript:void(0);" onclick="orderGenerate();"><div
+							class="btn">提交订单</div></a>
 					<div class="tatle3">
 						<span>应付金额：</span> <span class="ap1">￥<fmt:formatNumber
-								value="${zhongliang * 6 + jine}" pattern="##.##" minFractionDigits="2"></fmt:formatNumber></span>
+								value="${zhongliang * 6 + jine}" pattern="##.##"
+								minFractionDigits="2"></fmt:formatNumber></span>
 					</div>
 				</div>
 			</div>
-			<form action="user/orderGenerate" method="post" id="orderGenerateForm">
-				<input name="shouhuoTime" type="hidden" value="工作日、双休日与节假日均可送货"/>
-				<input name="xunshufangshi" type="hidden" value="ems"/>
-				<input name="ids" type="hidden" value="${vars }"/>
-				<input name="yunfei" type="hidden" value="${zhongliang * 6 }"/>
-				<input name="mudidi" id="mudidi" type="hidden" value=""/>
+			<form action="user/orderGenerate" method="post"
+				id="orderGenerateForm">
+				<input name="shouhuoTime" type="hidden" value="工作日、双休日与节假日均可送货" /> <input
+					name="xunshufangshi" type="hidden" value="ems" /> <input name="ids"
+					type="hidden" value="${vars }" /> <input name="yunfei"
+					type="hidden" value="${zhongliang * 6 }" /> <input name="mudidi"
+					id="mudidi" type="hidden" value="" />
 			</form>
-			<div class="bottom">
-				<div class="tuijian">商品推荐</div>
-				<div class="box">
-					<div class="picbox">
-						<ul class="piclist mainlist">
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-							<li><img src="images/tuijian.png" />
-								<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-								<div class="price1">零售参考价：124元</div>
-								<div class="price2">不倒翁价：69</div></li>
-						</ul>
-						<ul class="piclist swaplist"></ul>
-					</div>
-					<div class="og_prev"></div>
-					<div class="og_next"></div>
-				</div>
-			</div>
+			
+		</div>
 		</div>
 	</div>
-	</div>
+	<div class="cl"></div>
+    </div>
 	<jsp:include page="../frontDesk/foot.jsp" />
 	<script type="text/javascript">
-		function orderGenerate(){
+		function orderGenerate() {
 			$('#mudidi').val($('#addressChange').val());
 			$('#orderGenerateForm').submit();
 		}

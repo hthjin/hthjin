@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 <jsp:include page='../common/header.jsp' />
 <div class="row clearfix">
-<br><br>
+<br><br><br>
 	<jsp:include page='../common/menu.jsp' />
 	<div class="col-md-4 column">
 		<div class="panel panel-default">
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-8" style="text-align: center;">
+							<div class="col-sm-offset-2 col-sm-10" style="text-align: center;">
 								<button type="button" class="btn btn-default" onclick="addOrUpdateDep();">添加下级分类</button>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button type="button" class="btn btn-default" onclick="updateDepartmen();">修改此分类</button>

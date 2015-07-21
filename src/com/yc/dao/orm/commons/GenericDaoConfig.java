@@ -16,6 +16,8 @@ import com.yc.entity.BuyCar;
 import com.yc.entity.CarCommodity;
 import com.yc.entity.Collection;
 import com.yc.entity.Commodity;
+import com.yc.entity.Cotton;
+import com.yc.entity.CottonFactory;
 import com.yc.entity.Delivery;
 import com.yc.entity.DeliveryAddress;
 import com.yc.entity.FamousManor;
@@ -185,5 +187,13 @@ public class GenericDaoConfig {
     @Bean
     public GenericDao<Products> getProductsDao() {
     	return new GenericDaoSupport<Products>(Products.class);
+    }
+    @Bean
+    public GenericDao<Cotton> getCottonDao() {
+    	return new GenericDaoSupport<Cotton>(Cotton.class);
+    }
+    @Bean
+    public GenericDao<CottonFactory> getCottonFactoryDao() {
+    	return new GenericDaoSupport<CottonFactory>(CottonFactory.class);
     }
 }

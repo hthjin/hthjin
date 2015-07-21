@@ -22,6 +22,9 @@ public class News {
 	@Column
 	private String title;
 	
+	@Column(columnDefinition="bit default 0")
+	private Boolean  isThrough = false;
+	
 	@Column
 	@Enumerated(EnumType.STRING)
 	private Language language;

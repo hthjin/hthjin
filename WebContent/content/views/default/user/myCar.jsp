@@ -16,107 +16,125 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/shop_css.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/style.css" />
-<script type="text/javascript" src="content/static/js/lib/jquery.min.js"></script>
-<script type="text/javascript" src="content/static/js/tumbler/lrtk.js"></script>
 <title>不倒翁</title>
+<link href="content/static/css/style2.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/index.css" rel="stylesheet"
+	type="text/css" />
+<script src="content/static/js/hthjin/jquery-1.4.2.min.js"
+	type="text/javascript"></script>
+<script src="content/static/js/hthjin/js.js" type="text/javascript"></script>
+<script src="content/static/js/hthjin/slide.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="content/static/js/hthjin/index_v20.js"></script>
 </head>
 <body>
 	<jsp:include page="../frontDesk/header.jsp" />
 	<jsp:include page="../frontDesk/cate.jsp" />
-	<div class="breadCrumb"
-		style="background-color: #E8E8E8; height: 30px; line-height: 30px; width: 100%;">
-		<div class="con" style="width: 1200px; margin: 0px auto;">
-			<a href="index.html">首页</a> > <span>购物车</span>
+	<div class="produta">
+		<div class="produta_til">
+			<p>
+				您现在的位置：<a href="productCenter/shopIndex">首页</a> > 购物车
+			</p>
 		</div>
 	</div>
-	<div class="shop_content">
-		<div class="top" style="width: 100%; height: 80px">
-			<div class="breadCrumb"></div>
+	<div class="car-tu">
+		<div class="process-01"></div>
+	</div>
+	<div class="shop-car">
+		<div class="car-zi">我的购物车</div>
+		<hr />
+		<div class="content">
+			<input type="checkbox" name="allselect" id="allselect" style="float: left; margin-top: 30px;" />
+			<label style="width: 110px;  float: left; padding-top: 23px;">全选</label>
+				<div class="jiesao">商品名称</div>
+				<div class="price">商品单价</div>
+				<div class="shuliang">购买数量</div>
+				<div class="youhui">优惠金额</div>
+				<div class="xiaoji" >小计</div>
+				<div class="caozuo">操作</div>
 		</div>
-
-		<div class="center">
-			<div class="title">
-				<img src="content/static/images/sc.png" />
-				<div class="zi">我的购物车</div>
-			</div>
-			<div class="nav">
-				<ul>
-					<li style="width: 340px;">商品名称</li>
-					<li>商品单价</li>
-					<li style="width: 160px">购买数量</li>
-					<li>优惠金额</li>
-					<li>小计</li>
-					<li>操作</li>
-				</ul>
-			</div>
-			<div class="allselect">
-				<input type="checkbox" name="allselect" id="allselect" />全选
-			</div>
-			<c:forEach items="${list }" var="carCommodity" varStatus="loop">
-				<div class="nav1">
-					<ul>
-						<li style="width: 340px;">
-								<input type="checkbox" name="select" style="margin-left: 5px; float: left; margin-top: 40px;" value="${carCommodity.id },${loop.index }" onclick="onclickCheck(this);"/>
-							<a href="proscenium/shopItem?commID=${carCommodity.shopCommodity.commCode }&category=${carCommodity.shopCommodity.shopCategory.categoryID }&shopID=${carCommodity.shopCommodity.belongTo.id }&commoName=${carCommodity.shopCommodity.commoidtyName }"><img
-							src="${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
-							style="float: left; margin-top: 10px;" />
-							<div style="float: left; margin-top: 41px;">${carCommodity.shopCommodity.commoidtyName }</div></a>
-						</li>
-						<li style="text-align: center; line-height: 100px;">￥<fmt:formatNumber
-								value="${carCommodity.shopCommodity.unitPrice }" pattern="##.##"
-								minFractionDigits="2"></fmt:formatNumber></li>
-						<li style="width: 160px"><a href="javascript:void(0);"><img
-								src="content/static/images/jianhao.png"
-								style="float: left; margin-top: 45px; margin-left: 30px; margin-right: 5px;" /></a>
-							<form style="float: left;">
-								<input style="width: 50px; margin-top: 42px" id="amount${loop.index }" onchange="onchangeAmount(this,${loop.index });"
-									value="${carCommodity.amount }" />
-							</form> <a href="javascript:void(0);"><img src="content/static/images/jiahao.png"
-								style="float: left; margin-top: 45px; margin-left: 5px;" /></a></li>
-						<li style="text-align: center; line-height: 100px;">￥<fmt:formatNumber
-								value="${carCommodity.unitPrice }" pattern="##.##"
-								minFractionDigits="2"></fmt:formatNumber>
-						<input type="hidden" id="unitPrice${loop.index }" value="${carCommodity.unitPrice }"/>
-						<input type="hidden" value="${carCommodity.price }" id="price${loop.index }" name="price"/>		
-								</li>
-						<li style="text-align: center; line-height: 100px;" id="displayPrice${loop.index }">￥<fmt:formatNumber
-								value="${carCommodity.price }" pattern="##.##"
-								minFractionDigits="2"></fmt:formatNumber>
-						</li>
-						<li style="text-align: center; font-size: 14px;"><a
-							href="javascript:void(0);"
-							onclick="collectionClick('toJsonFmatUtil/addCollection?shopID=${carCommodity.shopCommodity.belongTo.id }');"><div
-									style="float: left; margin-left: 35px;">
-									<img src="content/static/images/shoucang.jpg"
-										style="margin-top: 30px;" width="20PX;" height="20PX;" />
-									<div>加入收藏</div>
-								</div></a> <a href="user/deleteShopCar?id=${carCommodity.id }"><div style="float: left; margin-left: 15px;">
-									<img src="content/static/images/shanchu.png"
-										style="margin-top: 30px;" width="20PX;" height="20PX;" />
-									<div>删除</div>
-								</div></a></li>
-					</ul>
+		<hr />
+		<c:forEach items="${list }" var="carCommodity" varStatus="loop">
+			<div class="content">
+				<input type="checkbox" name="select"
+					style="float: left; margin-top: 30px;"
+					value="${carCommodity.id },${loop.index }"
+					onclick="onclickCheck(this);" /> <a
+					href="proscenium/shopItem?commID=${carCommodity.shopCommodity.commCode }&category=${carCommodity.shopCommodity.shopCategory.categoryID }&shopID=${carCommodity.shopCommodity.belongTo.id }&commoName=${carCommodity.shopCommodity.commoidtyName }">
+					<img
+					src="${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
+					style="width: 70px; height: 70px; float: left;" />
+				</a>
+				<div class="jiesao">${carCommodity.shopCommodity.commoidtyName }</div>
+				<div class="price">
+					￥
+					<fmt:formatNumber value="${carCommodity.shopCommodity.unitPrice }"
+						pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
 				</div>
-			</c:forEach>
-			<div class="list">
-				<div class="tatle" style="float: right;">
-					<span>商品金额总计：</span><span class="ap1" id="zong"> ￥<fmt:formatNumber
-								value="0.00" pattern="##.##"
-								minFractionDigits="2"></fmt:formatNumber>
-								</span>
-								<input type="hidden" id="zhongjinge" value="0"/>
+				<div class="shuliang">
+					<div style="float: left; margin-right: 5px;">
+						<a href="#"><img src="content/static/images/jiahao.png" width="20px"
+							height="20px" /></a>
+					</div>
+					<div style="float: left;">
+						<input id="amount${loop.index }" value="1"
+							style="width: 55px; height: 20px;"
+							onchange="onchangeAmount(this,${loop.index });"
+							value="${carCommodity.amount }" />
+					</div>
+					<div style="float: right; margin-left: 5px;">
+						<a href="#"><img src="content/static/images/jianhao.png" width="20px"
+							height="20px" /></a>
+					</div>
 				</div>
-				<a href="javascript:void(0);" onclick="orderConfirm();"><div class="btn">去结算</div></a>
+				<div class="youhui">
+					￥
+					<fmt:formatNumber value="${carCommodity.unitPrice }"
+						pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+					<input type="hidden" id="unitPrice${loop.index }"
+						value="${carCommodity.unitPrice }" /> <input type="hidden"
+						value="${carCommodity.price }" id="price${loop.index }"
+						name="price" />
+				</div>
+				<div class="xiaoji" id="displayPrice${loop.index }">
+					￥
+					<fmt:formatNumber value="${carCommodity.price }" pattern="##.##"
+						minFractionDigits="2"></fmt:formatNumber>
+				</div>
+				<div class="caozuo">
+					<a href="user/deleteShopCar?id=${carCommodity.id }"> <img
+						src="content/static/images/shanchu.png" style="margin-top: 30px;"
+						width="20PX;" height="20PX;" /> 删除
+					</a>
+				</div>
 			</div>
+			<hr />
+		</c:forEach>
+		<div class="pay">
+			
+			<p>
+				<a href="productCenter/shopIndex">继续购物</a>
+			</p>
+			<p style="margin-left:500px;">
+			</p>
+			<p>
+				应付金额：<font color="#FF0000"><span id="zong"> ￥<fmt:formatNumber
+							value="0.00" pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+				</span> </font>
+			</p>
+			<input type="hidden" id="zhongjinge" value="0" /> <a
+				href="javascript:void(0);" onclick="orderConfirm();"><div
+					id="jiesuan">去结算</div></a>
 		</div>
-		<form action="user/orderConfirm" id="formConfirm" method="post">
-			<input type="hidden" name="params" id="params" value=""/>
-		</form>
-		<script type="text/javascript">
+		<div class="cl"></div>
+	</div>
+	<form action="user/orderConfirm" id="formConfirm" method="post">
+		<input type="hidden" name="params" id="params" value="" />
+	</form>
+	<script type="text/javascript">
 			function orderConfirm(){
 				var nums = "";
 				 $("input[name='select']").each(function(){
@@ -202,7 +220,7 @@
 
 						else if (data.success == "nouser") {
 							if (confirm('您还没有登录哦！')) {
-								var url = "user/regist";
+								var url = "user/login";
 								window.location = url;
 							}
 						}
@@ -210,52 +228,6 @@
 				});
 			}
 		</script>
-		<div class="bottom">
-			<div class="tuijian">商品推荐</div>
-			<div class="box">
-				<div class="picbox">
-					<ul class="piclist mainlist">
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-						<li><img src="content/static/images/tuijian.png" />
-							<div class="name">桑塔丽塔120加本力桃红 2011 Santa Rita 120 Rose</div>
-							<div class="price1">零售参考价：124元</div>
-							<div class="price2">不倒翁价：69</div></li>
-					</ul>
-					<ul class="piclist swaplist"></ul>
-				</div>
-				<div class="og_prev"></div>
-				<div class="og_next"></div>
-			</div>
-		</div>
-	</div>
-	</div>
 	<jsp:include page="../frontDesk/foot.jsp" />
 </body>
 </html>

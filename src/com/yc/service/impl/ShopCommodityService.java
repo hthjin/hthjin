@@ -123,7 +123,7 @@ public class ShopCommodityService extends GenericService<ShopCommodity> implemen
 		}
 		hql.append(" where  (shc.blacklist_id IS NULL AND shop.blacklist_id IS NULL AND shc.shelves = 1 ) and shc.shelves = 1");
 		if (map.get("cateid") != null && !map.get("cateid").equals("")) {
-			 hql.append(" and shc.shopCategory_id IN (SELECT cate.categoryID FROM shopcategory cate WHERE cate.parentLevel IN ( SELECT cate2.categoryID FROM shopcategory cate2 WHERE cate2.parentLevel = "+map.get("cateid")+"))");
+			 hql.append(" and shc.shopCategory_id IN ( SELECT cate2.categoryID FROM shopcategory cate2 WHERE cate2.parentLevel = "+map.get("cateid")+")");
 		}
 		if (page.equals("special")) {
 			hql.append(" and shc.isSpecial = 1");

@@ -469,7 +469,7 @@ li.f1 {
 }
 .news_til li {
 	float: left;
-	width: 119px;
+	width: 238px;
 	text-align: center;
 	margin: 0;
 	padding: 0;
@@ -1542,7 +1542,7 @@ input.icon-add {
 
 .indiv {
 	width: 1100px;
-	margin: 10px auto;  height:506px;
+	margin: 10px auto;  height:auto;
 }
 .indivter {
 	width: 175px;

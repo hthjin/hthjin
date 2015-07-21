@@ -91,7 +91,7 @@ public class UserController {
 				}
 			} else {
 				request.getSession().setAttribute("message", "密码不正确！！");
-				return "redirect:/user/regist?page=" + page;
+				return "redirect:/user/login?page=" + page;
 			}
 		}
 	}

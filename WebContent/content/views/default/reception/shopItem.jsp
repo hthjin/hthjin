@@ -15,17 +15,18 @@
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>不倒翁</title>
-<script type="text/javascript" src="content/static/js/lib/jquery.min.js"></script>
+<link href="content/static/css/style2.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/index2.css" rel="stylesheet"
+	type="text/css" />
 <link rel="stylesheet" type="text/css"
 	href="content/static/css/style.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/right.css" />
-<link rel="stylesheet" type="text/css"
-	href="content/static/css/shop.css" />
+<script src="content/static/js/hthjin/jquery-1.4.2.min.js"
+	type="text/javascript"></script>
+<script src="content/static/js/hthjin/js.js" type="text/javascript"></script>
+<SCRIPT src="content/static/js/hthjin/slides.js" type=text/javascript></SCRIPT>
 <script type="text/javascript"
-	src="content/static/js/tumbler/jquery.imagezoom.min.js"></script>
-<script type="text/javascript" src="content/static/js/tumbler/custom.js"></script>
-<script src="content/static/js/tumbler/jquery.fly.min.js"></script>
+	src="content/static/js/hthjin/index_v20.js"></script>
 <script>
 	window.onload = function() {
 		var fen = document.getElementById("fen");
@@ -42,148 +43,7 @@
 		};
 	}
 </script>
-<style type="text/css">
-/* box */
-.shop_box {
-	width: 399px;
-	margin: 20px auto;
-}
 
-.tb-pic a {
-	display: table-cell;
-	text-align: center;
-	vertical-align: middle;
-}
-
-.tb-pic a img {
-	vertical-align: middle;
-}
-
-.tb-pic a {
-	*display: block;
-	*font-family: Arial;
-	*line-height: 1;
-}
-
-.tb-thumb {
-	margin: 10px 0 0;
-	overflow: hidden;
-}
-
-.tb-thumb li {
-	background: none repeat scroll 0 0 transparent;
-	float: left;
-	height: 42px;
-	margin: 0 6px 0 0;
-	overflow: hidden;
-	padding: 1px;
-}
-
-.tb-s310,.tb-s310 a {
-	height: 310px;
-	width: 400px;
-}
-
-.tb-s310,.tb-s310 img {
-	max-height: 450px;
-	max-width: 450px;
-}
-
-.tb-s310 a {
-	*font-size: 271px;
-}
-
-.tb-s40 a {
-	*font-size: 35px;
-}
-
-.tb-s40,.tb-s40 a {
-	height: 40px;
-	width: 40px;
-}
-
-.tb-booth {
-	border: 1px solid #CDCDCD;
-	position: relative;
-	z-index: 1;
-}
-
-.tb-thumb .tb-selected div {
-	background-color: #FFFFFF;
-	border: medium none;
-}
-
-.tb-thumb li div {
-	border: 1px solid #CDCDCD;
-}
-
-div.zoomDiv {
-	z-index: 999;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 200px;
-	height: 200px;
-	background: #ffffff;
-	border: 1px solid #CCCCCC;
-	display: none;
-	text-align: center;
-	overflow: hidden;
-}
-
-div.zoomMask {
-	position: absolute;
-	background: url("content/static/images/mask.png") repeat scroll 0 0
-		transparent;
-	cursor: move;
-	z-index: 1;
-}
-</style>
-
-<style type="text/css">
-.m-sidebar {
-	z-index: 2000;
-	width: 100px;
-	height: 30px;
-	margin-left: 310px;
-	margin-top: -52px;
-}
-
-.cart {
-	text-align: left;
-	line-height: 20px;
-	margin-top: -28px;
-}
-
-.u-flyer {
-	display: block;
-	width: 50px;
-	height: 50px;
-	border-radius: 50px;
-	position: fixed;
-	z-index: 9999;
-}
-
-.cart i {
-	width: 35px;
-	height: 35px;
-	display: block;
-}
-
-#msg {
-	position: fixed;
-	top: 82px;
-	right: 0px;
-	z-index: 10000;
-	width: 100px;
-	height: 52px;
-	line-height: 52px;
-	font-size: 15px;
-	text-align: center;
-	color: #fff;
-	background: url(content/static/images/cart_03.jpg) #901531 no-repeat;
-}
-</style>
 <script>
 	$(function() {
 		var i = 0;
@@ -256,529 +116,268 @@ div.zoomMask {
 	}
 </script>
 </head>
-<body onload="ready();">
+<body>
 	<!--回到顶部-->
-	<a href="#header"><div class="back_top"
-			style="position: fixed; bottom: 10%; width: 100px; height: 60px; font-size: 14px; right: 6%;">
-			<img src="content/static/images/top.png" />
-			<p style="margin-top: 10px; margin-left: -10px;">回到顶部</p>
-		</div> </a>
 	<!--顶部内容-->
 	<jsp:include page="../frontDesk/header.jsp" />
 	<jsp:include page="../frontDesk/cate.jsp" />
 	<!--面包屑-->
-	<div class="breadCrumb">
-		<div class="con" id="navbar">
-			<a href="index">首页</a>
+	<div class="produta">
+		<div class="produta_til">
+			<p>
+				您现在的位置：<a href="shop.html">首页</a> > <a>${shopCommoidty.shopCategory.category }</a>
+			</p>
 		</div>
-	</div>
-	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					var strs = '${nvabar}';
-					var str = strs.split("|");
-					var $guige = "";
-					for (var j = 0; j < str.length; j++) {
-						if (j == 0) {
-							$guige = $guige
-									+ "> <a href='search/result?cateid="
-									+ str[j].split("-")[0] + "'>"
-									+ str[j].split("-")[1] + "</a> ";
-						} else if (j == 1) {
-							$guige = $guige
-									+ "> <a href='javascript:void(0);'>"
-									+ str[j].split("-")[1] + "</a> ";
-						} else {
-							$guige = $guige + "> <a href='search/result?id="
-									+ str[j].split("-")[0] + "'>"
-									+ str[j].split("-")[1] + "</a> ";
-						}
-					}
-					$('#navbar').append($guige);
-				});
-	</script>
-	<!--商品详情-->
-	<div class="content">
-		<div class="shop_main">
-			<div class="preview">
-				<!--商品图预览-->
-				<div class="shop_left">
-					<div class="shop_box">
-						<div class="tb-booth tb-pic tb-s310">
-							<a href="${shopCommoidty.shopCommImages[0].imagePath }"><img
-								src="${shopCommoidty.shopCommImages[0].imagePath }"
-								rel="${shopCommoidty.shopCommImages[0].imagePath }"
-								class="jqzoom" /></a>
-						</div>
-						<ul class="tb-thumb" id="thumblist">
+		<div class="produta_info">
+			<script type="text/javascript">
+				$(document)
+						.ready(
+								function() {
+									var strs = '${nvabar}';
+									var str = strs.split("|");
+									var $guige = "";
+									for (var j = 0; j < str.length; j++) {
+										if (j == 0) {
+											$guige = $guige
+													+ "> <p> 您现在的位置：<a href='search/result?cateid="
+													+ str[j].split("-")[0]
+													+ "'>"
+													+ str[j].split("-")[1]
+													+ "</a> ";
+										} else if (j == 1) {
+											$guige = $guige
+													+ "> <a href='javascript:void(0);'>"
+													+ str[j].split("-")[1]
+													+ "</a> ";
+										} else {
+											$guige = $guige
+													+ "> <a href='search/result?id="
+													+ str[j].split("-")[0]
+													+ "'>"
+													+ str[j].split("-")[1]
+													+ "</a> ";
+										}
+									}
+									$('#produta_til').append($guige);
+								});
+			</script>
+			<!--商品详情-->
+			<div class="zoombox">
+				<div class="zoompic">
+					<img width="400" height="400"
+						src="${shopCommoidty.shopCommImages[0].imagePath }"
+						rel="${shopCommoidty.shopCommImages[0].imagePath }" class="jqzoom" />
+				</div>
+				<div class="sliderbox">
+					<div id="btn-left" class="arrow-btn dasabled"></div>
+					<div class="slider" id="thumbnail">
+						<ul>
 							<c:forEach items="${shopCommoidty.shopCommImages }"
 								var="imageCommo" varStatus="loop">
 								<c:if test="${loop.index == 0 }">
-									<li class="tb-selected">
+									<li class="current">
 								</c:if>
 								<c:if test="${loop.index != 0 }">
 									<li>
 								</c:if>
 								<div class="tb-pic tb-s40">
-									<a href="javascript:void(0);"> <img
-										src="${imageCommo.imagePath }" /></a>
+									<a href="${imageCommo.imagePath }" target="_blank"> <img
+										src="${imageCommo.imagePath }" width="48" height="48" /></a>
 								</div>
 								</li>
 							</c:forEach>
 						</ul>
 					</div>
-					<script type="text/javascript">
-						$(document).ready(
-								function() {
-
-									$(".jqzoom").imagezoom();
-
-									$("#thumblist li a").click(
-											function() {
-												$(this).parents("li").addClass(
-														"tb-selected")
-														.siblings()
-														.removeClass(
-																"tb-selected");
-												$(".jqzoom").attr(
-														'src',
-														$(this).find("img")
-																.attr("mid"));
-												$(".jqzoom").attr(
-														'rel',
-														$(this).find("img")
-																.attr("big"));
-											});
-
-								});
-					</script>
-
-
-
-				</div>
-				<!--商品购买-->
-				<div class="shop_right">
-					<div class="shop_show">
-						<div class="name">
-							<h1>${shopCommoidty.commoidtyName }</h1>
-							<input id="commID" type="hidden"
-								value="${shopCommoidty.commCode }" />
-							<h3>正品保障,十万分之一的破损几率,如有破损运费由我们承担！让您买的放心！</h3>
-						</div>
-						<div class="summary">
-							<div class="s_box">
-								<div class="box_left">
-									<div class="jy">
-										<div class="jy_price">
-											<del>原 价：</del>
-										</div>
-										<div class="jy_value">
-											<del>¥${shopCommoidty.unitPrice }</del>
-										</div>
-									</div>
-									<div class="s">
-										<div class="s_price">不倒翁价：</div>
-										<div class="s_value">
-											¥
-											<c:if test="${shopCommoidty.isSpecial }">
-												<span class="red"> <fmt:formatNumber
-														value="${shopCommoidty.unitPrice * shopCommoidty.special  }"
-														pattern="##.##" minFractionDigits="2"></fmt:formatNumber></span>
-											</c:if>
-											<c:if test="${!shopCommoidty.isSpecial }">
-												<span class="red"> <fmt:formatNumber
-														value="${shopCommoidty.unitPrice }" pattern="##.##"
-														minFractionDigits="2">
-													</fmt:formatNumber>
-												</span>
-											</c:if>
-										</div>
-									</div>
-									<div class="amount">
-										<span>购买数量：</span> <a href="javascript:void(0);" hidefocus
-											class="reduce">-</a> <input id="buyAmount" type="text"
-											class="tb-text" value="1" maxlength="8" title="请输入购买量" /> <a
-											href="javascript:void(0);" hidefocus class="add">+</a>
-									</div>
-								</div>
-								<div class="box_right">
-									<div class="comment">
-										累计评价：<span>${fn:length(shopCommoidty.shopreviews) }</span>
-									</div>
-									<div class="workoff">
-										累计售出：<span>${shopCommoidty.salesVolume }</span>
-									</div>
-									<div class="collection">
-										<a href="javascript:void(0);"
-											onclick="collectionClick('toJsonFmatUtil/addCollection?commID=${shopCommoidty.commCode }');"><img
-											src="content/static/images/shoucang.jpg" />加入收藏</a>
-									</div>
-								</div>
-							</div>
-							<div class="s_service">
-								<div class="ps">
-									<span>配 送 至：</span>
-									<div class="text">乌鲁木齐新市区</div>
-									<strong
-										style="margin-left: 10px; font-size: 14px; color: #666;">有货</strong>
-								</div>
-								<div class="fw">
-									<span>服 务：</span>
-									<div class="fw_p">
-										由<a href="javascript:void(0);"> 网酒网官方旗舰店 </a>负责发货，并提供售后服务。
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="choose">
-							<a href="javascript:void(0);" onclick="buyCommodity();">立即购买</a>
-							<a href="javascript:void(0);" class="button orange addcar"
-								onclick="buyCat();">
-								<div class="box_1">加入购物车</div>
-							</a>
-						</div>
-					</div>
+					<div id="btn-right" class="arrow-btn"></div>
 				</div>
 			</div>
-			<script type="text/javascript">
-				function buyCommodity() {
-					var commID = $('#commID').val();
-					var buyAmount = $('#buyAmount').val();
-					location.href = 'user/buyCommodity?shopCommId=' + commID
-							+ '&buyAmount=' + buyAmount;
-				}
-				function buyCat() {
-					var commID = $('#commID').val();
-					var buyAmount = $('#buyAmount').val();
-					jQuery.ajax({
-						type : 'GET',
-						contentType : 'application/json',
-						url : 'toJsonFmatUtil/addBuyCar?shopCommId=' + commID
-								+ '&buyAmount=' + buyAmount,
-						dataType : 'json',
-						success : function(data) {
-							if (data.message == 'success') {
-								alert("添加成功");
-								jQuery.ajax({
-									type : 'GET',
-									contentType : 'application/json',
-									url : 'toJsonFmatUtil/getBuyCatNum',
-									dataType : 'json',
-									success : function(data) {
-										if (data.success == 'true') {
-											if(data.buyCar != ''){
-												$('#buyCatNum').html("购物车(" + data.num + ")");
-												alert(data.buyCar.carCommodities);
-//						 						$.each(data.buyCars,function(i, buyCar) {
-													
-//						 						});
-											}
-											$('#buyCatNum').html("购物车(" + data.num + ")");
-										}
-									}
-								});
-							} else if (data.message == 'existed') {
-								alert("再次添加成功");
-								jQuery.ajax({
-									type : 'GET',
-									contentType : 'application/json',
-									url : 'toJsonFmatUtil/getBuyCatNum',
-									dataType : 'json',
-									success : function(data) {
-										if (data.success == 'true') {
-											if(data.buyCar != ''){
-												$('#buyCatNum').html("购物车(" + data.num + ")");
-												alert(data.buyCar.carCommodities);
-//						 						$.each(data.buyCars,function(i, buyCar) {
-													
-//						 						});
-											}
-											$('#buyCatNum').html("购物车(" + data.num + ")");
-										}
-									}
-								});
-							} else if (data.message == "nouser") {
-								if (confirm('您还没有登录哦！')) {
-									var url = "user/regist";
-									window.location = url;
-								}
-							}
-						}
-					});
-				}
-			</script>
-			<!--右侧商铺-->
-			<div class="shop_sort">
-				<div class="brand">
-					<div class="brand_logo">
-						<a href="${shopCommoidty.belongTo.linkURL}"><img
-							src="${shopCommoidty.belongTo.shopLogo}" /></a>
-					</div>
-					<div class="brand_seller">
-						<a href="${shopCommoidty.belongTo.linkURL}">${shopCommoidty.belongTo.shopName}</a>
-					</div>
-					<div class="shop_enter">
-						<a href="${shopCommoidty.belongTo.linkURL}">进入店铺</a> <a
-							href="javascript:void(0);"
-							onclick="collectionClick('toJsonFmatUtil/addCollection?shopID=${shopCommoidty.belongTo.id }');">收藏店铺</a>
-					</div>
-				</div>
-			</div>
-			<script type="text/javascript">
-				function collectionClick(paramUrl) {
-					jQuery.ajax({
-						type : 'GET',
-						contentType : 'application/json',
-						url : paramUrl,
-						dataType : 'json',
-						success : function(data) {
-							if (data.success == "true") {
-								alert('亲，已经加入收藏夹了哦！');
-							}
-
-							else if (data.success == "existed") {
-								alert('收藏夹已经有这个宝贝了，亲是有多喜欢她啊！');
-							}
-
-							else if (data.success == "nouser") {
-								if (confirm('您还没有登录哦！')) {
-									var url = "user/regist";
-									window.location = url;
-								}
-							}
-						}
-					});
-				}
-			</script>
-			<!--商品参数详情-->
-			<div class="shop_desc">
-				<div class="desc_tt">
-					<div class="desc_tab1">
-						<a href="javascript:void(0);">商品详情</a>
-					</div>
-					<div class="desc_tab2">
-						<a href="javascript:void(0);">商品评价</a>
-					</div>
-				</div>
-				<div class="desc_main">
-					<div class="parameter_list">
-						<div class="shop_name">
-							品牌名称：<span><a href="javascript:void(0);">${shopCommoidty.brand.brandName }</a></span>
-						</div>
-						<ul class="detail_list">
-							<c:forEach items="${map }" var="keySet">
-								<c:if test="${keySet.key == '颜色' }">
-									<div class="choice_color">
-										颜色：
-										<c:forEach items="${keySet.value }" var="spec">
-											<c:set var="index1" value="${fn:indexOf(spec, '$') }"></c:set>
-											<c:set var="index2" value="${fn:length(spec) }"></c:set>
-											<li><img src="${fn:substring(spec, index1+1, index2)}" /></span>
-										</c:forEach>
-									</div>
-								</c:if>
-								<c:if test="${keySet.key != '颜色' }">
-									<div class="choice_cm">
-										<c:forEach items="${keySet.value }" var="spec">
-											<li>${keySet.key }：${spec }</li>
-										</c:forEach>
-									</div>
-								</c:if>
-							</c:forEach>
-							<li>重量： ${shopCommoidty.probablyWeight }</li>
-							<li>度数：${shopCommoidty.commAttribute.alcoholDegree}°</li>
-							<li>年份：${shopCommoidty.commAttribute.particularYear}年</li>
-							<li>保质期：${shopCommoidty.commAttribute.deadline}</li>
-							<li>储藏方法：${shopCommoidty.commAttribute.stockWay}</li>
-							<li>食品添加剂：${shopCommoidty.commAttribute.foodAdditive}</li>
-							<li>产地：${shopCommoidty.commAttribute.productPlace}</li>
-							<li>省份：${shopCommoidty.commAttribute.productProvince}</li>
-							<li>包装：${shopCommoidty.commAttribute.packManner}</li>
-							<li>配料：${shopCommoidty.commAttribute.mixtureSheet}</li>
-							<li>醒酒时间：${shopCommoidty.commAttribute.soberTime}</li>
-							<li>饮用温度：${shopCommoidty.commAttribute.drinkTemperature}</li>
-							<li>生产许可编号：${shopCommoidty.commAttribute.productPerimitNum}</li>
-							<li>生产标准号：${shopCommoidty.commAttribute.productStddNum}</li>
-							<li>生产厂名：${shopCommoidty.commAttribute.productFactoryName}</li>
-							<li>生产工厂地址：${shopCommoidty.commAttribute.productFactoryAddress}</li>
-							<li>生产时期：${shopCommoidty.commAttribute.productTime}</li>
-						</ul>
-					</div>
-
-					<div class="shop_banner">
-						<img src="content/static/img/shop/1.jpg" /> <img
-							src="content/static/img/shop/2.jpg" />
-					</div>
-					<div class="description"></div>
-				</div>
-				<!--评价-->
-				<c:set value="0" var="hao"></c:set>
-				<c:set value="0" var="zhong"></c:set>
-				<c:set value="0" var="cha"></c:set>
-				<div class="eval">
-					<div class="general feature_tour">
-						<div class="middle">
-							<div class="wrapper">
-								<div class="tab">
-									<a href="#" class="current" style="">全部（<c:out
-											value="${hao+zhong+cha }"></c:out>）
-									</a><a href="#">好评（${hao }）</a><a href="#">中评（${zhong }）</a><a
-										href="#">差评（${cha }）</a>
-								</div>
-								<div class="mask">
-									<div class="maskCon">
-										<div id="con1" class="innerCon">
-											<div class="eval_list">
-												<c:forEach items="${reviewslist }" var="review">
-													<ul class="comments-item">
-														<li><label style="margin-left: 20px; float: left;">
-																<c:if test="${review.reviewsRank == 'good' }">好评</c:if>
-																<c:if test="${review.reviewsRank == 'better' }">中评</c:if>
-																<c:if test="${review.reviewsRank == 'bad' }">差评</c:if>
-														</label></li>
-														<li>
-															<div style="float: left;">${review.reviews }</div>
-														</li>
-														<li>
-															<div>买家 ： ${review.user.userName }</div>
-															<div
-																style="float: left; margin-left: 100px; color: #ccc;">[${review.reviewsdate }
-																${review.reviewTime }]</div>
-														</li>
-													</ul>
-												</c:forEach>
-											</div>
-										</div>
-										<div id="con2" class="innerCon">
-											<div class="eval_list">
-												<c:forEach items="${reviewslist }" var="review">
-													<c:if test="${review.reviewsRank == 'good' }">
-														<ul class="comments-item">
-															<li><label style="margin-left: 20px; float: left;">
-																	<c:if test="${review.reviewsRank == 'good' }">好评</c:if>
-															</label></li>
-															<li>
-																<div style="float: left;">${review.reviews }</div>
-															</li>
-															<li>
-																<div>买家 ： ${review.user.userName }</div>
-																<div
-																	style="float: left; margin-left: 100px; color: #ccc;">[${review.reviewsdate }
-																	${review.reviewTime }]</div>
-															</li>
-														</ul>
-													</c:if>
-												</c:forEach>
-											</div>
-										</div>
-										<div id="con3" class="innerCon">
-											<div class="eval_list">
-												<c:forEach items="${reviewslist }" var="review">
-													<c:if test="${review.reviewsRank == 'better' }">
-														<ul class="comments-item">
-															<li><label style="margin-left: 20px; float: left;">
-																	<c:if test="${review.reviewsRank == 'better' }">中评</c:if>
-															</label></li>
-															<li>
-																<div style="float: left;">${review.reviews }</div>
-															</li>
-															<li>
-																<div>买家 ： ${review.user.userName }</div>
-																<div
-																	style="float: left; margin-left: 100px; color: #ccc;">[${review.reviewsdate }
-																	${review.reviewTime }]</div>
-															</li>
-														</ul>
-													</c:if>
-												</c:forEach>
-											</div>
-										</div>
-										<div id="con4" class="innerCon">
-											<div class="eval_list">
-												<c:forEach items="${reviewslist }" var="review">
-													<c:if test="${review.reviewsRank == 'bad' }">
-														<ul class="comments-item">
-															<li><label style="margin-left: 20px; float: left;">
-																	<c:if test="${review.reviewsRank == 'bad' }">差评</c:if>
-															</label></li>
-															<li>
-																<div style="float: left;">${review.reviews }</div>
-															</li>
-															<li>
-																<div>买家 ： ${review.user.userName }</div>
-																<div
-																	style="float: left; margin-left: 100px; color: #ccc;">[${review.reviewsdate }
-																	${review.reviewTime }]</div>
-															</li>
-														</ul>
-													</c:if>
-												</c:forEach>
-											</div>
-										</div>
-									</div>
-								</div>
+			<!--商品购买-->
+			<div class="produta_info_all">
+				<ul>
+					<li><h1>${shopCommoidty.commoidtyName }</h1></li>
+					<input id="commID" type="hidden" value="${shopCommoidty.commCode }" />
+					<li><p>
+							<span class="proinfo_til">原价</span><span>¥${shopCommoidty.unitPrice }</span>
+						</p></li>
+					<li class="produta_info_red"><p>
+							<span class="proinfo_til">现价:</span><span> ¥ <c:if
+									test="${shopCommoidty.isSpecial }">
+									<fmt:formatNumber
+										value="${shopCommoidty.unitPrice * shopCommoidty.special  }"
+										pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+								</c:if> <c:if test="${!shopCommoidty.isSpecial }">
+									<fmt:formatNumber value="${shopCommoidty.unitPrice }"
+										pattern="##.##" minFractionDigits="2">
+									</fmt:formatNumber>
+								</c:if></span>
+						</p></li>
+					<li class="produta_info_red"><p>
+							<span class="proinfo_til" style="margin-top: 10px;">我 要 买：</span>
+							<div class="libgc ml6mr6">
+								<input class="icon-cut" type="button" /> <input id="qty0"
+									type="text" _minsaleqty="1" value="1" isfcl="0"
+									name="input_catalog_qtc" /> <input class="icon-add"
+									type="button" />
+								<button
+									style="border: none; background-color: #F47469; color: #fff; padding: 3px 10px; border-radius: 3px; margin-left: 10px;"
+									onclick="buyCommodity();">立即购买</button>
 							</div>
-						</div>
-					</div>
-					<div class="eval_fy"></div>
-				</div>
-			</div>
-			<!--右侧商品推荐-->
-			<div class="shop_recommend">
-				<div class="mt">
-					<h2>热门销售</h2>
-				</div>
-				<div class="mc">
-					<ul>
-						<li style="border-top: none;">
-							<div class="mc_img">
-								<a href="javascript:void(0);"><img src="images/jiu7.jpg"></a>
-							</div>
-							<div class="mc_name">
-								<a href="javascript:void(0);">澳大利亚 黄尾袋鼠梅洛红葡萄酒 2014 进口红酒</a>
-							</div>
-							<div class="mc_price">
-								<strong class="mc_1">￥50.00</strong>
-							</div>
-						</li>
-						<li>
-							<div class="mc_img">
-								<a href="javascript:void(0);"><img src="images/jiu7.jpg"></a>
-							</div>
-							<div class="mc_name">
-								<a href="javascript:void(0);">澳大利亚 黄尾袋鼠梅洛红葡萄酒 2014 进口红酒</a>
-							</div>
-							<div class="mc_price">
-								<strong class="mc_1">￥50.00</strong>
-							</div>
-						</li>
-						<li>
-							<div class="mc_img">
-								<a href="javascript:void(0);"><img src="images/jiu7.jpg"></a>
-							</div>
-							<div class="mc_name">
-								<a href="javascript:void(0);">澳大利亚 黄尾袋鼠梅洛红葡萄酒 2014 进口红酒</a>
-							</div>
-							<div class="mc_price">
-								<strong class="mc_1">￥50.00</strong>
-							</div>
-						</li>
-						<li>
-							<div class="mc_img">
-								<a href="javascript:void(0);"><img src="images/jiu7.jpg"></a>
-							</div>
-							<div class="mc_name">
-								<a href="javascript:void(0);">澳大利亚 黄尾袋鼠梅洛红葡萄酒 2014 进口红酒</a>
-							</div>
-							<div class="mc_price">
-								<strong class="mc_1">￥50.00</strong>
-							</div>
-						</li>
-					</ul>
-				</div>
+							<a class="shop_car1" onclick="buyCat();"></a>
+						</p></li>
+					<li><script type="text/javascript">
+						bShareOpt = {
+							uuid : "",
+							url : "", //商品的永久链接
+							summary : "", //商品描述
+							pic : "", //商品图片链接
+							vUid : "", //用户id，为了让您能够知道您网站的注册用户分享、喜欢了哪些商品
+							product : "", //商品名称
+							price : "0", //商品价格
+							brand : "", //商品品牌
+							tag : "", //商品标签
+							category : "", //商品分类
+							template : "1"
+						};
+					</script> <a class="bsLikeDiv" href="http://static.bshare.cn"></a> <script
+							type="text/javascript" charset="utf-8"
+							src="http://static.bshare.cn/b/bshareLike.js#amp;showShareCount=false"></script>
+						<div class="bshare-custom icon" style="float: left;">
+							<a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博"
+								class="bshare-sinaminiblog"></a><a title="分享到人人网"
+								class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a
+								title="分享到搜狐微博" class="bshare-sohuminiblog"></a>
+						</div> <script type="text/javascript" charset="utf-8"
+							src="http://static.bshare.cn/b/button.js#style=-1&amp;ssc=false&amp;mdiv=-1&amp;type=15"></script>
+						<script type="text/javascript" charset="utf-8"
+							src="http://static.bshare.cn/b/bshareC1.js"></script></li>
+				</ul>
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			function buyCommodity() {
+				var commID = $('#commID').val();
+				var buyAmount = $('#qty0').val();
+				location.href = 'user/buyCommodity?shopCommId=' + commID
+						+ '&buyAmount=' + buyAmount;
+			}
+			function buyCat() {
+				var commID = $('#commID').val();
+				var buyAmount = $('#qty0').val();
+				jQuery.ajax({
+					type : 'GET',
+					contentType : 'application/json',
+					url : 'toJsonFmatUtil/addBuyCar?shopCommId=' + commID
+							+ '&buyAmount=' + buyAmount,
+					dataType : 'json',
+					success : function(data) {
+						if (data.message == 'success') {
+							alert("添加成功");
+							jQuery.ajax({
+								type : 'GET',
+								contentType : 'application/json',
+								url : 'toJsonFmatUtil/getBuyCatNum',
+								dataType : 'json',
+								success : function(data) {
+									if (data.success == 'true') {
+										if (data.buyCar != '') {
+											$('#buyCatNum').html(
+													"购物车(" + data.num + ")");
+											alert(data.buyCar.carCommodities);
+											//						 						$.each(data.buyCars,function(i, buyCar) {
+
+											//						 						});
+										}
+										$('#buyCatNum').html(
+												"购物车(" + data.num + ")");
+									}
+								}
+							});
+						} else if (data.message == 'existed') {
+							alert("再次添加成功");
+							jQuery.ajax({
+								type : 'GET',
+								contentType : 'application/json',
+								url : 'toJsonFmatUtil/getBuyCatNum',
+								dataType : 'json',
+								success : function(data) {
+									if (data.success == 'true') {
+										if (data.buyCar != '') {
+											$('#buyCatNum').html(
+													"购物车(" + data.num + ")");
+											alert(data.buyCar.carCommodities);
+											//						 						$.each(data.buyCars,function(i, buyCar) {
+
+											//						 						});
+										}
+										$('#buyCatNum').html(
+												"购物车(" + data.num + ")");
+									}
+								}
+							});
+						} else if (data.message == "nouser") {
+							if (confirm('您还没有登录哦！')) {
+								var url = "user/regist";
+								window.location = url;
+							}
+						}
+					}
+				});
+			}
+		</script>
+
+		<!--商品参数详情-->
+		<div class="produta_deta">
+			<ul class="produta_deta_til">
+				<li class="produtadtt_omc">商品详情</li>
+			</ul>
+			<div class="produta_deta_all">
+				<div class="guige">
+					<span>商品信息：<a href="javascript:void(0);">${shopCommoidty.brand.brandName }</a></span>
+					<ul>
+						<c:forEach items="${map }" var="keySet">
+							<c:if test="${keySet.key == '颜色' }">
+								<div class="choice_color">
+									颜色：
+									<c:forEach items="${keySet.value }" var="spec">
+										<c:set var="index1" value="${fn:indexOf(spec, '$') }"></c:set>
+										<c:set var="index2" value="${fn:length(spec) }"></c:set>
+										<li><img src="${fn:substring(spec, index1+1, index2)}" /></span>
+									</c:forEach>
+								</div>
+							</c:if>
+							<c:if test="${keySet.key != '颜色' }">
+								<div class="choice_cm">
+									<c:forEach items="${keySet.value }" var="spec">
+										<li>${keySet.key }：${spec }</li>
+									</c:forEach>
+								</div>
+							</c:if>
+						</c:forEach>
+						<li>重量： ${shopCommoidty.probablyWeight }</li>
+						<li>年份：${shopCommoidty.commAttribute.particularYear}年</li>
+						<li>保质期：${shopCommoidty.commAttribute.deadline}</li>
+						<li>产地：${shopCommoidty.commAttribute.productPlace}</li>
+						<li>省份：${shopCommoidty.commAttribute.productProvince}</li>
+						<li>包装：${shopCommoidty.commAttribute.packManner}</li>
+						<li>生产许可编号：${shopCommoidty.commAttribute.productPerimitNum}</li>
+						<li>生产标准号：${shopCommoidty.commAttribute.productStddNum}</li>
+						<li>生产厂名：${shopCommoidty.commAttribute.productFactoryName}</li>
+						<li>生产工厂地址：${shopCommoidty.commAttribute.productFactoryAddress}</li>
+						<li>生产时期：${shopCommoidty.commAttribute.productTime}</li>
+					</ul>
+				</div>
+
+				<div class="shop_banner">
+					<img src="content/static/img/shop/1.jpg" /> <img
+						src="content/static/img/shop/2.jpg" />
+				</div>
+				<div class="description"></div>
+			</div>
+		</div>
+		<div class="cl"></div>
 	</div>
+	<!--评价-->
 	<jsp:include page="../frontDesk/foot.jsp" />
 </body>
 </html>

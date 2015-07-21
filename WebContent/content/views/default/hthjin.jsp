@@ -17,9 +17,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"/>
 <title>华腾汇金</title> 
 <link rel="stylesheet" type="text/css" href="content/static/css/style.css"/>
-<script src="content/static/js/tumbler/jquery-1.4.2.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="content/static/js/tumbler/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="content/static/js/tumbler/jquery.SuperSlide.2.1.1.js"></script>
+<script src="content/static/js/hthjin/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="content/static/js/hthjin/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="content/static/js/hthjin/jquery.SuperSlide.2.1.1.js"></script>
 <script type="text/javascript">
 		$(document).ready(function() {		
         $("#oul").children(this).children($("#oul").children(this)).hover(function(){
@@ -105,9 +105,9 @@ $(document).ready(function(){
     	<div class="zi">产品中心</div>
    		<ul id="oul">
         	<a href="mianhua.html"><li style="margin-left:46px;"><div class="img1"></div><p>棉花</p></li></a>
-            <a href="nong.html"><li><div class="img2"></div><p>农副产品</p></li></a>
-            <a href="jia.html"><li><div class="img3"></div><p>家电百货</p></li></a>
-            <a href="liang.html"><li><div class="img4"></div><p>粮食</p></li></a>
+            <a href="search/cateComm?cateid=2"><li><div class="img2"></div><p>农副产品</p></li></a>
+            <a href="search/cateComm?cateid=3"><li><div class="img3"></div><p>家电百货</p></li></a>
+            <a href="search/cateComm?cateid=4"><li><div class="img4"></div><p>粮食</p></li></a>
             <a href="productCenter/shopIndex"><li><div class="img5"></div><p>产品中心>></p></li></a>
         </ul>
     </div>

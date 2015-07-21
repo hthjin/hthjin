@@ -117,7 +117,7 @@ public interface IShopCommodityService extends IGenericService<ShopCommodity> {
 
 	/***
 	 * 通过 规格、价格区段、一级类别ID、品牌ID查询商品
-	 * @param map specs %,xx,%@%,xx,%规格、  money xxx@xxx价格区间段、 id 一级类别ID、 brand (xxx,xxx) 品牌ID
+	 * @param map specs %,xx,%@%,xx,%规格、  money xxx@xxx价格区间段、 cateid 一级类别ID、 brand (xxx,xxx) 品牌ID
 	 * @param page special 折扣商品查询  brand品牌商品查询
 	 * @return
 	 */

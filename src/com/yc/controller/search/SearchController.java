@@ -102,12 +102,12 @@ public class SearchController {
 			mode.put("list", lists);
 		}
 		if (cate != null) {
-			if (cate.getParentLevel().getParentLevel().getCategoryID() == 1) {
+			if (cate.getParentLevel().getCategoryID() == 1) {
 				List<FamousManor> famousManors =  famousManorService.getAll();
 				mode.put("famousManors", famousManors);
 			}
-			mode.put("brands", cate.getParentLevel().getParentLevel().getBrands());
-			mode.put("specifications", cate.getParentLevel().getParentLevel().getSpecifications());
+			mode.put("brands", cate.getParentLevel().getBrands());
+			mode.put("specifications", cate.getParentLevel().getSpecifications());
 			shopcates.add(cate);
 			while (cate.getParentLevel() != null) {
 				cate = shopCategService.findById(cate.getParentLevel().getCategoryID());
@@ -284,4 +284,16 @@ public class SearchController {
 		return new ModelAndView("search/result", mode);
 	}
 
+	@RequestMapping(value = "cateComm", method =RequestMethod.GET)
+	public ModelAndView cateComm(Integer cateid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ShopCategory cate = shopCategService.findById(cateid);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cateid", cateid);
+		List<ShopCommodity> list = shopCommService.getAllByParamsForParent(map, new String());
+		ModelMap mode = new ModelMap();
+		mode.put("list", list);
+		mode.put("cate", cate);
+		return new ModelAndView("search/yijiresult", mode);
+	}
+	
 }
