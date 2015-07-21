@@ -131,19 +131,22 @@
     <script type="text/javascript">
     //定义验证方法
 				 function checkOldPwd(){
+					 	$.ajaxSettings.async = false;
+					 	var isok ;
 				       	 $.getJSON(
 				       		  "toJsonFmatUtil/checkOldPwd",
 				       		  {
-				       			loginName: "18010036890",pwd:"0000"
+				       			loginName: "18010036890",pwd:"000000"
 				       		   }, function(json) {
 				       			   if(json.appUser==null){
 				       			    $(".indivters_pass ul li:first").children().last().text("原密码不正确");
-				       			     return false;
+				       			 isok = false;
 				       			   }else{
 				       				$(".indivters_pass ul li:first").children().last().text(""); 
-				       			    return true;
+				       			       isok =  true;
 				       			   }
 				       		 });
+				       	 return isok;
 				   }
                   function checkNewPwd(){
                 	  var newPwd=$(".indivters_pass ul li").eq(1).children().next().val();
@@ -168,13 +171,13 @@
 				  }
       $(function(){
               //绑定失去焦点事件
-//               $(".indivters_pass ul li:first").children().eq(1).blur(checkOldPwd);
+              $(".indivters_pass ul li:first").children().eq(1).blur(checkOldPwd);
               $(".indivters_pass ul li").eq(1).children().eq(1).blur(checkNewPwd);
               $(".indivters_pass ul li").eq(2).children().eq(1).blur(checkRePwd);
     	       //提交按钮,所有验证通过方可提交
                $("#myform").submit(function(){
             	   var flag=true;
-//             	   if(!checkOldPwd()) flag=false;
+            	   if(!checkOldPwd()) flag=false;
             	   if(!checkNewPwd()) flag=false;
             	   if(!checkRePwd()) flag=false;
             	   return flag;
