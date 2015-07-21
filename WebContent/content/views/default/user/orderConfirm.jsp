@@ -60,7 +60,37 @@
 								<option value="${address.id }"
 									<c:if test="${address.theDefault == true }">selected</c:if>>${address.toName }</option>
 							</c:forEach>
-						</select> <a href="javascript:void(0);"><font color="blue">使用新地址</font></a>
+						</select><br /> <input type="radio" name="idendity" onclick="down(this,n1)" class="new"  style="margin-left:50px; margin-bottom:10px;"/>新地址<br /> 
+						<div  id="n1" style="display:none;">
+                    <form>
+                          <div class="replay">
+                           <a href="#"><div >[删除]</div></a>
+                           <a href="#"><div >[修改]</div></a>
+                          </div>
+                    	收件人：&nbsp;&nbsp;&nbsp;<input  type="text"/><br />
+                        地&nbsp;&nbsp;区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select style="margin-top:10px; margin-bottom:10px;">
+                            	<option>请选择</option>
+                                <option>四川</option>
+                                <option>新疆</option>
+                            </select>
+                            <select>
+                            	<option>请选择</option>
+                                <option>成都</option>
+                                <option>乌鲁木齐</option>
+                            </select>
+                            <select>
+                            	<option>请选择</option>
+                                <option>新市区</option>
+                                <option>武侯区</option>
+                            </select><br />
+                        详细地址：<textarea style="width:300px; height:20px;"></textarea><br />
+                        邮政编码：<input type="text" /><br />
+                        手机号码：<input type="tel" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;固定电话：<input type="tel" /><br />
+                        <input type="checkbox" style="margin-top:25px;" />添加到常用地址薄<br />
+                        <input type="checkbox" />设置为默认地址<br />
+                        <a> <div class="submit" onclick="up(this,n1)">确认收货人信息</div></a>
+                        </form>
+                    </div>
 					</p>
 					<p class="shcaadds" id="addressShow"></p>
 					<div class="cl"></div>
@@ -139,22 +169,18 @@
 			</div>
 
 			<div class="way">
-				<div class="zi">配送方式</div>
-				<hr />
-				<div class="first">
-					<div class="ff">配送方式：</div>
-					<div class="border1" id="border">快递</div>
-				</div>
-				<div class="second">
-					<div class="time">收货时间：</div>
-					<div class="border">
-						<ul>
-							<li id="li1">工作日、双休日与节假日均可送货</li>
-							<li id="li2">只双休日、有假日送货（工作日不送货）</li>
-							<li id="li3">只有工作日送货（双休日、节假日不送货）</li>
-						</ul>
-					</div>
-				</div>
+				<div style="font-size:20px;margin-top:20px;"><b>配送方式</b></div>
+				<form>
+                <div style="border-bottom:1px #CCCCCC dotted; width:700px; margin-top:10px;">送货方式</div>
+                <div> <input type="radio" style="margin-bottom:10px;" />快递<br /></div>
+                <div class="new1" style="border-bottom:1px #CCCCCC dotted; margin-bottom:10px; color:#f47469; width:700px;" onclick="down(this,n2)" ><a style="color:red">【点击选择送货时间】</a></div>
+                <div id="n2" style="display:none;">
+                 <input type="radio" name="week" />工作日、双休日与假日均可送货<br />
+                 <input type="radio" name="week" />只有双休日、假日送货（工作日不用送货）<br />
+                 <input type="radio" name="week"/>只有工作日送货（双休日、假日不用送） 写字楼/商用地址客户选择<br />
+                <a> <div class="submit"  onclick="up(this,n2)">确认配送方式</div> </a>  
+                </div>
+                </form>
 			</div>
 			<div class="list">
             	<div style="font-size:20px; margin-top:20px;  float:left;"><b>商品清单</b></div>
@@ -223,18 +249,19 @@
 				</div>
 				<div style="margin-left:618px; margin-top:10px;">
 					<div >
-						<span>您共需支付：</span> <span class="ap1">￥<fmt:formatNumber
+						 <p>您共需支付：</p> <span class="ap1">￥<fmt:formatNumber
 								value="${zhongliang * 6 + jine}" pattern="##.##"
 								minFractionDigits="2"></fmt:formatNumber></span>
 					</div>
 				</div>
 				<div style="margin-left:618px; margin-top:10px;">
-					<a href="javascript:void(0);" onclick="orderGenerate();"><div
-							class="btn">提交订单</div></a>
-					<div class="tatle3">
-						<span>应付金额：</span> <span class="ap1">￥<fmt:formatNumber
+					<a href="javascript:void(0);" onclick="orderGenerate();" >
+						<div id="jiesuan"style="margin-right:200px;"class="btn">提交订单</div>
+					</a> 
+					<div class="tatle3" style="border:1px red solid;">
+						<p>应付金额：</span> <span class="ap1">￥<fmt:formatNumber
 								value="${zhongliang * 6 + jine}" pattern="##.##"
-								minFractionDigits="2"></fmt:formatNumber></span>
+								minFractionDigits="2"></fmt:formatNumber></p>
 					</div>
 				</div>
 			</div>
@@ -357,5 +384,15 @@
 
 		}
 	</script>
+	<script>
+	function down(div3,div4){
+		div4.style.display="inline";
+		}
+</script>
+<script>
+	function up(div3,div4){
+		div4.style.display="none";
+		}
+</script>
 </body>
 </html>
