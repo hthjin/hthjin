@@ -974,51 +974,51 @@ public class ShopOneController {
 		return new ModelAndView("setupShop/accountManage", mode);
 	}
 
-	// 新增收货地址：
-	@RequestMapping("saveAddress")
-	public ModelAndView saveAddress(HttpServletRequest req) {
-		ModelMap mode = new ModelMap();
-		// /**
-		// * 以下两句为模拟shop，表示已经存在shop对象。
-		// */
-		// Shop shop = shopService.findById(1);
-		// req.getSession().setAttribute("shop", shop);
-		Shop shop = (Shop) req.getSession().getAttribute("shop");
-		mode.put("shop", shop);
-		String toName = req.getParameter("toName");
-		String toEmail = req.getParameter("toEmail");
-		String street = req.getParameter("street");
-		String phone = req.getParameter("phone");
-		String province = req.getParameter("province");
-		String city = req.getParameter("city");
-		String area = req.getParameter("area");
-		String defaults = req.getParameter("default");
-		Address address = new Address();
-		address.setToEmail(toEmail);
-		address.setToName(toName);
-		address.setOther(street);
-		address.setPhone(phone);
-		address.setProvience(province);
-		address.setCity(city);
-		address.setDistrict(area);
-		// 设置默认地址
-		if (defaults != null) {
-			List<Address> addresses = addressService.getAll();
-			for (int i = 0; i < addresses.size(); i++) {
-				if (addresses.get(i).getTheDefault()) {
-					addresses.get(i).setTheDefault(false);
-				}
-			}
-			address.setTheDefault(true);
-		} else {
-			address.setTheDefault(false);
-		}
-		addressService.save(address);
-		List<Address> addresses = addressService.getAll();
-		mode.put("addresses", addresses);
-
-		return new ModelAndView("redirect:accountManage", mode);
-	}
+//	// 新增收货地址：
+//	@RequestMapping("saveAddress")
+//	public ModelAndView saveAddress(HttpServletRequest req) {
+//		ModelMap mode = new ModelMap();
+//		// /**
+//		// * 以下两句为模拟shop，表示已经存在shop对象。
+//		// */
+//		// Shop shop = shopService.findById(1);
+//		// req.getSession().setAttribute("shop", shop);
+//		Shop shop = (Shop) req.getSession().getAttribute("shop");
+//		mode.put("shop", shop);
+//		String toName = req.getParameter("toName");
+//		String toEmail = req.getParameter("toEmail");
+//		String street = req.getParameter("street");
+//		String phone = req.getParameter("phone");
+//		String province = req.getParameter("province");
+//		String city = req.getParameter("city");
+//		String area = req.getParameter("area");
+//		String defaults = req.getParameter("default");
+//		Address address = new Address();
+//		address.setToEmail(toEmail);
+//		address.setToName(toName);
+//		address.setOther(street);
+//		address.setPhone(phone);
+//		address.setProvience(province);
+//		address.setCity(city);
+//		address.setDistrict(area);
+//		// 设置默认地址
+//		if (defaults != null) {
+//			List<Address> addresses = addressService.getAll();
+//			for (int i = 0; i < addresses.size(); i++) {
+//				if (addresses.get(i).getTheDefault()) {
+//					addresses.get(i).setTheDefault(false);
+//				}
+//			}
+//			address.setTheDefault(true);
+//		} else {
+//			address.setTheDefault(false);
+//		}
+//		addressService.save(address);
+//		List<Address> addresses = addressService.getAll();
+//		mode.put("addresses", addresses);
+//
+//		return new ModelAndView("redirect:accountManage", mode);
+//	}
 
 	// 传递到修改收货信息页面
 	@RequestMapping("modAddress")
@@ -1037,51 +1037,51 @@ public class ShopOneController {
 		return new ModelAndView("setupShop/modAddress", mode);
 	}
 
-	// 修改一条收货信息
-	@RequestMapping("modAddressInfo")
-	public ModelAndView modAddressInfo(HttpServletRequest req) {
-		ModelMap mode = new ModelMap();
-		// /**
-		// * 以下两句为模拟shop，表示已经存在shop对象。
-		// */
-		// Shop shop = shopService.findById(1);
-		// req.getSession().setAttribute("shop", shop);
-		Shop shop = (Shop) req.getSession().getAttribute("shop");
-		mode.put("shop", shop);
-		Integer aid = Integer.parseInt(req.getParameter("aid"));
-		Address address = addressService.findById(aid);
-		String toName = req.getParameter("toName");
-		String toEmail = req.getParameter("toEmail");
-		String street = req.getParameter("street");
-		String phone = req.getParameter("phone");
-		String province = req.getParameter("province");
-		String city = req.getParameter("city");
-		String area = req.getParameter("area");
-		String defaults = req.getParameter("default");
-		address.setToEmail(toEmail);
-		address.setToName(toName);
-		address.setOther(street);
-		address.setPhone(phone);
-		address.setProvience(province);
-		address.setCity(city);
-		address.setDistrict(area);
-		// 设置默认地址
-		if (defaults != null) {
-			List<Address> addresses = addressService.getAll();
-			for (int i = 0; i < addresses.size(); i++) {
-				if (addresses.get(i).getTheDefault()) {
-					addresses.get(i).setTheDefault(false);
-				}
-			}
-			address.setTheDefault(true);
-		} else {
-			address.setTheDefault(false);
-		}
-		addressService.save(address);
-		List<Address> addresses = addressService.getAll();
-		mode.put("addresses", addresses);
-		return new ModelAndView("redirect:accountManage", mode);
-	}
+//	// 修改一条收货信息
+//	@RequestMapping("modAddressInfo")
+//	public ModelAndView modAddressInfo(HttpServletRequest req) {
+//		ModelMap mode = new ModelMap();
+//		// /**
+//		// * 以下两句为模拟shop，表示已经存在shop对象。
+//		// */
+//		// Shop shop = shopService.findById(1);
+//		// req.getSession().setAttribute("shop", shop);
+//		Shop shop = (Shop) req.getSession().getAttribute("shop");
+//		mode.put("shop", shop);
+//		Integer aid = Integer.parseInt(req.getParameter("aid"));
+//		Address address = addressService.findById(aid);
+//		String toName = req.getParameter("toName");
+//		String toEmail = req.getParameter("toEmail");
+//		String street = req.getParameter("street");
+//		String phone = req.getParameter("phone");
+//		String province = req.getParameter("province");
+//		String city = req.getParameter("city");
+//		String area = req.getParameter("area");
+//		String defaults = req.getParameter("default");
+//		address.setToEmail(toEmail);
+//		address.setToName(toName);
+//		address.setOther(street);
+//		address.setPhone(phone);
+//		address.setProvience(province);
+//		address.setCity(city);
+//		address.setDistrict(area);
+//		// 设置默认地址
+//		if (defaults != null) {
+//			List<Address> addresses = addressService.getAll();
+//			for (int i = 0; i < addresses.size(); i++) {
+//				if (addresses.get(i).getTheDefault()) {
+//					addresses.get(i).setTheDefault(false);
+//				}
+//			}
+//			address.setTheDefault(true);
+//		} else {
+//			address.setTheDefault(false);
+//		}
+//		addressService.save(address);
+//		List<Address> addresses = addressService.getAll();
+//		mode.put("addresses", addresses);
+//		return new ModelAndView("redirect:accountManage", mode);
+//	}
 
 	// 删除一条收货地址信息
 	@RequestMapping("delAddress")
@@ -1101,31 +1101,31 @@ public class ShopOneController {
 		return new ModelAndView("redirect:accountManage", mode);
 	}
 
-	// 设为默认地址
-	@RequestMapping("setDefaultAddress")
-	public ModelAndView setDefaultAddress(HttpServletRequest req) {
-		ModelMap mode = new ModelMap();
-		// /**
-		// * 以下两句为模拟shop，表示已经存在shop对象。
-		// */
-		// Shop shop = shopService.findById(1);
-		// req.getSession().setAttribute("shop", shop);
-		Shop shop = (Shop) req.getSession().getAttribute("shop");
-		mode.put("shop", shop);
-		// 消除默认地址
-		List<Address> allAddress = addressService.getAll();
-		for (int i = 0; i < allAddress.size(); i++) {
-			if (allAddress.get(i).getTheDefault()) {
-				allAddress.get(i).setTheDefault(false);
-			}
-		}
-		Integer aid = Integer.parseInt(req.getParameter("aid"));
-		Address address = addressService.findById(aid);
-		address.setTheDefault(true);
-		List<Address> addresses = addressService.getAll();
-		mode.put("addresses", addresses);
-		return new ModelAndView("redirect:accountManage", mode);
-	}
+//	// 设为默认地址
+//	@RequestMapping("setDefaultAddress")
+//	public ModelAndView setDefaultAddress(HttpServletRequest req) {
+//		ModelMap mode = new ModelMap();
+//		// /**
+//		// * 以下两句为模拟shop，表示已经存在shop对象。
+//		// */
+//		// Shop shop = shopService.findById(1);
+//		// req.getSession().setAttribute("shop", shop);
+//		Shop shop = (Shop) req.getSession().getAttribute("shop");
+//		mode.put("shop", shop);
+//		// 消除默认地址
+//		List<Address> allAddress = addressService.getAll();
+//		for (int i = 0; i < allAddress.size(); i++) {
+//			if (allAddress.get(i).getTheDefault()) {
+//				allAddress.get(i).setTheDefault(false);
+//			}
+//		}
+//		Integer aid = Integer.parseInt(req.getParameter("aid"));
+//		Address address = addressService.findById(aid);
+//		address.setTheDefault(true);
+//		List<Address> addresses = addressService.getAll();
+//		mode.put("addresses", addresses);
+//		return new ModelAndView("redirect:accountManage", mode);
+//	}
 
 	// 商家评论用户：
 	@RequestMapping("evaluteUser")

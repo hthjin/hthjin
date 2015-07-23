@@ -104,7 +104,7 @@ $(document).ready(function(){
 	<div class="box">
     	<div class="zi">产品中心</div>
    		<ul id="oul">
-        	<a href="mianhua.html"><li style="margin-left:46px;"><div class="img1"></div><p>棉花</p></li></a>
+        	<a href="productCenter/cottonFactory?cottonType=-1"><li style="margin-left:46px;"><div class="img1"></div><p>棉花</p></li></a>
             <a href="search/cateComm?cateid=2"><li><div class="img2"></div><p>农副产品</p></li></a>
             <a href="search/cateComm?cateid=3"><li><div class="img3"></div><p>家电百货</p></li></a>
             <a href="search/cateComm?cateid=4"><li><div class="img4"></div><p>粮食</p></li></a>

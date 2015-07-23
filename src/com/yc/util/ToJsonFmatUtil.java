@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yc.controller.user.UserController;
 import com.yc.entity.AdvertiseDistribution;
 import com.yc.entity.Advertisement;
 import com.yc.entity.CarCommodity;
@@ -31,6 +32,7 @@ import com.yc.entity.user.AppUser;
 import com.yc.model.CarCommdityModel;
 import com.yc.service.IAdvertisementDistributionService;
 import com.yc.service.IAdvertisementService;
+import com.yc.service.IAppUserService;
 import com.yc.service.IBuyCarService;
 import com.yc.service.ICarCommodityService;
 import com.yc.service.ICollectionService;
@@ -44,6 +46,9 @@ public class ToJsonFmatUtil {
 
 	@Autowired
 	IAdvertisementDistributionService adverDistributionService;
+	
+	@Autowired
+	IAppUserService appUserService;
 
 	@Autowired
 	IAdvertisementService advertisementService;
@@ -228,4 +233,28 @@ public class ToJsonFmatUtil {
 			return mode;
 		}
 	}
+	
+	/**
+	 * 验证原密码
+	 * @param whichPage
+	 * @param request
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "checkOldPwd", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> checkOldPwd(String loginName,String pwd,HttpServletRequest request) throws ServletException, IOException {
+		ModelMap mode=new ModelMap();
+		String rPwd = UserController.KL(UserController.JM(UserController.KL(UserController.MD5(pwd))));
+		System.out.println("rPwd===="+rPwd);
+		AppUser appUser=appUserService.getUser(loginName);
+		String checkPwd=appUser.getPassword();
+		System.out.println("checkPwd===="+checkPwd);
+		if(rPwd.equals(checkPwd)){
+			 mode.put("appUser", appUser);
+		}
+		return mode;
+	}
+	
 }

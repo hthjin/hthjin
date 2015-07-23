@@ -346,5 +346,32 @@ public class OrderFormService extends GenericService<OrderForm> implements IOrde
 		return orderFormDao.find(hql, null, null);
 	}
 
+	/* (non-Javadoc)
+	 * 正在处理的订单查询
+	 * @see com.yc.service.IOrderFormService#findUnderWay()
+	 */
+	@Override
+	public List<OrderForm> findUnderWay() {
+		StringBuffer hql=new StringBuffer("SELECT * FROM orderform  o WHERE o.orderstatus  NOT IN ('completionTransaction','refundSuccess','refundFailed','closeTransaction')");
+		Query query =  orderFormDao.getEntityManager().createNativeQuery(hql.toString(), OrderForm.class);
+		@SuppressWarnings("unchecked")
+		List<OrderForm> orderForms=query.getResultList();
+		return orderForms;
+	}
+
+	/* (non-Javadoc)
+	 * 完成的订单查询
+	 * @see com.yc.service.IOrderFormService#findcomOrderForm()
+	 */
+	@Override
+	public List<OrderForm> findcomOrderForm(String sysTime, String beforeTime) {
+		StringBuffer hql=new StringBuffer("SELECT * FROM orderform  o WHERE o.orderstatus IN ('completionTransaction') AND o.orderDate BETWEEN '"+beforeTime+"' AND '"+sysTime+"'");
+		Query query =  orderFormDao.getEntityManager().createNativeQuery(hql.toString(), OrderForm.class);
+		@SuppressWarnings("unchecked")
+		List<OrderForm> orderFormList=query.getResultList();
+		return orderFormList;
+	}
+
+
 
 }

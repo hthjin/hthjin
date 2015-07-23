@@ -91,8 +91,8 @@ public class BuyCarController {
 	@RequestMapping(value = "reCarCommodity", method = RequestMethod.GET)
 	public ModelAndView reCarCommodity(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException{
 		ModelMap mode = new ModelMap();
-		List<ShopCategory> list = categoryService.getAllByParent();
-		mode.put("categories", list);
+		List<ShopCategory> cateList = categoryService.getAllByParent();
+		mode.put("cateList", cateList);
 		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
 		List<CarCommodity> carCommodityList=carCommodityService.getCarCommodityByUserName(user.getPhone());
 		List<CarCommodity> handleCarCommodities=serviceTools.handleCarCommodity(carCommodityList, user.getPhone());

@@ -42,7 +42,7 @@
 <body>
 <!---------------------top-------------------------->
 	<jsp:include page="../frontDesk/header.jsp" />
-<jsp:include page="../frontDesk/cate.jsp" />
+    <jsp:include page="../frontDesk/cate.jsp" />
 <!---------------------produtclass-------------------------->
 
 	<div class="produtclass">

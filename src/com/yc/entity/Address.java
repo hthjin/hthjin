@@ -17,81 +17,21 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@Column
-	private String toName;// 给xx 
-	@Column
-	private String toEmail;// 邮件
+	private String toName;// 收货人
 	@Column
 	private String phone;// 电话  
 	@Column
-	private String country;// 国家  
+	private String region;// 所在地区  
 	@Column
-	private String provience ; // 省：新疆  
+	private String detailAdress;// 详细地址
 	@Column
-	private String city ;// 市：乌鲁木齐   
-	@Column
-	private String district ;// 区：新市区  
-	@Column
-	private String other ;// 其它    
-	@Column
-	private Boolean theDefault;// 是否默认   
+	private String postalCode;// 邮政编码
+	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
     private AppUser user;  
-	@Column
-	private Integer provienceId;
-	@Column
-	private Integer cityId;
-	@Column
-	private Integer districtId;
 	
-	public AppUser getUser() {
-		return user;
-	}
-
-	public void setUser(AppUser user) {
-		this.user = user;
-	}
-
-	public String getProvience() {
-		return provience;
-	}
-
-	public void setProvience(String provience) {
-		this.provience = provience;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
 	
-	public String getOther() {
-		return other;
-	}
-
-	public void setOther(String other) {
-		this.other = other;
-	}
-
-	public Boolean getTheDefault() {
-		return theDefault;
-	}
-
-	public void setTheDefault(Boolean theDefault) {
-		this.theDefault = theDefault;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -108,14 +48,6 @@ public class Address {
 		this.toName = toName;
 	}
 
-	public String getToEmail() {
-		return toEmail;
-	}
-
-	public void setToEmail(String toEmail) {
-		this.toEmail = toEmail;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -124,35 +56,36 @@ public class Address {
 		this.phone = phone;
 	}
 
-	public String getCountry() {
-		return country;
+	public String getRegion() {
+		return region;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setRegion(String region) {
+		this.region = region;
 	}
 
-	public Integer getProvienceId() {
-		return provienceId;
+	public String getDetailAdress() {
+		return detailAdress;
 	}
 
-	public void setProvienceId(Integer provienceId) {
-		this.provienceId = provienceId;
+	public void setDetailAdress(String detailAdress) {
+		this.detailAdress = detailAdress;
 	}
 
-	public Integer getCityId() {
-		return cityId;
+	public String getPostalCode() {
+		return postalCode;
 	}
 
-	public void setCityId(Integer cityId) {
-		this.cityId = cityId;
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
-	public Integer getDistrictId() {
-		return districtId;
+	public AppUser getUser() {
+		return user;
 	}
 
-	public void setDistrictId(Integer districtId) {
-		this.districtId = districtId;
+	public void setUser(AppUser user) {
+		this.user = user;
 	}
+
 }

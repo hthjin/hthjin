@@ -117,4 +117,16 @@ public interface IOrderFormService extends IGenericService<OrderForm>{
 	 * @return
 	 */
 	OrderForm searchNewst();
+
+	/**
+	 * 正在处理中的订单
+	 * @return
+	 */
+	List<OrderForm> findUnderWay();
+
+	/**
+	 * 已经 完成的订单
+	 * @return
+	 */
+	List<OrderForm> findcomOrderForm(String sysTime,String beforeTime);
 }

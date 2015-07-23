@@ -7,12 +7,11 @@
                 <div class="main">
                     <ul style="margin-left:200px;">
                         <a href="user/userInfo"><li>会员中心</li></a>
-                        <a href="my_shop1.html"><li>我的订单</li></a>
                     </ul>
               </div> 
               <div class="ctt" style="width:140px; height:25px; float:right;  margin-top:-25px;">
-                    <a href="login.html"><span style=" line-height:25px; color:#FE0002;">[登陆]</span></a>
-                    <a href="register.html"><span style=" line-height:25px; color:#FE0002; ">[注册]</span></a>
+                    <a href="user/login"><span style=" line-height:25px; color:#FE0002;">[登陆]</span></a>
+                    <a href="user/regist"><span style=" line-height:25px; color:#FE0002; ">[注册]</span></a>
               </div>
         </div>
     </div>
