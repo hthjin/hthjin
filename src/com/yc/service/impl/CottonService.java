@@ -1,5 +1,8 @@
 package com.yc.service.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,14 @@ public class CottonService extends GenericService<Cotton> implements ICottonServ
 	@Override
 	GenericDao<Cotton> getDao() {
 		return CottonDao;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Cotton> deleteAllByFactoryId(Integer factoryId) {
+		StringBuffer hql=new StringBuffer("select * FROM cotton WHERE cotton.cottonFactory_id = "+factoryId);
+		Query query = CottonDao.getEntityManager().createNativeQuery(hql.toString(), Cotton.class);
+		return query.getResultList();
 	}
 
 }

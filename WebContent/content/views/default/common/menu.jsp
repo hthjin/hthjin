@@ -61,6 +61,20 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<a class="panel-title" data-toggle="collapse"
+					data-parent="#panel-864199" href="#panel-element-540231">工厂管理</a>
+			</div>
+			<div id="panel-element-540231" class="panel-collapse collapse">
+				<div class="panel-body">
+					<a href="management/getAllCottonFactory">工厂管理</a>
+				</div>
+				<div class="panel-body">
+					<a href="management/getAllCotton">棉花管理</a>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="panel-title" data-toggle="collapse"
 					data-parent="#panel-864199" href="#panel-element-5402721">名庄管理</a>
 			</div>
 			<div id="panel-element-5402721" class="panel-collapse collapse">

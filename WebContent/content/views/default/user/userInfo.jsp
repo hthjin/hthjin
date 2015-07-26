@@ -139,7 +139,7 @@
             <div class="indivterall">
                  <ul>
                  	<li class="indivterta"><p>我的订单</p>
-               	    <div class="indivterta_til_onc"><a href="user/underwayOrderForm">正在处理的订单</a> <a href="javascript:void(0)">已经完成的订单</a></div></li>
+               	    <div class="indivterta_til_onc"><a href="javascript:void(0)">正在处理的订单</a> <a href="javascript:void(0)">已经完成的订单</a></div></li>
                     <li class="link"></li>
                  	<li class="indivterta"><p class="indivterta_til">个人信息管理</p>
                	    <div><a href="javascript:void(0)">密码修改</a><a href="javascript:void(0)">个人资料</a> <a href="javascript:void(0)">收货地址管理</a></div></li>

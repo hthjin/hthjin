@@ -329,9 +329,25 @@ public class UserController {
 	@RequestMapping(value = "userInfo", method = RequestMethod.GET)
 	public ModelAndView userInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
-		List<OrderForm> orderForms=orderFormService.findUnderWay();
 		ModelMap mode=new ModelMap();
+		List<OrderForm> orderForms=orderFormService.findUnderWay();
 		mode.put("orderForms", orderForms);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式 
+		String sysTime = dateFormat.format(new Date()); 
+		Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+		System.out.println("sysTime==="+sysTime);
+		int year = c.get(Calendar.YEAR);
+		int month = (c.get(Calendar.MONTH)-2);
+		int date = c.get(Calendar.DATE); 
+		String nMonth;
+		if(month<10){
+			 nMonth="0"+month;
+		}else{
+			 nMonth=month+"";
+		}
+		String beforeTime=year+"-"+nMonth+"-"+date;
+		List<OrderForm> orderFormList=orderFormService.findcomOrderForm(sysTime, beforeTime);
+		mode.put("orderFormList", orderFormList);
 		mode.put("user", user);
 		if(user!=null){
 	        return new ModelAndView("user/userInfo",mode);
