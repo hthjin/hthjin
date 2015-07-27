@@ -317,7 +317,7 @@
 							});
 						} else if (data.message == "nouser") {
 							if (confirm('您还没有登录哦！')) {
-								var url = "user/regist";
+								var url = "user/login";
 								window.location = url;
 							}
 						}

@@ -37,11 +37,29 @@
 		});
 	});
 </script>
+ <script type="text/javascript">
+         $(function(){
+        	 $.getJSON(
+        		  "toJsonFmatUtil/getAdvertisement",
+        		  {
+        			  whichPage: "商品筛选页面"
+        		   }, function(json) {
+        			   $.each(json.advertisementList, function(i,item){
+        				   if(item.adverDistribution.position=='商品筛选页面大眼睛'){
+                          	    $("#Adv_1").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"1200\" height=\"230\"/></a>");
+        				   }
+        		   });
+         });
+         });
+</script>
 <style>
 #nav {
 	display: none;
 }
 </style>
+<script type="text/javascript">
+     
+</script>
 </head>
 <body>
 	<!--顶部内容-->
@@ -51,9 +69,7 @@
 	<div class="produtclass">
 
 		<div class="right proclas">
-			<div class="proclas_top">
-				<img src="content/static/images/img/t1.jpg" width="1200"
-					height="230" />
+			<div class="proclas_top" id="Adv_1">
 			</div>
 			<div class="proclas_all">
 				<div class="proclist_til">
@@ -99,7 +115,7 @@
 							<c:set value="${fn:split(spec.attribute, ',') }" var="attrs"></c:set>
 							<c:choose>
 								<c:when test="${spec.specificatName == '颜色' }">
-									<c:if test="${loop.index == 0 }">
+									<c:if test="${loop.index == 0}">
 										<li>
 											<p class="proclist_til_h3">${spec.specificatName }：</p>
 											<div class="proclist_til_list proclist_none">

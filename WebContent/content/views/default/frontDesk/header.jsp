@@ -7,7 +7,6 @@
                 <div class="main">
                     <ul style="margin-left:200px;">
                         <a href="user/userInfo"><li>会员中心</li></a>
-                        <a href="my_shop1.html"><li>我的订单</li></a>
                     </ul>
               </div> 
               <div class="ctt" style="width:140px; height:25px; float:right;  margin-top:-25px;">

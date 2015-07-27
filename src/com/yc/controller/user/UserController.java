@@ -3,6 +3,7 @@ package com.yc.controller.user;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yc.entity.Address;
 import com.yc.entity.Collection;
 import com.yc.entity.OrderForm;
 import com.yc.entity.OrderStatus;
@@ -31,6 +33,7 @@ import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommodity;
 import com.yc.entity.ShopReviews;
 import com.yc.entity.user.AppUser;
+import com.yc.service.IAddressService;
 import com.yc.service.IAppUserService;
 import com.yc.service.ICollectionService;
 import com.yc.service.ICommodityService;
@@ -39,7 +42,6 @@ import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
 import com.yc.service.IShopReviewsService;
 import com.yc.tumbler.service.TumblerService;
-import com.yc.util.ServiceException;
 
 @Controller
 @RequestMapping("/user")
@@ -49,9 +51,16 @@ public class UserController {
 
 	@Autowired
 	IAppUserService userService;
+	
+	@Autowired
+	IAddressService addressService;
 
 	@Autowired
 	IShopCategoryService categoryService;
+	
+	@Autowired
+	IAppUserService appUserService;
+	
 
 	@Resource
 	TumblerService tumblerService;
@@ -148,32 +157,32 @@ public class UserController {
 		return new ModelAndView("user/personalCenter", mode);
 	}
 
-	@RequestMapping(value = "binding", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView load(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String action = request.getParameter("action");
-		ModelAndView mav = new ModelAndView();
-		if ("register".equals(action)) {
-			AppUser user = userService.findById(Integer.parseInt(request.getParameter("id")));
-			// 注册
-			String email = request.getParameter("email");
-			tumblerService.processregister(email, user);// 发邮箱激活
-			mav.addObject("text", "注册成功");
-			mav.setViewName("user/register_success");
-		} else if ("activate".equals(action)) {
-			// 激活
-			String email = request.getParameter("email");// 获取email
-			String validateCode = request.getParameter("validateCode");// 激活码
-
-			try {
-				tumblerService.processActivate(email, validateCode);// 调用激活方法
-				mav.setViewName("user/activate_success");
-			} catch (ServiceException e) {
-				request.setAttribute("message", e.getMessage());
-				mav.setViewName("user/activate_failure");
-			}
-		}
-		return mav;
-	}
+//	@RequestMapping(value = "binding", method = { RequestMethod.GET, RequestMethod.POST })
+//	public ModelAndView load(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String action = request.getParameter("action");
+//		ModelAndView mav = new ModelAndView();
+//		if ("register".equals(action)) {
+//			AppUser user = userService.findById(Integer.parseInt(request.getParameter("id")));
+//			// 注册
+//			String email = request.getParameter("email");
+//			tumblerService.processregister(email, user);// 发邮箱激活
+//			mav.addObject("text", "注册成功");
+//			mav.setViewName("user/register_success");
+//		} else if ("activate".equals(action)) {
+//			// 激活
+//			String email = request.getParameter("email");// 获取email
+//			String validateCode = request.getParameter("validateCode");// 激活码
+//
+//			try {
+////				tumblerService.processActivate(email, validateCode);// 调用激活方法
+//				mav.setViewName("user/activate_success");
+//			} catch (ServiceException e) {
+//				request.setAttribute("message", e.getMessage());
+//				mav.setViewName("user/activate_failure");
+//			}
+//		}
+//		return mav;
+//	}
 
 	// 订单
 	@RequestMapping(value = "perscentBonuses", method = RequestMethod.GET)
@@ -309,7 +318,154 @@ public class UserController {
 
 		return new ModelAndView("user/wuliu");
 	}
-
+	/**
+	 * 会员中心页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "userInfo", method = RequestMethod.GET)
+	public ModelAndView userInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		ModelMap mode=new ModelMap();
+		List<OrderForm> orderForms=orderFormService.findUnderWay();
+		mode.put("orderForms", orderForms);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式 
+		String sysTime = dateFormat.format(new Date()); 
+		Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+		System.out.println("sysTime==="+sysTime);
+		int year = c.get(Calendar.YEAR);
+		int month = (c.get(Calendar.MONTH)-2);
+		int date = c.get(Calendar.DATE); 
+		String nMonth;
+		if(month<10){
+			 nMonth="0"+month;
+		}else{
+			 nMonth=month+"";
+		}
+		String beforeTime=year+"-"+nMonth+"-"+date;
+		List<OrderForm> orderFormList=orderFormService.findcomOrderForm(sysTime, beforeTime);
+		mode.put("orderFormList", orderFormList);
+		mode.put("user", user);
+		if(user!=null){
+	        return new ModelAndView("user/userInfo",mode);
+		}else{
+			return new ModelAndView("user/login",null);
+		}
+	}
+	/**
+	 * 修改密码
+	 * @param newPwd
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "updatePwd", method = RequestMethod.POST)
+	public String updatePwd(String newPwd,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("newPwd==="+newPwd);
+		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		System.out.println("user===="+user);
+		String pwd = KL(JM(KL(MD5(newPwd))));
+		user.setPassword(pwd);
+		appUserService.update(user);
+		return "redirect:/user/userInfo";
+	}
+	/**
+	 * 完善个人资料
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "perfectUserInfo", method = RequestMethod.POST)
+	public String perfectUserInfo(AppUser appUser,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		user.setAddress(appUser.getAddress());
+		user.setBirthday(appUser.getBirthday());
+		user.setEmail(appUser.getEmail());
+		user.setSex(appUser.getSex());
+		user.setUserName(appUser.getUserName());
+		user.setIdentityId(appUser.getIdentityId());;
+		appUserService.update(user);
+		return "redirect:/user/userInfo";
+	}
+	/**
+	 * 收货地址添加
+	 * @param appUser
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "profile", method = RequestMethod.POST)
+	public String profile(Address adderess,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		Address address=new Address();
+		address.setToName(adderess.getToName());
+		address.setRegion(adderess.getRegion());
+		address.setDetailAdress(adderess.getDetailAdress());
+		address.setPhone(adderess.getPhone());
+		address.setPostalCode(address.getPostalCode());
+		address.setUser(user);
+		addressService.save(address);
+		user.getShopAddress().add(address);
+		userService.update(user);
+		return "redirect:/user/userInfo";
+	}
+	/**
+	 * 正在处理的订单
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "underwayOrderForm", method = RequestMethod.GET)
+	public ModelAndView underwayOrderForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode=new ModelMap();
+		List<OrderForm> orderForms=orderFormService.findUnderWay();
+		mode.put("orderForms", orderForms);
+		return new ModelAndView("user/userInfo",mode);
+	}
+	/**
+	 * 最近三个月完成的订单
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "comOrderForm", method = RequestMethod.GET)
+	public ModelAndView comOrderForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ModelMap mode=new ModelMap();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式 
+		String sysTime = dateFormat.format(new Date()); 
+		Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+		System.out.println("sysTime==="+sysTime);
+		int year = c.get(Calendar.YEAR);
+		int month = (c.get(Calendar.MONTH)-2);
+		int date = c.get(Calendar.DATE); 
+		String nMonth;
+		if(month<10){
+			 nMonth="0"+month;
+		}else{
+			 nMonth=month+"";
+		}
+		String beforeTime=year+"-"+nMonth+"-"+date;
+		System.out.println("beforeTime==="+beforeTime);
+		List<OrderForm> orderFormList=orderFormService.findcomOrderForm(sysTime, beforeTime);
+		mode.put("orderFormList", orderFormList);
+		
+		return new ModelAndView("user/userInfo",mode);
+//		return "redirect:/user/userInfo";
+	}
+	
 	// MD5加码。32位
 	public static String MD5(String inStr) {
 		MessageDigest md5 = null;

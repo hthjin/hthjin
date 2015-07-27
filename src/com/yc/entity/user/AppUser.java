@@ -1,9 +1,5 @@
 package com.yc.entity.user;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,10 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.yc.entity.Address;
 import com.yc.entity.BuyCar;
 import com.yc.entity.Collection;
 import com.yc.entity.MissionPlan;
@@ -31,7 +27,7 @@ import com.yc.entity.ShopCommodity;
 
 @Entity
 @DiscriminatorValue("user")//用户
-@JsonIgnoreProperties(value = { "activityCommodities","collections","orderForms","missionPlans" })
+@JsonIgnoreProperties(value = {"shop","activityCommodities","collections","orderForms","missionPlans","shopAddress","buyCar" })
 public class AppUser {
 
 	@Id
@@ -40,7 +36,13 @@ public class AppUser {
 
 	@Column(length = 32, unique = true, updatable = false)
 	private String phone;
-
+	
+	@Column(length = 18, unique = true)
+	private String identityId;
+	
+	@Column
+	private String address;
+	
 	@Column(length = 32)
 	private String password;
 
@@ -84,10 +86,38 @@ public class AppUser {
 
 	@OneToMany(mappedBy = "toUser")
 	private List<MissionPlan> missionPlans;//消息
+	
+	@OneToMany(mappedBy = "user")
+	private List<Address> shopAddress;//消息
 
 	@OneToOne(mappedBy = "appUser")
 	private BuyCar buyCar;
 	
+	
+	public List<Address> getShopAddress() {
+		return shopAddress;
+	}
+
+	public void setShopAddress(List<Address> shopAddress) {
+		this.shopAddress = shopAddress;
+	}
+
+	public String getIdentityId() {
+		return identityId;
+	}
+
+	public void setIdentityId(String identityId) {
+		this.identityId = identityId;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public BuyCar getBuyCar() {
 		return buyCar;
 	}
@@ -224,11 +254,4 @@ public class AppUser {
 		this.birthday = birthday;
 	}
 	
-	@Transient
-    public Date getLastActivateTime() throws ParseException {
-        Calendar cl = Calendar.getInstance();
-        cl.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(emailBindTime));
-        cl.add(Calendar.DATE , 2);
-        return cl.getTime();
-    }
 }

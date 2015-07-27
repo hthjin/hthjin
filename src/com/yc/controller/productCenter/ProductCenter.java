@@ -54,18 +54,24 @@ public class ProductCenter {
 	    List<ShopCategory> cateList2=categoryService.getAllByParentLevel(3);
 	    List<ShopCategory> cateList3=categoryService.getAllByParentLevel(4);
 	    mode.put("cottonFactoryList",cottonFactoryList);//工厂
+	    List<ShopCommodity> tillerShopList=new ArrayList<ShopCommodity>();
+	    List<ShopCommodity> appliancesShopList=new ArrayList<ShopCommodity>();
+	    List<ShopCommodity> foodShopList=new ArrayList<ShopCommodity>();
 	    for (int i = 0; i < cateList1.size(); i++) {
 	    	List<ShopCommodity> tillerShops=shopCommodityService.getAllByShopCategoryID(cateList1.get(i).getCategoryID(), new String(), 0, 10);
-	    	mode.put("tillerShops",tillerShops);//农产品
+	    	tillerShopList.addAll(tillerShops);
 		}
+	    mode.put("tillerShopList", tillerShopList);
 	    for (int i = 0; i < cateList2.size(); i++) {
 	    	List<ShopCommodity> appliancesShops=shopCommodityService.getAllByShopCategoryID(cateList2.get(i).getCategoryID(), new String(), 0,10);
-	    	mode.put("appliancesShops",appliancesShops);//家电百货
+	    	appliancesShopList.addAll(appliancesShops);
 		}
+	    mode.put("appliancesShopList", appliancesShopList);
 	    for (int i = 0; i < cateList3.size(); i++) {
 	    	List<ShopCommodity> foodShops=shopCommodityService.getAllByShopCategoryID(cateList3.get(i).getCategoryID(), new String(), 0, 10);
-	    	mode.put("foodShops",foodShops);//粮食
+	    	foodShopList.addAll(foodShops);
 		}
+	    mode.put("foodShopList", foodShopList);
 	    List<News> news = newService.getNewsByIsThrough(true);//新闻
 		mode.put("cateList", cateList);
 		mode.put("newsList", news);

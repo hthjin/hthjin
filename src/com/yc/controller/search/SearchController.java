@@ -287,12 +287,14 @@ public class SearchController {
 	@RequestMapping(value = "cateComm", method =RequestMethod.GET)
 	public ModelAndView cateComm(Integer cateid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ShopCategory cate = shopCategService.findById(cateid);
+		List<ShopCategory> cateList = shopCategService.getAllByParent();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cateid", cateid);
 		List<ShopCommodity> list = shopCommService.getAllByParamsForParent(map, new String());
 		ModelMap mode = new ModelMap();
 		mode.put("list", list);
 		mode.put("cate", cate);
+		mode.put("cateList",cateList);
 		return new ModelAndView("search/yijiresult", mode);
 	}
 	

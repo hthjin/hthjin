@@ -31,6 +31,21 @@
 	display: none;
 }
 </style>
+ <script type="text/javascript">
+         $(function(){
+        	 $.getJSON(
+        		  "toJsonFmatUtil/getAdvertisement",
+        		  {
+        			  whichPage: "一级页面"
+        		   }, function(json) {
+        			   $.each(json.advertisementList, function(i,item){
+        				   if(item.adverDistribution.position=='一级页面大眼睛'){
+                          	    $("#Adv_1").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"1200\" height=\"326\"/></a>");
+        				   }
+        		   });
+         });
+         });
+</script>
 </head>
 <body>
 	<jsp:include page="../frontDesk/header.jsp" />
@@ -38,9 +53,7 @@
 	<div class="produtclass">
 
 		<div class="right proclas">
-			<div class="proclas_top">
-				<img src="content/static/images/slov/home_top.jpg" width="1200"
-					height="326" />
+			<div class="proclas_top" id="Adv_1">
 			</div>
 			<c:forEach var="yijicate" items="${cate.children }">
 				<div class="proclas_all">
@@ -60,7 +73,7 @@
 											href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
 													class="proclasa_all_img">
 													<img src="${commShop.shopCommImages[0].imagePath }" />
-												</p></a> <a
+												</p></a><a
 											href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p>${commShop.commoidtyName }</p></a>
 											<a
 											href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p

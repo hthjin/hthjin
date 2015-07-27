@@ -54,144 +54,155 @@
                       	     $("#Adv_9").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"291	\" height=\"159\" /></a>");
         				   }else if(item.adverDistribution.position=='产品中心推荐A9'){
                       	     $("#Adv_10").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"291\" height=\"159\" /></a>");
-        				   }else if(item.adverDistribution.position=='产品推荐'){
-                      	     $("#text1").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
-        				   }else if(item.adverDistribution.position=='采购专区'){
-                      	     $("#text2").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
-        				   }else if(item.adverDistribution.position=='采购专区'){
-                      	     $("#Adv_11").append( "<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"240px\" height=\"110px\" /></a>");
+        				   }else if(item.adverDistribution.position=='产品推荐A1'){
+                      	     $("#Adv_11").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='产品推荐A2'){
+                      	     $("#Adv_12").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='产品推荐A3'){
+                      	     $("#Adv_13").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='产品推荐A4'){
+                      	     $("#Adv_14").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='采购专区A1'){
+                      	     $("#Adv_15").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='采购专区A2'){
+                      	     $("#Adv_16").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='采购专区A3'){
+                      	     $("#Adv_17").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='采购专区A4'){
+                      	     $("#Adv_18").append( "<a href=\""+item.link+"\"><li><img src=\""+item.imagePath+"\"/></li></a>");
+        				   }else if(item.adverDistribution.position=='最新公告'){
+                      	     $("#Adv_19").append( "<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"240px\" height=\"110px\" /></a>");
         				   }
         			   });//动态生成广告
         			   var $kv = jQuery('.js_nf_hp_kv')
-        				var $kv_window = $kv.find('.js_window');
-        				var $kv_items = $kv.find('.kv_item');
-        				var $kv_nav = $kv.find('.js_nav');
-        				var $kv_prev = $kv.find('.js_btn_prev');
-        				var $kv_next = $kv.find('.js_btn_next');
-        				var kv_items_count = $kv_items.length;
-        				
-        				var $ts = jQuery('.js_nf_hp_teaser_c3x')
-        				var $ts_groups = $ts.find('.js_t_group');
-        				var animate_dur = 500;
-        				var play_dur = 2000;
-        				var stop_flag = false;
-        				
-        				var $window = jQuery(window);
-        				
-        				var cur_idx = 0;
-        				
-        				
+       				var $kv_window = $kv.find('.js_window');
+       				var $kv_items = $kv.find('.kv_item');
+       				var $kv_nav = $kv.find('.js_nav');
+       				var $kv_prev = $kv.find('.js_btn_prev');
+       				var $kv_next = $kv.find('.js_btn_next');
+       				var kv_items_count = $kv_items.length;
+       				
+       				var $ts = jQuery('.js_nf_hp_teaser_c3x')
+       				var $ts_groups = $ts.find('.js_t_group');
+       				var animate_dur = 500;
+       				var play_dur = 2000;
+       				var stop_flag = false;
+       				
+       				var $window = jQuery(window);
+       				
+       				var cur_idx = 0;
+       				
+       				
 
-        						
-        				$kv_items.hide();
-        				$ts_groups.find('.t_item').hide();
-        				var goto = function( idx ){
-        					cur_idx = idx;
-        					
-        					//idx from 0
-        					var $kv_visible = $kv_items.filter(':visible');
-        					if ( $kv_visible.length ){
-        						$kv_visible.fadeOut(animate_dur);
-        						$kv_items.eq(idx).fadeIn(animate_dur);
-        					}else{
-        						$kv_items.eq(idx).show();
-        					}
-        				
-        					$ts_groups.each(function(g_idx){
-        						var $ts_group = jQuery(this);
-        						var $ts_items = $ts_group.find('.t_item');
-        						var $ts_visible = $ts_items.filter(':visible');
+       						
+       				$kv_items.hide();
+       				$ts_groups.find('.t_item').hide();
+       				var goto = function( idx ){
+       					cur_idx = idx;
+       					
+       					//idx from 0
+       					var $kv_visible = $kv_items.filter(':visible');
+       					if ( $kv_visible.length ){
+       						$kv_visible.fadeOut(animate_dur);
+       						$kv_items.eq(idx).fadeIn(animate_dur);
+       					}else{
+       						$kv_items.eq(idx).show();
+       					}
+       				
+       					$ts_groups.each(function(g_idx){
+       						var $ts_group = jQuery(this);
+       						var $ts_items = $ts_group.find('.t_item');
+       						var $ts_visible = $ts_items.filter(':visible');
 
-        						if ( $ts_visible.length ){
-        							$ts_visible.css({'z-index':99});
-        							
-        							window.setTimeout(function(){
-        								$ts_items.eq(idx).css({'top':'158px','z-index':100}).show().animate({'top':0},animate_dur,function(){
-        									$ts_visible.hide();
-        								});
-        							}, 80*g_idx );
-        							
-        						}else{
-        							$ts_items.eq(idx).show();
-        						}
-        					});
-        					
-        					$kv_nav.find('li').eq(idx).addClass('active').siblings().removeClass('active');
-        					
-        				}
-        				
-        				//init $kv_prev $kv_next
-        				$kv_prev.click(function(){
-        					var next_idx = cur_idx - 1;
-        					if ( next_idx < 0 ){
-        						next_idx = kv_items_count - 1;
-        					}
-        					goto( next_idx );
-        				});
+       						if ( $ts_visible.length ){
+       							$ts_visible.css({'z-index':99});
+       							
+       							window.setTimeout(function(){
+       								$ts_items.eq(idx).css({'top':'158px','z-index':100}).show().animate({'top':0},animate_dur,function(){
+       									$ts_visible.hide();
+       								});
+       							}, 80*g_idx );
+       							
+       						}else{
+       							$ts_items.eq(idx).show();
+       						}
+       					});
+       					
+       					$kv_nav.find('li').eq(idx).addClass('active').siblings().removeClass('active');
+       					
+       				}
+       				
+       				//init $kv_prev $kv_next
+       				$kv_prev.click(function(){
+       					var next_idx = cur_idx - 1;
+       					if ( next_idx < 0 ){
+       						next_idx = kv_items_count - 1;
+       					}
+       					goto( next_idx );
+       				});
 
-        				$kv_next.click(function(){
-        					var next_idx = cur_idx + 1;
-        					if ( next_idx >= kv_items_count ){
-        						next_idx = 0;
-        					}
-        					goto( next_idx );
-        				});		
-        				
-        				//init $nav
-        				for ( var i=0; i<kv_items_count; i++ ){
-        					var $li = jQuery('<li><a href="javascript:;">'+ ( i+1 ) +'</a></li>');
-        					
-        					(function(){
-        						var cur_idx = i;
-        						$li.click(function(){
-        							goto(cur_idx);
-        						});
-        					})();
-        					
-        					$kv_nav.append($li);
-        				}
-        				$kv_nav.css('margin-left',-(kv_items_count*10));
-        				
-        				//init kv_item
-        				$kv_items.each(function(){
-        					var $this_kv_item = jQuery(this);
-        					var this_bg = $this_kv_item.data('bg');
-        					$this_kv_item.css('background-image','url('+this_bg+')');
-        				});
-        				
-        				//init btn_nav
-        				var repos_btn_nav = function(){
-        					var offset = $kv.offset();
-        				}
-        				$window.resize(function(){
-        					repos_btn_nav();
-        				});
-        				
+       				$kv_next.click(function(){
+       					var next_idx = cur_idx + 1;
+       					if ( next_idx >= kv_items_count ){
+       						next_idx = 0;
+       					}
+       					goto( next_idx );
+       				});		
+       				
+       				//init $nav
+       				for ( var i=0; i<kv_items_count; i++ ){
+       					var $li = jQuery('<li><a href="javascript:;">'+ ( i+1 ) +'</a></li>');
+       					
+       					(function(){
+       						var cur_idx = i;
+       						$li.click(function(){
+       							goto(cur_idx);
+       						});
+       					})();
+       					
+       					$kv_nav.append($li);
+       				}
+       				$kv_nav.css('margin-left',-(kv_items_count*10));
+       				
+       				//init kv_item
+       				$kv_items.each(function(){
+       					var $this_kv_item = jQuery(this);
+       					var this_bg = $this_kv_item.data('bg');
+       					$this_kv_item.css('background-image','url('+this_bg+')');
+       				});
+       				
+       				//init btn_nav
+       				var repos_btn_nav = function(){
+       					var offset = $kv.offset();
+       				}
+       				$window.resize(function(){
+       					repos_btn_nav();
+       				});
+       				
 
 
-        				$kv.hover(function(){
-        					stop_flag = true;
-        				},function(){
-        					stop_flag = false;
-        				});
+       				$kv.hover(function(){
+       					stop_flag = true;
+       				},function(){
+       					stop_flag = false;
+       				});
 
-        				$ts.hover(function(){
-        					stop_flag = true;
-        				},function(){
-        					stop_flag = false;
-        				});	
-        				
-        				window.setInterval(function(){
-        					if ( !stop_flag ){
-        						$kv_next.click();
-        					}
-        				},play_dur);
-        				
-        				
-        				
-        				repos_btn_nav();
-        				goto(cur_idx);
-        			   
+       				$ts.hover(function(){
+       					stop_flag = true;
+       				},function(){
+       					stop_flag = false;
+       				});	
+       				
+       				window.setInterval(function(){
+       					if ( !stop_flag ){
+       						$kv_next.click();
+       					}
+       				},play_dur);
+       				
+       				
+       				
+       				repos_btn_nav();
+       				goto(cur_idx);
         		   });
          });
  </script>
@@ -269,7 +280,6 @@
                       <hr/>
                   </li>
                 </ul>
-<!--                 <img src="images/b1.png" style="width:220px;" /> -->
                 </div>
                 </div>
                 </div>
@@ -357,8 +367,16 @@
                     <li class="cata_til_onck" ><a >采购专区</a></li>
                 </ul>
             	<ul class="cata_til1" id="text1">
+                	<li id="Adv_11"></li>
+                    <li id="Adv_12"></li>
+                    <li id="Adv_13"></li>
+                    <li id="Adv_14"></li>
                 </ul>
                 <ul class="cata_til1" id="text2" style="display:none">
+                    <li id="Adv_15"></li>
+                    <li id="Adv_16"></li>
+                    <li id="Adv_17"></li>
+                    <li id="Adv_18"></li>
                 </ul>
             </div>
         </div>
@@ -376,7 +394,7 @@
 					</c:forEach>
                 </ul>
             </div>
-            <div style=" " id="Adv_11">
+            <div style=" " id="Adv_19">
 <!--             	<img src="images/b2.png" width="240px" height="110px"/> -->
             </div>
         </div>
@@ -420,7 +438,7 @@
         </div>
         <div class="conts_prod">
         	<ul>
-               <c:forEach items="${tillerShops}" var="commShop">
+               <c:forEach items="${tillerShopList}" var="commShop">
             	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="${commShop.shopCommImages[0].imagePath}" /></p><p>${tillerShop.commoidtyName}</p><p class="red">${tillerShop.unitPrice}元</p></a>
                 <a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p>${commShop.belongTo.shopName}</p></a></li>
                </c:forEach>
@@ -438,7 +456,7 @@
         </div>
         <div class="conts_prod" style="display:block;">
         	<ul>
-               <c:forEach items="${appliancesShops}" var="appliancesShop">
+               <c:forEach items="${appliancesShopList}" var="appliancesShop">
             	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="${appliancesShop.shopCommImages[0].imagePath}" /></p><p>${appliancesShop.commoidtyName}</p><p class="red">${appliancesShop.unitPrice}元</p></a>
                 <a href="javascript:void(0)"><p>${appliancesShop.belongTo.shopName}</p></a></li>
                </c:forEach>
@@ -455,7 +473,7 @@
         </div>
         <div class="conts_prod" style="display:block;">
         	<ul>
-        	    <c:forEach items="${foodShops}" var="foodShop">
+        	    <c:forEach items="${foodShopList}" var="foodShop">
             	<li><a href="produtall.html"><p class="conts_prod_img"><img src="${foodShop.shopCommImages[0].imagePath}" /></p><p>${foodShop.commoidtyName}</p><p class="red">${foodShop.unitPrice}元/500g </p></a>
                 <a href="indiv_shop.html"><p>${foodShop.belongTo.shopName}</p></a></li>
                </c:forEach>
