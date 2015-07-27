@@ -34,9 +34,11 @@ public class Address {
 	private String other ;// 其它    
 	@Column
 	private Boolean theDefault;// 是否默认   
+	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
     private AppUser user;  
+	
 	@Column
 	private Integer provienceId;
 	@Column
