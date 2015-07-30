@@ -14,7 +14,7 @@
 %>
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>不倒翁</title>
+<title>华腾汇金</title>
 <link href="content/static/css/style2.css" rel="stylesheet"
 	type="text/css" />
 <link href="content/static/css/index2.css" rel="stylesheet"
@@ -165,8 +165,7 @@
 			<div class="zoombox">
 				<div class="zoompic">
 					<img width="400" height="400"
-						src="${shopCommoidty.shopCommImages[0].imagePath }"
-						rel="${shopCommoidty.shopCommImages[0].imagePath }" class="jqzoom" />
+						src="../${shopCommoidty.shopCommImages[0].imagePath }"  class="jqzoom" />
 				</div>
 				<div class="sliderbox">
 					<div id="btn-left" class="arrow-btn dasabled"></div>
@@ -181,8 +180,8 @@
 									<li>
 								</c:if>
 								<div class="tb-pic tb-s40">
-									<a href="${imageCommo.imagePath }" target="_blank"> <img
-										src="${imageCommo.imagePath }" width="48" height="48" /></a>
+									<a href="../${imageCommo.imagePath }" target="_blank"> <img
+										src="../${imageCommo.imagePath }" width="48" height="48" /></a>
 								</div>
 								</li>
 							</c:forEach>
@@ -215,7 +214,7 @@
 							<span class="proinfo_til" style="margin-top: 10px;">我 要 买：</span>
 							<div class="libgc ml6mr6">
 								<input class="icon-cut" type="button" /> <input id="qty0"
-									type="text" _minsaleqty="1" value="1" isfcl="0"
+									type="text" _minsaleqty="1" value="1" isfcl="0" class="text"
 									name="input_catalog_qtc" /> <input class="icon-add"
 									type="button" />
 								<button
@@ -224,7 +223,26 @@
 							</div>
 							<a class="shop_car1" onclick="buyCat();"></a>
 						</p></li>
-					<li><script type="text/javascript">
+					<li>
+					<script> 
+				$(function(){ 
+		
+				$(".icon-add").click(function(){ 
+				var t=$(this).parent().find('input[class*=text]'); 
+				t.val(parseInt(t.val())+1) 
+				})
+				 
+				$(".icon-cut").click(function(){ 
+				var t=$(this).parent().find('input[class*=text]'); 
+				t.val(parseInt(t.val())-1) 
+				if(parseInt(t.val())<1){ 
+				t.val(1); 
+				} 
+				
+				}) 
+				}) 
+			</script>
+					<script type="text/javascript">
 						bShareOpt = {
 							uuid : "",
 							url : "", //商品的永久链接

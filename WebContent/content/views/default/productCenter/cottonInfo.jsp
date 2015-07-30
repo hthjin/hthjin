@@ -189,42 +189,9 @@ $(function(){
 
 <body>
 <!---------------------top-------------------------->
-	<div class="top_ban">
-    	<div class="centers">
-                <div class="main">
-                    <ul style="margin-left:200px;">
-                        <a href="password.html"><li>会员中心</li></a>
-                        <a href="my_shop1.html"><li>我的订单</li></a>
-                    </ul>
-              </div> 
-              <div class="ctt" style="width:140px; height:25px; float:right;  margin-top:-25px;">
-                    <a href="login.html"><span style=" line-height:25px; color:#FE0002;">[登陆]</span></a>
-                    <a href="register.html"><span style=" line-height:25px; color:#FE0002; ">[注册]</span></a>
-              </div>
-        </div>
-    </div>
-	<div class="top_head">
-    	<div class="main">
-        	<div class="left">
-   		    	<a href="shop.html"><img src="content/static/images/logo.png" /></a>
-            </div>
-            <div class="right">            
-       	    	<div class="left">
-                	<dl>
-               	  		<dt><input name="" type="text"  placeholder="小黄米" style="color:#999;"/><a href="produtclass.html">搜索</a></dt>
-                        <dd>热门搜索：</dd>
-                         <dd><a class="red" href="produtclass.html">干果</a></dd>
-                        <dd><a href="produtclass.html">粮油</a></dd>
-                        <dd><a href="produtclass.html">小黄米</a></dd>
-                        <dd><a href="produtclass.html">液晶电视</a></dd>
-                    </dl>
-                </div>
-                <img class="right" src="content/static/images/tou.jpg" height="60" />
-            </div>
-            <div class="cl"></div>
-      </div>
-    </div>
-    <div class="bread">
+	<jsp:include page="../frontDesk/header.jsp" />
+	<jsp:include page="../frontDesk/cate.jsp" />
+    <div class="produta_til" style="margin-left: 400px;">
     	<div style="width:1200px;" class="bread2">
         	<a href="productCenter/shopIndex">首页 </a> <span> > 棉花</span>
         </div>
@@ -299,7 +266,10 @@ $(function(){
                  <div class="nav1">
                 <ul>
                     <li style="width:180px;">${cotton.batch}</li>
-                    <li>${cotton.cottonType}</li>
+                    <li>
+                    	<c:if test="${cotton.cottonType == 'jicai'}">机采棉</c:if>
+                    	<c:if test="${cotton.cottonType == 'shoucai'}">手采棉</c:if>
+                    </li>
                     <c:if test="${cotton.isCheck==false}">
                            <li>未公检</li>
                     </c:if>
@@ -334,7 +304,10 @@ $(function(){
                  <div class="nav1">
                 <ul>
                     <li style="width:180px;">${cotton.batch}</li>
-                    <li>${cotton.cottonType}</li>
+                    <li>
+                    	<c:if test="${cotton.cottonType == 'jicai'}">机采棉</c:if>
+                    	<c:if test="${cotton.cottonType == 'shoucai'}">手采棉</c:if>
+                    </li>
                     <c:if test="${cotton.isCheck==false}">
                            <li>未公检</li>
                     </c:if>

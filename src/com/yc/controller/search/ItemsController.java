@@ -108,7 +108,7 @@ public class ItemsController {
 			}
 		}
 		List<ShopCategory> list = shopCategService.getAllByParent();
-		mode.put("categories", list);
+		mode.put("cateList", list);
 		mode.put("map", map);
 		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
 		mode.put("user", user);

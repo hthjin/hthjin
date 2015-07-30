@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>广告</title>
+<title>工厂</title>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -48,7 +48,7 @@
 <body>
 	<jsp:include page='../common/header.jsp' />
 	<!-- Static navbar -->
-	<br><br>
+	<br><br><br>
 <div class="row clearfix">
 	<jsp:include page='../common/menu.jsp' />
 	<div class="col-md-10 column">

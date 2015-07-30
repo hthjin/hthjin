@@ -11,7 +11,7 @@ public interface ICottonFactoryService extends IGenericService<CottonFactory> {
 	 * @param cottonType
 	 * @return
 	 */
-	List<CottonFactory> getAllByType(Integer cottonType);
+	List<CottonFactory> getAllByType(String cottonType);
 
 
 }

@@ -1020,11 +1020,11 @@ a.brand_til_all, a.brand_til_all:hover {
 .proclist_all {
 	float: left;
 }
-.proclist_all_img {
-	width: 165px;
-	height: 165px;
-	margin: 0 0 10px;
-}
+/* .proclist_all_img { */
+/* 	width: 165px; */
+/* 	height: 165px; */
+/* 	margin: 0 0 10px; */
+/* } */
 .proclist_all_img img {
 	width: 165px;
 	height: 165px;
@@ -1064,11 +1064,14 @@ a.brand_til_all, a.brand_til_all:hover {
 	width: 38px;
 }
 .fy_maintabletop3 .orderby {
-	float: left;
+	float: left; 
 }
-.fy_maintabletop3 .orderby div {
-	float: left;
-}
+/* .fy_maintabletop3 .orderby div { */
+/* 	float: left; */
+/* } */
+.fy_maintabletop3 .orderby ul li{float:left; display:inline-block; margin-left: 50px;  width: 100px; }
+.fy_maintabletop3 .orderby ul li span{padding:0px 10px;}
+.fy_maintabletop3 .orderby ul li .jiage{ width: 95px; height: 50px; background-color:#fff; border: 1px #ccc solid; margin-top: 26px;margin-left: -20px;}
 .fy_maintabletop3 .orderby input {
 	float: left;
 	margin-top: 8px;
@@ -1216,7 +1219,7 @@ a.brand_til_all, a.brand_til_all:hover {
 	width: 18px;
 }
 .libgc input.icon-cut {
-	background: url("../images/ico_jian.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: url("../images/ico_jian.png")  repeat scroll 0 0 rgba(0, 0, 0, 0);
 	margin: 0;
 }
 .libgc .icon-add, .libgc .icon-cut {
@@ -1227,7 +1230,7 @@ a.brand_til_all, a.brand_til_all:hover {
 	width: 11px;
 }
 input.icon-add {
-	background: url("../images/ico_jia.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: url("../images/ico_jia.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
 	margin: 0;
 }
 .libgc input {

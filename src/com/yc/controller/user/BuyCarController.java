@@ -31,6 +31,7 @@ import com.yc.entity.OrderStatus;
 import com.yc.entity.Shop;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommodity;
+import com.yc.entity.WuLiu;
 import com.yc.entity.user.AppUser;
 import com.yc.service.IAddressService;
 import com.yc.service.IAppUserService;
@@ -42,6 +43,7 @@ import com.yc.service.IDeliveryService;
 import com.yc.service.IOrderFormService;
 import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
+import com.yc.service.IWuLiuService;
 import com.yc.tumbler.service.ServiceTools;
 
 @Controller
@@ -76,6 +78,9 @@ public class BuyCarController {
 	IDeliveryService deliveryService;
 	
 	@Autowired
+	IWuLiuService wuLiuService;
+	
+	@Autowired
 	ICommodityService commodityService;
 	
 	@Autowired
@@ -91,8 +96,8 @@ public class BuyCarController {
 	@RequestMapping(value = "reCarCommodity", method = RequestMethod.GET)
 	public ModelAndView reCarCommodity(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException{
 		ModelMap mode = new ModelMap();
-		List<ShopCategory> cateList = categoryService.getAllByParent();
-		mode.put("cateList", cateList);
+		List<ShopCategory> list = categoryService.getAllByParent();
+		mode.put("cateList", list);
 		AppUser user = (AppUser) request.getSession().getAttribute("loginUser");
 		List<CarCommodity> carCommodityList=carCommodityService.getCarCommodityByUserName(user.getPhone());
 		List<CarCommodity> handleCarCommodities=serviceTools.handleCarCommodity(carCommodityList, user.getPhone());
@@ -121,6 +126,8 @@ public class BuyCarController {
 			buyCar.setAppUser(user);
 			buyCar = buyCarService.save(buyCar);
 		}
+		List<ShopCategory> list1 = categoryService.getAllByParent();
+		mode.put("cateList", list1);
 		List<CarCommodity> carCommodityList = new ArrayList<CarCommodity>();
 		ShopCommodity shopCommodity = shopCommodityService.findById(shopCommId);
 		if(shopCommodity != null){
@@ -178,6 +185,8 @@ public class BuyCarController {
 		mode.put("list",handleCarCommodities);
 		List<Address> addresses = addressService.getAllByUser(user.getId());
 		mode.put("addresses", addresses);
+		mode.put("shopCommId", shopCommId);
+		mode.put("buyAmount", buyAmount);
 		return new ModelAndView("user/orderConfirm",mode);
 	}
 
@@ -204,7 +213,9 @@ public class BuyCarController {
 		ModelMap mode = new ModelMap();
 		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
 		List<ShopCategory> list = categoryService.getAllByParent();
-		mode.put("categories", list);
+		mode.put("cateList", list);
+		WuLiu wuliu = wuLiuService.findById(1);
+		mode.put("wuliu", wuliu);
 		String var = "";
 		if(!params.equals("")){
 			String[] param = params.split(",");
@@ -250,11 +261,12 @@ public class BuyCarController {
 	 */
 	@RequestMapping(value = "orderGenerate", method = RequestMethod.POST)
 	public ModelAndView orderGenerate(Integer mudidi, String ids,String shouhuoTime,String xunshufangshi,Float yunfei, HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException{
+		ModelMap mode = new ModelMap();
 		if(mudidi != -1){
 			String[] carIds = ids.split(",");
-			ModelMap mode = new ModelMap();
 			AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
 			DeliveryAddress delivery = new DeliveryAddress();
+			System.out.println("mudidi==========="+mudidi);
 			Address address = addressService.findById(mudidi);
 			BeanUtils.copyProperties(address, delivery);
 			delivery.setId(null);
@@ -263,11 +275,21 @@ public class BuyCarController {
 			delivery2.setAddress(delivery);
 			delivery2.setDeliveryName(xunshufangshi);
 			delivery2.setEndorse(shouhuoTime);
-			delivery2.setDeliveryMoney(yunfei);
+			if (yunfei!=null) {
+				delivery2.setDeliveryMoney(yunfei);
+			}
 //			delivery2 = deliveryService.save(delivery2);
 			saveOrder(carIds, user, delivery2, mode);
+			
+			//为了微信支付：提供运费和订单。
+			mode.put("yunfei", yunfei);
+			
 		}
-		return null;
+		List<OrderForm> orderformList=new ArrayList<OrderForm>();//存放生成的orderform集合
+		orderformList = (List<OrderForm>) mode.get("orderformList");
+		
+		System.out.println(":::::::得到mode中的值是：：：："+orderformList.size());
+		return new ModelAndView("pay/pay",mode);
 	}
 	
 	private ModelMap saveOrder(String[] CarIds,AppUser appuser,Delivery delivery,ModelMap mode) throws ServletException, IOException{
@@ -277,16 +299,24 @@ public class BuyCarController {
  			if(!CarIds[i].equals("")){
  				Commodity commodity=new Commodity();
  				int carId = Integer.parseInt(CarIds[i]);
+ 				System.out.println("carId========="+carId);
  				CarCommodity carCommodity=carCommodityService.findById(carId);
- 				commodity.setShopCommodity(carCommodity.getShopCommodity());
- 				commodity.setShopcategory(carCommodity.getShopCommodity().getShopCategory());
- 				commodity.setSeller(carCommodity.getShop());
- 				commodity.setWeight(carCommodity.getShopCommodity().getProbablyWeight()*carCommodity.getAmount());
- 				commodity.setCommSpec(carCommodity.getShopCommodity().getCommsPecs().getCommSpec());//添加规格信息 
- 				commodity.setQuantity(carCommodity.getAmount());
- 				commodity.setPrice(carCommodity.getUnitPrice());
- 				commodity.setMoney(carCommodity.getPrice());
- 				commodities.add(commodity);
+ 				if(carCommodity != null){
+ 					commodity.setShopCommodity(carCommodity.getShopCommodity());
+ 	 				commodity.setShopcategory(carCommodity.getShopCommodity().getShopCategory());
+ 	 				commodity.setSeller(carCommodity.getShop());
+ 	 				System.out.println("carCommodity.getShopCommodity()=="+carCommodity.getShopCommodity());
+ 	 				System.out.println("carCommodity.getShopCommodity().getProbablyWeight()=="+carCommodity.getShopCommodity().getProbablyWeight());
+ 	 				System.out.println("carCommodity.getAmount()=="+carCommodity.getAmount());
+ 	 				commodity.setWeight(carCommodity.getShopCommodity().getProbablyWeight()*carCommodity.getAmount());
+ 	 				if(carCommodity.getShopCommodity().getCommsPecs() != null){
+ 	 					commodity.setCommSpec(carCommodity.getShopCommodity().getCommsPecs().getCommSpec());//添加规格信息 
+ 	 				}
+ 	 				commodity.setQuantity(carCommodity.getAmount());
+ 	 				commodity.setPrice(carCommodity.getUnitPrice());
+ 	 				commodity.setMoney(carCommodity.getPrice());
+ 	 				commodities.add(commodity);
+ 				}
  			}
 		}
 		while( commodities.size() > 0 ) {

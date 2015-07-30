@@ -2,6 +2,7 @@ package com.yc.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class CottonFactory {
 	private String linkMan;// 联系人
 	@Column
 	private String imagePath;// 工厂地址
-	@OneToMany(mappedBy = "cottonFactory")
+	@OneToMany(mappedBy = "cottonFactory",cascade={CascadeType.REFRESH})
 	private List<Cotton> cottons;// 产品信息
 
 	public String getImagePath() {

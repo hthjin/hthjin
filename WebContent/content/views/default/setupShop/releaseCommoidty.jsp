@@ -13,7 +13,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>不倒翁</title>
+<title>华腾汇金</title>
 <base href="<%=basePath%>" />
 
 <link rel="stylesheet" type="text/css"
@@ -81,7 +81,8 @@
 							<span>商品名称</span><input type="text" value="" name="commoidtyName" style="margin-left:50px;"/>
 						</dd>
 						<dd>
-							<span>货号</span><input type="text" value="" name="commItem" style="margin-left:75px;" />
+							<span>货号</span><input type="text" value="" id="citem" name="commItem"  onchange="changeValidateCommItem();" style="margin-left:75px;" />
+							<label style="color:red" id="promptcitem"></label>
 						</dd>
 						<dd>
 							<span>商品分类</span> <select onchange="shopcateOne(this);" id="shopcateTwo" name="categoryid"
@@ -196,6 +197,24 @@
 		</div>
 	</div>
 <script type="text/javascript">
+function changeValidateCommItem(){
+	var citem = $("#citem").val();
+	//验证货号
+		$.ajax({
+			type:'GET',
+			contentType:'application/json',
+			url:'toJsonFmatUtil/checkCommItem?citem='+citem,
+			dataType:'json',
+			success:function(data){
+				if(data.success=='true'){
+					$("#promptcitem").text("数据库中已存在该货号,请换一个货号");
+					return false;
+				}if(data.success=='false'){
+					$("#promptcitem").text("该货号可用");
+				}
+			}
+		});
+}
 			j = 1;
 			$(document)
 					.ready(

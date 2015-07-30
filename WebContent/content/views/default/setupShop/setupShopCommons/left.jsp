@@ -13,6 +13,9 @@
                     <li class="indivterta"><p>交易管理</p>
                	    <div class="indivterta_til_onc"><a href="proscenium/soldComm">订单管理</a> <a href="proscenium/refund">退款管理</a></div></li>
                     <li class="link"></li>
+                    <li class="indivterta"><p>物流管理</p>
+               	    <div class="indivterta_til_onc"><a href="proscenium/wuliu">物流配送</a></div></li>
+                    <li class="link"></li>
               </ul>
             </div>
         </div>

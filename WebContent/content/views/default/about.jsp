@@ -15,7 +15,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>网站地图</title>
+<title>关于我们</title>
 <link rel="stylesheet" type="text/css"
 	href="content/static/css/style.css" />
 <link rel="stylesheet" type="text/css"
@@ -51,9 +51,9 @@
 	<jsp:include page="nav.jsp" />
 	<!--头部结束-->
 	<!--面包屑-->
-	<div class="bread">
-		<div style="width: 1000px;" class="bread2">
-			<a href="hthjin">首页 </a> <span> > 关于我们</span>
+	<div class="breadcar">
+		<div style="width: 1200px;" class="bread2">
+			<div style="width:200px;height:30px; folat:left; line-height:15px;"><a href="hthjin.html">首页 </a> <span> &gt; 关于我们</span></div>
 		</div>
 	</div>
 	<!--文章内容-->

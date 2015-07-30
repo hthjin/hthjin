@@ -31,7 +31,8 @@
     <div class="box">
     	<h2>欢迎登陆</h2>
         <form action="user/login" method="post">
-        用户名：<input type="text" name="mobile"/><br /><input type="hidden" name="page" value="${page }"/>
+        <input type="hidden" name="page" value="${page }"/>
+        用户名：<input type="text" name="mobile"/><br />
         密&nbsp;&nbsp;&nbsp;码：<input type="password" style="margin-left:32px;" name="password" /><br />
         <input type="radio" class="radio"/>记住密码<br />
         <input type="submit"  value="登 陆" class="button" style=""/>

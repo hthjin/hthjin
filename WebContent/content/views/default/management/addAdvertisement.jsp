@@ -49,6 +49,7 @@
 	<jsp:include page='../common/header.jsp' />
 	<br />
 	<br />
+	<br />
 	<div class="row clearfix">
 		<jsp:include page='../common/menu.jsp' />
 		<div class="col-md-10 column">
@@ -65,6 +66,8 @@
 					<div class="form-group">
 						<label for="inputEmail3" class="col-sm-2 control-label">投放位置</label>
 						<div class="col-sm-3">
+						<input type="hidden" class="form-control" name="id"
+								value="${advertisement.id}">
 							<select name="whichPage" id="whichPage" class="form-control"
 								onchange="depChange(this);">
 								<option value="0">所在页面</option>
@@ -84,13 +87,6 @@
 							</select>
 							<input id="lAndW" type="hidden" value="${advertisement.adverDistribution.lAndW }">
 						</div><label id="tishi">图片尺寸：${advertisement.adverDistribution.lAndW }</label>
-					</div>
-					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-2 control-label">商品ID</label>
-						<div class="col-sm-8">
-							<input id="commID" class="form-control" name="commID"
-								value="${advertisement.commodity.commCode}"  onblur="checkvalue(this)">
-						</div>
 					</div>
 					<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">图片路径</label>
@@ -113,37 +109,6 @@
 							<input id="link" class="form-control" name="link"
 								value="${advertisement.link}">
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-2 control-label">广告支出</label>
-							<input type="hidden" name="id" value="${advertisement.id }">
-						<div class="col-sm-8">
-							<input id="expenditure" class="form-control" name="expenditure" 
-								value="${advertisement.expenditure}">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-2 control-label">广告收入</label>
-						<div class="col-sm-8">
-							<input id="income" class="form-control" name="income"  onblur="checkvalue(this)"
-								value="${advertisement.income}">
-						</div>
-					</div>
-					<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">起始时间</label>
-						<div class="col-sm-8">
-							<input id="startDate" class="form-control" name="startDate"
-								value="${advertisement.startDate}" onclick="dateInfoxxx('startDate')">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputEmail3" class="col-sm-2 control-label">投放天数</label>
-						<div class="col-sm-8">
-							<input id="during" class="form-control" name="during"
-								value="${advertisement.during}"  onblur="checkvalue(this)">
-						</div>
-						天
 					</div>
 					<div class="form-group">
 						<div class=" col-sm-12" style="text-align: center;">

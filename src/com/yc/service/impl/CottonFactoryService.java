@@ -25,13 +25,13 @@ public class CottonFactoryService extends GenericService<CottonFactory> implemen
 	 * @see com.yc.service.ICottonFactoryService#getAllByType(java.lang.String)
 	 */
 	@Override
-	public List<CottonFactory> getAllByType(Integer cottonType) {
+	public List<CottonFactory> getAllByType(String cottonType) {
 		StringBuffer hql=new StringBuffer("SELECT cottonfactory.* FROM cotton RIGHT JOIN cottonfactory ON cotton.cottonFactory_id=cottonfactory.factoryId");
-		if(cottonType==6){
-			 hql.append(" WHERE cotton.cottonType='手采棉花' GROUP BY cottonfactory.factoryId");
-		}else if(cottonType==7){
-			 hql.append(" WHERE cotton.cottonType='机采棉花' GROUP BY cottonfactory.factoryId");
-		}else if(cottonType==-1){
+		if(cottonType.equals("shoucai")){
+			 hql.append(" WHERE cotton.cottonType='shoucai' GROUP BY cottonfactory.factoryId");
+		}else if(cottonType.equals("jicai")){
+			 hql.append(" WHERE cotton.cottonType='jicai' GROUP BY cottonfactory.factoryId");
+		}else if(cottonType.equals("-1")){
 			hql.append(" GROUP BY cottonfactory.factoryId");
 		}
 		Query query = cottonFactoryDao.getEntityManager().createNativeQuery(hql.toString(), CottonFactory.class);

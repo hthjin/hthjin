@@ -49,6 +49,7 @@
 	<jsp:include page='../common/header.jsp' />
 	<br />
 	<br />
+	<br />
 	<div class="row clearfix">
 		<jsp:include page='../common/menu.jsp' />
 		<div class="col-md-10 column">
@@ -63,6 +64,16 @@
 					enctype="multipart/form-data">
 					<input type="hidden" value="${cotton.cottonId}" name="cottonId"/>
 					<div class="form-group">
+						<label class="col-sm-2 control-label">所在工厂:</label>
+						<div class="col-sm-8">
+							<select id="cottonFactoryId" class="form-control"  name="cottonFactoryId">
+								<c:forEach items="${cottonFactories }" var="cottonFactory">
+									<option value="${cottonFactory.factoryId }">${cottonFactory.factoryName }
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">批次</label>
 							<div class="col-sm-8">
 								<input id="batch" class="form-control" name="batch" 
@@ -72,8 +83,10 @@
 					<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">类型</label>
 							<div class="col-sm-8">
-								<input id="cottonType" class="form-control" name="cottonType" 
-								  value="${cotton.cottonType }"/>
+								<select class="form-control" name="cottonType" >
+									<option value="jicai" <c:if test="${cotton.cottonType == 'jicai' }">selected</c:if>>机采棉
+									<option value="shoucai" <c:if test="${cotton.cottonType == 'shoucai' }">selected</c:if>>手采棉
+								</select>
 							</div>
 					</div>
 					<div class="form-group">
@@ -146,16 +159,6 @@
 								<option value="true"> 出售中
 							</c:if>
 							</select> 
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label">所在工厂:</label>
-						<div class="col-sm-8">
-							<select id="cottonFactoryId" name="cottonFactoryId">
-								<c:forEach items="${cottonFactories }" var="cottonFactory">
-									<option value="${cottonFactory.factoryId }">${cottonFactory.factoryName }
-								</c:forEach>
-							</select>
 						</div>
 					</div>
 					<div class="form-group">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yc.controller.user.UserController;
+import com.yc.entity.Address;
 import com.yc.entity.AdvertiseDistribution;
 import com.yc.entity.Advertisement;
 import com.yc.entity.CarCommodity;
@@ -30,6 +31,7 @@ import com.yc.entity.ShopCommImage;
 import com.yc.entity.ShopCommodity;
 import com.yc.entity.user.AppUser;
 import com.yc.model.CarCommdityModel;
+import com.yc.service.IAddressService;
 import com.yc.service.IAdvertisementDistributionService;
 import com.yc.service.IAdvertisementService;
 import com.yc.service.IAppUserService;
@@ -46,7 +48,7 @@ public class ToJsonFmatUtil {
 
 	@Autowired
 	IAdvertisementDistributionService adverDistributionService;
-	
+
 	@Autowired
 	IAppUserService appUserService;
 
@@ -67,6 +69,9 @@ public class ToJsonFmatUtil {
 
 	@Autowired
 	IBuyCarService buyCarService;
+
+	@Autowired
+	IAddressService addressService;
 
 	@Resource
 	ServiceTools serviceTools;
@@ -92,6 +97,32 @@ public class ToJsonFmatUtil {
 
 		mode.put("success", "true");
 		mode.put("list", positions);
+		return mode;
+	}
+
+	@RequestMapping("checkCommItem")
+	@ResponseBody
+	public Map<String, Object> checkCommItem(HttpServletRequest req) {
+		ModelMap mode = new ModelMap();
+		int flag = 0;
+		String citem = req.getParameter("citem");
+		List<ShopCommodity> shopList = shopCommService.getAll();
+		if (shopList != null) {
+			for (int i = 0; i < shopList.size(); i++) {
+				if (shopList.get(i).getCommItem() != null) {
+					if (shopList.get(i).getCommItem().equals(citem)) {
+						flag = 1;
+					}
+				}
+			}
+		}
+		System.out.println("得到FLAG的值为：" + flag);
+		if (flag == 1) {
+			mode.put("success", "true");
+		}
+		if (flag == 0) {
+			mode.put("success", "false");
+		}
 		return mode;
 	}
 
@@ -194,6 +225,50 @@ public class ToJsonFmatUtil {
 		return mode;
 	}
 
+	// 新增收货地址：
+	@RequestMapping(value = "addNewAddress", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addNewAddress(HttpServletRequest req) {
+		ModelMap mode = new ModelMap();
+		AppUser user = (AppUser) req.getSession().getAttribute("loginUser");
+		String toName = req.getParameter("toName");
+		System.out.println("toName=========="+toName);
+		String toEmail = req.getParameter("toEmail");
+		String street = req.getParameter("street");
+		String phone = req.getParameter("phone");
+		String province = req.getParameter("cmbProvince");
+		String city = req.getParameter("cmbCity");
+		String area = req.getParameter("cmbArea");
+		String defaults = req.getParameter("default");
+		Address address = new Address();
+		address.setToEmail(toEmail);
+		address.setToName(toName);
+		address.setOther(street);
+		address.setPhone(phone);
+		address.setProvince(province);
+		address.setCity(city);
+		address.setDistrict(area);
+		// 设置默认地址
+		if (defaults != null) {
+			List<Address> addresses = addressService.getAll();
+			for (int i = 0; i < addresses.size(); i++) {
+				if (addresses.get(i).getTheDefault()) {
+					addresses.get(i).setTheDefault(false);
+				}
+			}
+			address.setTheDefault(true);
+		} else {
+			address.setTheDefault(false);
+		}
+		address.setUser(user);
+		address = addressService.save(address);
+		List<Address>  addresses = user.getShopAddress();
+		addresses.add(address);
+		mode.put("addresses", addresses);
+		mode.put("success", "true");
+		return mode;
+	}
+
 	@RequestMapping(value = "getBuyCatNum", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getBuyCatNum(HttpServletRequest request) throws ServletException, IOException, ParseException {
@@ -202,40 +277,41 @@ public class ToJsonFmatUtil {
 		AppUser user = (AppUser) session.getAttribute("loginUser");
 		List<CarCommdityModel> list = new ArrayList<CarCommdityModel>();
 		if (user != null) {
-			List<CarCommodity> carCommodityList=carCommodityService.getCarCommodityByUserName(user.getPhone());
-			List<CarCommodity> handleCarCommodities=serviceTools.handleCarCommodity(carCommodityList, user.getPhone());
+			List<CarCommodity> carCommodityList = carCommodityService.getCarCommodityByUserName(user.getPhone());
+			List<CarCommodity> handleCarCommodities = serviceTools.handleCarCommodity(carCommodityList, user.getPhone());
 			for (int i = 0; i < handleCarCommodities.size(); i++) {
 				CarCommdityModel carCommdity = new CarCommdityModel();
 				carCommdity.setAmount(handleCarCommodities.get(i).getAmount());
 				carCommdity.setCommoidtyName(handleCarCommodities.get(i).getShopCommodity().getCommoidtyName());
 				carCommdity.setId(handleCarCommodities.get(i).getId());
 				carCommdity.setPrice(handleCarCommodities.get(i).getPrice());
-				carCommdity.setUnitPrice(handleCarCommodities.get(i).getUnitPrice()); 
+				carCommdity.setUnitPrice(handleCarCommodities.get(i).getUnitPrice());
 				List<ShopCommImage> images = handleCarCommodities.get(i).getShopCommodity().getShopCommImages();
-				System.out.println("images==========="+images.size());
-				if(images != null && images.size()>0){
+				System.out.println("images===========" + images.size());
+				if (images != null && images.size() > 0) {
 					for (int j = 0; j < images.size(); j++) {
-						if(images.get(j) != null && images.get(j).getImagePath() != null){
+						if (images.get(j) != null && images.get(j).getImagePath() != null) {
 							carCommdity.setImagePath(images.get(j).getImagePath());
 						}
 					}
 				}
 				list.add(carCommdity);
 			}
-			System.out.println("handleCarCommodities.size()========"+handleCarCommodities.size());
+			System.out.println("handleCarCommodities.size()========" + handleCarCommodities.size());
 			mode.put("list", list);
-			mode.put("num",handleCarCommodities.size());
+			mode.put("num", handleCarCommodities.size());
 			mode.put("success", "true");
 			return mode;
-		}else{
+		} else {
 			mode.put("success", "true");
 			mode.put("num", 0);
 			return mode;
 		}
 	}
-	
+
 	/**
 	 * 验证原密码
+	 * 
 	 * @param whichPage
 	 * @param request
 	 * @return
@@ -244,17 +320,17 @@ public class ToJsonFmatUtil {
 	 */
 	@RequestMapping(value = "checkOldPwd", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> checkOldPwd(String loginName,String pwd,HttpServletRequest request) throws ServletException, IOException {
-		ModelMap mode=new ModelMap();
+	public Map<String, Object> checkOldPwd(String loginName, String pwd, HttpServletRequest request) throws ServletException, IOException {
+		ModelMap mode = new ModelMap();
 		String rPwd = UserController.KL(UserController.JM(UserController.KL(UserController.MD5(pwd))));
-		System.out.println("rPwd===="+rPwd);
-		AppUser appUser=appUserService.getUser(loginName);
-		String checkPwd=appUser.getPassword();
-		System.out.println("checkPwd===="+checkPwd);
-		if(rPwd.equals(checkPwd)){
-			 mode.put("appUser", appUser);
+		System.out.println("rPwd====" + rPwd);
+		AppUser appUser = appUserService.getUser(loginName);
+		String checkPwd = appUser.getPassword();
+		System.out.println("checkPwd====" + checkPwd);
+		if (rPwd.equals(checkPwd)) {
+			mode.put("appUser", appUser);
 		}
 		return mode;
 	}
-	
+
 }

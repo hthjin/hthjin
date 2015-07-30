@@ -5,8 +5,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<% String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; %>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <base href="<%=basePath%>">
 <title>不倒翁后台管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,8 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	href="content/static/img/apple-touch-icon-57-precomposed.png">
 <link rel="shortcut icon" href="content/static/img/favicon.png">
 
-<script type="text/javascript"
-	src="content/static/js/lib/jquery.min.js"></script>
+<script type="text/javascript" src="content/static/js/lib/jquery.min.js"></script>
 <script type="text/javascript"
 	src="content/static/js/lib/bootstrap.min.js"></script>
 <script type="text/javascript" src="content/static/js/lib/scripts.js"></script>
@@ -36,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="content/static/css/bootstrap/bootstrap-tree.css"
 	rel="stylesheet">
 </head>
-	<!-- Static navbar -->
+<!-- Static navbar -->
 <script type="text/javascript">
 	// Popup window code
 	function popupWindow(url) {
@@ -49,22 +52,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 <jsp:include page='../common/header.jsp' />
 <div class="row clearfix">
-<br><br>
+	<br>
+	<br>
+	<br>
 	<jsp:include page='../common/menu.jsp' />
 	<div class="col-md-4 column">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">
-					分类
-				</h3>
+				<h3 class="panel-title">分类</h3>
 			</div>
 			<div class="tree well">
 				<ul>
 					<c:forEach items="${categories }" var="cate">
-						 <li><span><i class="icon-minus-sign"></i>${cate.category }</span><a href="javascript:void(0);" onclick="onclickID('${cate.categoryID}');">&nbsp;&nbsp;<img title="操作" src="content/static/images/banshou.png"></a>
-						 </li>  
+						<c:if test="${cate.categoryID !=1  }">
+							<li><span><i class="icon-minus-sign"></i>${cate.category }</span><a
+								href="javascript:void(0);"
+								onclick="onclickID('${cate.categoryID}');">&nbsp;&nbsp;<img
+									title="操作" src="content/static/images/banshou.png"></a></li>
+						</c:if>
 					</c:forEach>
-				</ul>  
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -76,46 +83,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="list-group-item">
 				<p class="list-group-item-text">
 					<br>
-					<form class="form-horizontal" action="management/divideSpec"  id="form" name="IUpload" 
-						method="post"  enctype="multipart/form-data">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">产品分类:</label>
-								<label class="col-sm-2 control-label">${shopCategory.category }</label>
+				<form class="form-horizontal" action="management/divideSpec"
+					id="form" name="IUpload" method="post"
+					enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">产品分类:</label> <label
+							class="col-sm-2 control-label">${shopCategory.category }</label>
+						<br>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">分类状态:</label>
+						<div class="col-sm-8">
+							<label class="control-label"> <c:if
+									test="${shopCategory.isForbidden == false }">
+									<font color="green">启用中</font>
+								</c:if> <c:if test="${shopCategory.isForbidden == true }">
+									<font color="red">禁用中</font>
+								</c:if>
+							</label> <br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">规格名称:</label>
+						<div class="col-sm-8">
+							<input id="categoryID" name="categoryID"
+								value="${shopCategory.categoryID }" type="hidden">
+							<c:forEach var="specs" items="${list }">
+								<c:set var="isok" value="false"></c:set>
+								<c:forEach items="${cateSpec }" var="spec">
+									<c:if test="${spec.id == specs.id }">
+										<c:set var="isok" value="true"></c:set>
+									</c:if>
+								</c:forEach>
+								<input name="specs" type="checkbox" value="${specs.id }"
+									<c:if test="${isok }">checked</c:if>>${specs.specificatName }
+								</c:forEach>
 							<br>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">分类状态:</label> 
-							<div class="col-sm-8">
-								<label class="control-label">
-									<c:if test="${shopCategory.isForbidden == false }"><font color="green">启用中</font></c:if>	
-									<c:if test="${shopCategory.isForbidden == true }"><font color="red">禁用中</font></c:if>	
-								</label>
-								<br>
-							</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-8" style="text-align: center;">
+							<button type="submit" class="btn btn-default">分配</button>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">规格名称:</label> 
-							<div class="col-sm-8">
-							<input id="categoryID" name="categoryID" value="${shopCategory.categoryID }" type="hidden">
-								<c:forEach var="specs" items="${list }">
-									<c:set var="isok" value="false"></c:set>
-									<c:forEach items="${cateSpec }" var="spec">
-										<c:if test="${spec.id == specs.id }">
-											<c:set var="isok" value="true"></c:set>
-										</c:if>
-									</c:forEach>
-									<input name="specs"  type="checkbox"
-										value="${specs.id }" <c:if test="${isok }">checked</c:if>>${specs.specificatName }
-								</c:forEach>
-								 <br>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-8" style="text-align: center;">
-								<button type="submit" class="btn btn-default">分配</button>
-							</div>
-						</div>
-					</form>
+					</div>
+				</form>
 				</P>
 			</div>
 		</div>
@@ -147,4 +158,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 		});
 	</script>
-<jsp:include page='../common/footer.jsp' />
+	<jsp:include page='../common/footer.jsp' />

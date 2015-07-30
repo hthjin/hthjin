@@ -15,7 +15,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>联系我们</title>
+<title>关于我们</title>
 <link rel="stylesheet" type="text/css"
 	href="content/static/css/style.css" />
 <link rel="stylesheet" type="text/css"
@@ -28,40 +28,22 @@
 	src="content/static/js/hthjin/jquery-1.7.2.min.js"></script>
 <script type="text/javascript"
 	src="content/static/js/hthjin/jquery.SuperSlide.2.1.1.js"></script>
-<script type="text/javascript">
-	$(document).ready(
-			function() {
-				$("#oul").children(this).children($("#oul").children(this))
-						.hover(
-								function() {
-									var index = $("#oul").children(this).index(
-											this);
-									$(this).css("backgroundColor", "#EB4642")
-											.css("color", "#fff");
-								},
-								function() {
-									$(this).css("backgroundColor", "#fff").css(
-											"color", "#999");
-								});
-			});
-</script>
 </head>
 <body>
-	<!--头部开始-->
-	<jsp:include page="nav.jsp" />
+<jsp:include page="nav.jsp" />
 	<!--头部结束-->
 	<!--面包屑-->
 	<div class="breadcar">
-		<div style="width: 1200px;" class="bread2">
-			<div style="width:200px;height:30px; folat:left; line-height:15px;"><a href="hthjin">首页 </a> <span> &gt; 联系我们</span></div>
+		<div style="width: 1000px;" class="bread2">
+			<div style="width:200px;height:30px; folat:left; line-height:15px;"><a href="hthjin">首页 </a> <span> &gt; 公司简介</span></div>
 		</div>
 	</div>
-	<!--文章内容-->
-	<div class="ditu">
-		<h1>${products.productsName }</h1>
-		${products.effect }
-	</div>
-	<!---------------------foot-------------------------->
+	<div class="about">
+	<div class="box1">
+    	<span>${products.productsName }</span>
+    	${products.effect }
+    </div>
+</div>
 	<jsp:include page="frontDesk/foot.jsp" />
 </body>
 </html>

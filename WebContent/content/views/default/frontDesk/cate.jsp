@@ -45,6 +45,8 @@
 																href="productCenter/cottonFactory?cottonType=${cate1.categoryID}"
 																target="_blank">${cate1.category }</a>
 														</c:forEach>
+														<a href="productCenter/cottonFactory?cottonType=shoucai" target="_blank">手采棉</a> 
+                                      <a href="productCenter/cottonFactory?cottonType=jicai" target="_blank">机采棉</a> 
 													</p>
 												</c:if>
 											</c:forEach>
@@ -82,7 +84,7 @@
 													</h3>
 													<p class="c-category-list limit-24">
 														<c:forEach var="cate1" items="${cate.children}">
-															<a href="javascript:void(0)" target="_blank">${cate1.category }</a>
+															<a href="search/result?id=${cate1.categoryID }" target="_blank">${cate1.category }</a>
 														</c:forEach>
 													</p>
 												</c:if>
@@ -101,7 +103,7 @@
 													</h3>
 													<p class="c-category-list limit-24">
 														<c:forEach var="cate1" items="${cate.children}">
-															<a href="javascript:void(0)" target="_blank">${cate1.category }</a>
+															<a href="search/result?id=${cate1.categoryID }" target="_blank">${cate1.category }</a>
 														</c:forEach>
 													</p>
 												</c:if>

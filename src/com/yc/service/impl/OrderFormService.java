@@ -207,12 +207,12 @@ public class OrderFormService extends GenericService<OrderForm> implements IOrde
 
 	@Override
 	public List<OrderForm> getShopOrderByParam(Map<String, Object> map, Integer shopID) throws ParseException {
-		StringBuffer hql = new StringBuffer("select DISTINCT o.* from OrderForm o right join Commodity com on com.orderform_id = o.orderFormID  where com.seller_name = "+shopID);
+		StringBuffer hql = new StringBuffer("select DISTINCT o.* from OrderForm o left join Commodity com on com.orderform_id = o.orderFormID left join ShopCommodity shopcomm on shopcomm.commCode = com.shopcommodity_id where com.seller_name = "+shopID);
 		if (map.get("nameOfGoods") != null) {
-			hql.append(" and com.nameOfGoods like '%"+map.get("nameOfGoods")+"%'");
+			hql.append(" and shopcomm.commoidtyName like '%"+map.get("nameOfGoods")+"%'");
 		}
 		if (map.get("orderUserName") != null) {
-			hql.append(" and o.user_id in (select id from User u where u.userName like '%"+map.get("orderUserName")+"%')");
+			hql.append(" and o.user_id in (select id from AppUser u where u.userName like '%"+map.get("orderUserName")+"%')");
 		}
 		if (map.get("orderFormID") != null) {
 			hql.append(" and o.orderFormID = " + map.get("orderFormID"));

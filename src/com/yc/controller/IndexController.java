@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yc.entity.Advertisement;
 import com.yc.entity.FamousManor;
 import com.yc.entity.News;
 import com.yc.entity.Products;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommodity;
+import com.yc.service.IAdvertisementService;
 import com.yc.service.IFamousManorService;
 import com.yc.service.INewsService;
 import com.yc.service.IProductsService;
@@ -45,6 +47,9 @@ public class IndexController {
 	
 	@Autowired
 	IProductsService productsService;
+	
+	@Autowired
+	IAdvertisementService advertisementService;
 	
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public ModelAndView index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -94,6 +99,8 @@ public class IndexController {
  		mode.put("gongsizhanlue", gongsizhanlue);
  		List<Products> yunshufangshi = productsService.getProductsByAgricult(9);
  		mode.put("yunshufangshi", yunshufangshi);
+ 		List<Advertisement> advertisementList = advertisementService.getAdvertiseBywhichPage("首页");
+		mode.put("advertisementList", advertisementList);
  		return new ModelAndView("hthjin",mode);
  	}
  	@RequestMapping(value = "production", method = RequestMethod.GET)
@@ -108,8 +115,8 @@ public class IndexController {
  					return o2.getId()-o1.getId();
  				}
  			});
- 	 		mode.put("products", products);
  	 		mode.put("news", news);
+ 	 		mode.put("products", products);
  		}
  		return new ModelAndView("products",mode);
  	}
@@ -120,6 +127,14 @@ public class IndexController {
  		ModelMap mode = new ModelMap();
  		mode.put("products", products);
  		return new ModelAndView("getDitu",mode);
+ 	}
+ 	
+ 	@RequestMapping(value = "jianjie", method = RequestMethod.GET)
+ 	public ModelAndView jianjie( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+ 		Products products = productsService.getAllByAgricult(2);
+ 		ModelMap mode = new ModelMap();
+ 		mode.put("products", products);
+ 		return new ModelAndView("jianjie",mode);
  	}
  	
  	@RequestMapping(value = "lianxiUS", method = RequestMethod.GET)

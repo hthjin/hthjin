@@ -74,14 +74,13 @@
                       	     $("#Adv_19").append( "<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"240px\" height=\"110px\" /></a>");
         				   }
         			   });//动态生成广告
-        			   var $kv = jQuery('.js_nf_hp_kv')
+        			var $kv = jQuery('.js_nf_hp_kv')
        				var $kv_window = $kv.find('.js_window');
        				var $kv_items = $kv.find('.kv_item');
        				var $kv_nav = $kv.find('.js_nav');
        				var $kv_prev = $kv.find('.js_btn_prev');
        				var $kv_next = $kv.find('.js_btn_next');
        				var kv_items_count = $kv_items.length;
-       				
        				var $ts = jQuery('.js_nf_hp_teaser_c3x')
        				var $ts_groups = $ts.find('.js_t_group');
        				var animate_dur = 500;
@@ -228,6 +227,8 @@
                                       <c:forEach var="cate1" items="${cate.children}">
                                                  <a href="productCenter/cottonFactory?cottonType=${cate1.categoryID}" target="_blank">${cate1.category }</a> 
                                       </c:forEach>
+                                      <a href="productCenter/cottonFactory?cottonType=shoucai" target="_blank">手采棉</a> 
+                                      <a href="productCenter/cottonFactory?cottonType=jicai" target="_blank">机采棉</a> 
                                       </p>
                                 </c:if>
                         </c:forEach>
@@ -256,7 +257,7 @@
                                       <h3 class="category-name b-category-name"><a id="s-category-289" href="search/cateComm?cateid=${cate.categoryID }" target="_blank" class="ml-22" >${cate.category }</a></h3>
                                       <p class="c-category-list limit-24">
                                       <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="javascript:void(0)" target="_blank">${cate1.category }</a> 
+                                                 <a href="search/result?id=${cate1.categoryID }" target="_blank">${cate1.category }</a> 
                                       </c:forEach>
                                       </p>
                                 </c:if>
@@ -271,7 +272,7 @@
                                       <h3 class="category-name b-category-name"><a id="s-category-289" href="search/cateComm?cateid=${cate.categoryID }" target="_blank" class="ml-22" >${cate.category }</a></h3>
                                       <p class="c-category-list limit-24">
                                       <c:forEach var="cate1" items="${cate.children}">
-                                                 <a href="javascript:void(0)" target="_blank">${cate1.category }</a> 
+                                                 <a href="search/result?id=${cate1.categoryID }" target="_blank">${cate1.category }</a> 
                                       </c:forEach>
                                       </p>
                                 </c:if>
@@ -386,10 +387,12 @@
                 	<li class="news_til_onck">最新公告</li>
                 </ul>
               	<ul class="news_prod" style="display:block;">
-              	   <c:forEach items="${newsList }" var="news">
-						<c:if test="${loop < 6}">
-							<li><a href="${ns.activityUrl }">${ns.title }</a></li>
-							<c:set var="loop" value="${loop +1 }"></c:set>
+              	   <c:forEach items="${newsList }" var="xinwen" varStatus="loop">
+						<c:if test="${loop.index < 6}">
+							<a href="production?agricID=${xinwen.id }"><li>
+								<c:if test="${fn:length(xinwen.productsName)<=15}">${xinwen.productsName }</c:if>
+											<c:if test="${fn:length(xinwen.productsName )>15}">${fn:substring(xinwen.productsName, 0, 15)}.....</c:if>
+										</li></a>
 						</c:if>
 					</c:forEach>
                 </ul>
@@ -439,8 +442,20 @@
         <div class="conts_prod">
         	<ul>
                <c:forEach items="${tillerShopList}" var="commShop">
-            	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="${commShop.shopCommImages[0].imagePath}" /></p><p>${tillerShop.commoidtyName}</p><p class="red">${tillerShop.unitPrice}元</p></a>
-                <a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p>${commShop.belongTo.shopName}</p></a></li>
+            	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="../../${commShop.shopCommImages[0].imagePath}" /></p><p>${commShop.commoidtyName}</p><p class="red">
+				原价¥${commShop.unitPrice }&nbsp;/&nbsp;现价
+<c:if
+									test="${commShop.isSpecial }">
+									<fmt:formatNumber
+										value="${commShop.unitPrice * commShop.special  }"
+										pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+								</c:if> <c:if test="${!commShop.isSpecial }">
+									<fmt:formatNumber value="${commShop.unitPrice }"
+										pattern="##.##" minFractionDigits="2">
+									</fmt:formatNumber>
+								</c:if></p></a>
+                <a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p>${commShop.belongTo.shopName}</p>
+                </a></li>
                </c:forEach>
             </ul>
         </div>
@@ -457,8 +472,20 @@
         <div class="conts_prod" style="display:block;">
         	<ul>
                <c:forEach items="${appliancesShopList}" var="appliancesShop">
-            	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="${appliancesShop.shopCommImages[0].imagePath}" /></p><p>${appliancesShop.commoidtyName}</p><p class="red">${appliancesShop.unitPrice}元</p></a>
-                <a href="javascript:void(0)"><p>${appliancesShop.belongTo.shopName}</p></a></li>
+            	<li><a href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p class="conts_prod_img"><img src="../../${appliancesShop.shopCommImages[0].imagePath}" /></p><p>${appliancesShop.commoidtyName}</p><p class="red">
+				原价¥${appliancesShop.unitPrice }&nbsp;/&nbsp;现价
+<c:if
+									test="${appliancesShop.isSpecial }">
+									<fmt:formatNumber
+										value="${appliancesShop.unitPrice * appliancesShop.special  }"
+										pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+								</c:if> <c:if test="${!appliancesShop.isSpecial }">
+									<fmt:formatNumber value="${appliancesShop.unitPrice }"
+										pattern="##.##" minFractionDigits="2">
+									</fmt:formatNumber>
+								</c:if></p></a>
+                <a href="items/shopItem?commID=${appliancesShop.commCode }&category=${appliancesShop.shopCategory.categoryID }&shopID=${appliancesShop.belongTo.id }&commoName=${appliancesShop.commoidtyName }"><p>${appliancesShop.belongTo.shopName}</p>
+                </a></li>
                </c:forEach>
             </ul>
         </div>
@@ -474,8 +501,20 @@
         <div class="conts_prod" style="display:block;">
         	<ul>
         	    <c:forEach items="${foodShopList}" var="foodShop">
-            	<li><a href="produtall.html"><p class="conts_prod_img"><img src="${foodShop.shopCommImages[0].imagePath}" /></p><p>${foodShop.commoidtyName}</p><p class="red">${foodShop.unitPrice}元/500g </p></a>
-                <a href="indiv_shop.html"><p>${foodShop.belongTo.shopName}</p></a></li>
+            	<li><a href="items/shopItem?commID=${foodShop.commCode }&category=${foodShop.shopCategory.categoryID }&shopID=${foodShop.belongTo.id }&commoName=${foodShop.commoidtyName }"><p class="conts_prod_img"><img src="../../${foodShop.shopCommImages[0].imagePath}" /></p><p>${foodShop.commoidtyName}</p><p class="red">
+				原价¥${foodShop.unitPrice }&nbsp;/&nbsp;现价
+<c:if
+									test="${foodShop.isSpecial }">
+									<fmt:formatNumber
+										value="${foodShop.unitPrice * foodShop.special  }"
+										pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
+								</c:if> <c:if test="${!foodShop.isSpecial }">
+									<fmt:formatNumber value="${foodShop.unitPrice }"
+										pattern="##.##" minFractionDigits="2">
+									</fmt:formatNumber>
+								</c:if></p></a>
+                <a href="items/shopItem?commID=${foodShop.commCode }&category=${foodShop.shopCategory.categoryID }&shopID=${foodShop.belongTo.id }&commoName=${foodShop.commoidtyName }"><p>${foodShop.belongTo.shopName}</p>
+                </a></li>
                </c:forEach>
             </ul>
         </div>

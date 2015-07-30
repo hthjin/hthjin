@@ -29,6 +29,10 @@ public class Address {
 	@Column
 	private String district ;// 区：新市区  
 	@Column
+	private String toEmail;
+	@Column
+	private String province;
+	@Column
 	private String other ;// 其它    
 	@Column
 	private Boolean theDefault;// 是否默认   
@@ -40,6 +44,22 @@ public class Address {
 	@JoinColumn(name = "user_id")
     private AppUser user;  
 	
+	public String getToEmail() {
+		return toEmail;
+	}
+
+	public void setToEmail(String toEmail) {
+		this.toEmail = toEmail;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
 	public String getCity() {
 		return city;
 	}

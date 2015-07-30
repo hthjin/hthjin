@@ -43,21 +43,20 @@ function setTab(name,m,n){
 <body>
 	<!--头部-->
 	<jsp:include page="../frontDesk/header.jsp" />
-	<jsp:include page="../frontDesk/cate.jsp" />
 	<!-- 左边部分 -->
 	<div class="produta">
 		<div class="produta_til">
-			<a href="open.html">卖家中心</a> < <span style="font-weight: 700;">出售中的商品</span>
+			<a href="javascript:void(0);">卖家中心</a> < <span style="font-weight: 700;">出售中的商品</span>
 		</div>
 		<jsp:include page="setupShopCommons/left.jsp" />
 		<!--中间内容-->
 		<div class="sold">
 			<div class="top1" style="height:120px;">
-				<form action="proscenium/searchCommNameCateBrand" method="get" id="ww">
+				<form action="proscenium/searchCommNameCateBrand" method="post" id="ww">
 					商品（品牌、类别）名称：<input type="text" name="name" /> <input type="submit"
 						value="搜索" />
 				</form>
-				<form action="proscenium/searchCommName" method="get">
+				<form action="proscenium/searchCommName" method="post">
 					商品名称：<input type="text" name="commoidtyName"
 						style="margin-right: 10px;" /> 商家编码：<input type="text"
 						name="commCode" style="margin-right: 10px;"  onblur="checkvalue(this);"/> 商家货号：<input
@@ -96,7 +95,7 @@ function setTab(name,m,n){
 						<ul>
 							<c:forEach items="${commodities }" var="c">
 								<li  style="width: 362px;"><input type="checkbox"
-									name="checkbox" value="${c.commCode }" /> <img src="${c.shopCommImages[0].imagePath }"
+									name="checkbox" value="${c.commCode }" /> <img src="../${c.shopCommImages[0].imagePath }"
 									width="50px;" />
 									<div class="l1">
 										<a href="#" >${c.commoidtyName } <br /></a>

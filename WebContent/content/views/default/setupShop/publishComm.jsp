@@ -56,11 +56,10 @@
 <body>
 	<!--头部-->
 	<jsp:include page="../frontDesk/header.jsp" />
-	<jsp:include page="../frontDesk/cate.jsp" />
 	<!-- 左边部分 -->
 	<div class="produta">
 		<div class="produta_til">
-			<a href="open.html">卖家中心</a> < <span style="font-weight: 700;">发布商品</span>
+			<a href="javascript:void(0);">卖家中心</a> < <span style="font-weight: 700;">发布商品</span>
 		</div>
 		<jsp:include page="setupShopCommons/left.jsp" />
 		<!--中间开始-->

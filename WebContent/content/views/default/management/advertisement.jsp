@@ -48,7 +48,7 @@
 <body>
 	<jsp:include page='../common/header.jsp' />
 	<!-- Static navbar -->
-	<br><br>
+	<br><br><br>
 <div class="row clearfix">
 	<jsp:include page='../common/menu.jsp' />
 	<div class="col-md-10 column">
@@ -66,14 +66,8 @@
 						<tr>
 							<th>所在页面</th>
 							<th>所在位置</th>
-							<th>参与商品</th>
 							<th>图片</th>
 							<th>链接</th>
-							<th>支出</th>
-							<th>收入</th>
-							<th>起始时间</th>
-							<th>持续时间(天)</th>
-							<th>是否到期</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -91,19 +85,8 @@
 							</c:choose>
 							<td>${advertisement.adverDistribution.whichPage}</td>
 							<td>${advertisement.adverDistribution.position}</td>
-							<td>${advertisement.commodity.commoidtyName}</td>
 							<td>${advertisement.imagePath}</td>
 							<td>${advertisement.link}</td>
-							<td>${advertisement.expenditure}</td>
-							<td>${advertisement.income}</td>
-							<td>${advertisement.startDate}&nbsp;&nbsp;&nbsp;
-								<input id="startDate${loop.index }" type="hidden"
-								value="${advertisement.startDate}">
-							</td>
-							<td>${advertisement.during}<input id="during${loop.index }"
-								type="hidden" value="${advertisement.during}">
-							</td>
-							<td id="between${loop.index }"></td>
 							<td>
 								<button class="btn btn-default"
 									onclick="forPage('management/showUpdateAdvertisement?id=${advertisement.id}');">修改</button>

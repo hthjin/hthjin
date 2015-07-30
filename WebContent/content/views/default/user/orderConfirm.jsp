@@ -16,7 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>不倒翁</title>
+<title>华腾汇金</title>
 <link href="content/static/css/style2.css" rel="stylesheet"
 	type="text/css" />
 <link href="content/static/css/style.css" rel="stylesheet"
@@ -29,6 +29,8 @@
 <script src="content/static/js/hthjin/slide.js" type="text/javascript"></script>
 <script type="text/javascript"
 	src="content/static/js/hthjin/index_v20.js"></script>
+<script type="text/javascript"
+	src="content/static/js/datetime/jsAddress.js"></script>
 </head>
 <body>
 	<jsp:include page="../frontDesk/header.jsp" />
@@ -42,7 +44,7 @@
 		</div>
 	</div>
 	<div class="car-tu">
-		<div class="process-01"></div>
+		<div class="process-02"></div>
 	</div>
 	<div class="shop-car" style="margin-bottom: 100px;">
 		<hr />
@@ -60,113 +62,78 @@
 								<option value="${address.id }"
 									<c:if test="${address.theDefault == true }">selected</c:if>>${address.toName }</option>
 							</c:forEach>
-						</select><br /> <input type="radio" name="idendity"
-							onclick="down(this,n1)" class="new"
-							style="margin-left: 50px; margin-bottom: 10px;" />新地址<br />
+						</select> <a href="javascript:void(0);" onclick="down(this,n1)"><font
+							color="blue">使用新地址</font></a>
+					</p>
+					<script type="text/javascript">
+						$(document)
+								.ready(
+										function() {
+											var code = $("#addressChange")
+													.find("option:selected")
+													.val();
+											$option = "";
+											<c:forEach items="${addresses }" var="address">
+											if ('${address.id}' == code) {
+												$option = $option
+														+ "&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px; color: blue;'>${address.toName}&nbsp;&nbsp;</font><font style='font-size: 18px;'>(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;&nbsp;${address.phone }</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;${address.province}&nbsp;${address.city}&nbsp;</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.district}&nbsp;${address.other}&nbsp;</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮政编码:&nbsp;&nbsp;${address.toEmail}</font><br><br>";
+											}
+											</c:forEach>
+											$('#addressShow').append($option);
+										});
+						$("#addressChange")
+								.change(
+										function() {
+											var code = $(this).val();
+											$('#addressShow').html("");
+											$option = "";
+											<c:forEach items="${addresses }" var="address">
+											if ('${address.id}' == code) {
+												$option = $option
+														+ "&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px; color: blue;'>${address.toName}&nbsp;&nbsp;</font><font style='font-size: 18px;'>(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;&nbsp;${address.phone }</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;${address.province}&nbsp;${address.city}&nbsp;</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.district}&nbsp;${address.other}&nbsp;</font><br><br>";
+												$option = $option
+														+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮政编码:&nbsp;&nbsp;${address.toEmail}</font><br><br>";
+											}
+											</c:forEach>
+											$('#addressShow').append($option);
+										});
+					</script>
 					<div id="n1" style="display: none;">
-						<form>
-							<div class="replay">
-								<a href="#"><div>[删除]</div></a> <a href="#"><div>[修改]</div></a>
-							</div>
-							收件人：&nbsp;&nbsp;&nbsp;<input type="text" /><br />
-							地&nbsp;&nbsp;区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select
-								style="margin-top: 10px; margin-bottom: 10px;">
-								<option>请选择</option>
-								<option>四川</option>
-								<option>新疆</option>
-							</select> <select>
-								<option>请选择</option>
-								<option>成都</option>
-								<option>乌鲁木齐</option>
-							</select> <select>
-								<option>请选择</option>
-								<option>新市区</option>
-								<option>武侯区</option>
-							</select><br /> 详细地址：
-							<textarea style="width: 300px; height: 20px;"></textarea>
-							<br /> 邮政编码：<input type="text" /><br /> 手机号码：<input type="tel" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;固定电话：<input
-								type="tel" /><br /> <input type="checkbox"
-								style="margin-top: 25px;" />添加到常用地址薄<br /> <input
-								type="checkbox" />设置为默认地址<br /> <a>
+						<form action="user/addNewAddress" method="post" id="formSub">
+							收件人：&nbsp;&nbsp;&nbsp;<input type="text" id="toName" name="toName" /><br />
+							地&nbsp;&nbsp;区：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select
+								id="cmbProvince" name="cmbProvince"></select> <select
+								id="cmbCity" name="cmbCity"></select> <select id="cmbArea"
+								name="cmbArea"></select><br /> 详细地址：
+							<textarea style="width: 300px; height: 20px;" id="street" name="street"></textarea>
+							<br /> 邮政编码：<input type="text" name="toEmail" id="toEmail" /><br /> 手机号码：<input
+								type="tel" name="phone" id="phone"/> <br />
+							<input name="default" type="radio" />设置为默认地址 <a>
 								<div class="submit" onclick="up(this,n1)">确认收货人信息</div>
 							</a>
 						</form>
 					</div>
 					</p>
+					<script type="text/javascript">
+						addressInit('cmbProvince', 'cmbCity', 'cmbArea', '新疆',
+								'乌鲁木齐市', '新市区');
+					</script>
 					<p class="shcaadds" id="addressShow"></p>
 					<div class="cl"></div>
 					<div class="shcaaddselink"></div>
 
 				</div>
 				<div class="xiugai" id="xiu">修改送货信息</div>
-			</div>
-			<script type="text/javascript">
-				$(document)
-						.ready(
-								function() {
-									var code = $("#addressChange").find(
-											"option:selected").val();
-									$option = "";
-									<c:forEach items="${addresses }" var="address">
-									if ('${address.id}' == code) {
-										$option = $option
-												+ "&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px; color: blue;'>${address.toName}&nbsp;&nbsp;</font><font style='font-size: 18px;'>(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;&nbsp;${address.phone }</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.country}&nbsp;${address.provience}&nbsp;${address.city}&nbsp;</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.district}&nbsp;${address.other}&nbsp;</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:&nbsp;&nbsp;${address.toEmail}</font><br><br>";
-									}
-									</c:forEach>
-									$('#addressShow').append($option);
-								});
-				$("#addressChange")
-						.change(
-								function() {
-									var code = $(this).val();
-									$('#addressShow').html("");
-									$option = "";
-									<c:forEach items="${addresses }" var="address">
-									if ('${address.id}' == code) {
-										$option = $option
-												+ "&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px; color: blue;'>${address.toName}&nbsp;&nbsp;</font><font style='font-size: 18px;'>(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;&nbsp;${address.phone }</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.country}&nbsp;${address.provience}&nbsp;${address.city}&nbsp;</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.district}&nbsp;${address.other}&nbsp;</font><br><br>";
-										$option = $option
-												+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Email:&nbsp;&nbsp;${address.toEmail}</font><br><br>";
-									}
-									</c:forEach>
-									$('#addressShow').append($option);
-								});
-			</script>
-			<div class="new_address" id="newaddress" style="display: none;">
-				<div class="new">添加送货地址：</div>
-				<img id="guanbi" src="images/guanbi.png" />
-				<form>
-					*收货人：<input type="text" name="name" /><br /> *收货地址：<select
-						style="width: 100px;">
-						<option>请选择</option>
-						<option>四川</option>
-						<option>新疆</option>
-						<option>北京</option>
-					</select> <select>
-						<option>请选择</option>
-						<option>成都</option>
-						<option>广元</option>
-						<option>乌鲁木齐</option>
-					</select> <select>
-						<option>请选择</option>
-						<option>武侯区</option>
-						<option>青川</option>
-						<option>新市区</option>
-					</select><br /> *详细地址：<input type="text" name="add" /><br /> *手机号码：<input
-						type="tel" name="phone" /><br /> 固定电话：<input type="text"
-						name="phone1" />
-				</form>
-				<div class="baocun" id="new">保存</div>
 			</div>
 
 			<div class="way">
@@ -198,8 +165,6 @@
 				<div style="font-size: 20px; margin-top: 20px; float: left;">
 					<b>商品清单</b>
 				</div>
-				<a href="shop-car.html"><div
-						style="float: right; margin-top: 20px; font-size: 12px;">回到购物车，修改商品>></div></a>
 				<div style="height: auto; width: 900px;">
 					<div class="nav-list">
 						<ul>
@@ -208,17 +173,17 @@
 							<li>购买数量</li>
 							<li>优惠金额</li>
 							<li>小计</li>
-
 						</ul>
 					</div>
 					<c:set var="zhongliang" value="0"></c:set>
+					<c:set var="jianshu" value="0"></c:set>
 					<c:set var="jine" value="0"></c:set>
 					<c:forEach items="${list }" var="carCommodity" varStatus="loop">
 						<div class="nav-info">
 							<ul>
 								<li
 									style="float: left; margin-top: 10px; width: 200px; height: auto;"><img
-									src="${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
+									src="../${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
 									style="float: left; margin-top: 10px; width: 75px; height: 75px;" />
 									<div style="float: left; margin-top: 41px;">
 										${carCommodity.shopCommodity.commoidtyName }</div></li>
@@ -238,6 +203,7 @@
 								<c:set var="zhongliang"
 									value="${zhongliang + carCommodity.shopCommodity.probablyWeight * carCommodity.amount}"></c:set>
 								<c:set var="jine" value="${jine + carCommodity.price}"></c:set>
+								<c:set var="jianshu" value="${jianshu + carCommodity.amount}"></c:set>
 							</ul>
 						</div>
 					</c:forEach>
@@ -252,7 +218,6 @@
 					style="width: 100%; height: auto; margin-top: 20px;">
 					<div class="last_top"
 						style="width: 100%; height: 30px; border-bottom: 1px #ccc dashed;">
-						<a href="shopcar.html"><div class="back">返回购物车修改</div></a>
 						<div class="tatle"
 							style="float: right; line-height: 35px; margin-right: 15px; margin-top: 20px;">
 							<span></span> <span class="ap1"
@@ -269,9 +234,35 @@
 					<div class="last_top2"
 						style="width: 100%; height: 30px; margin-top: 15px;">
 						<div class="tatle2"
-							style="float: right; line-height: 35px; margin-right: 1px; margin-top: 20px; margin-left: 48%;">
+							style="float: right; line-height: 35px; margin-right: -220px; margin-top: 20px; margin-left: 48%;">
 							<span style="margin-right: 35px;">运费：</span> <span class="ap1"
-								style="color: #A40C59; margin-right: 10px;">￥${zhongliang * 6 }</span>
+								style="color: #A40C59; margin-right: 10px;">
+								<c:set value="0" var="yunfei"></c:set>
+								<c:if test="${wuliu.wuLiuType == 'zhongliang' }">
+									<c:if test="${zhongliang-wuliu.geshu >=0 }">
+										￥<fmt:formatNumber value="${wuliu.geshu*wuliu.firstPrice+(zhongliang-wuliu.geshu)/wuliu.houshu*wuliu.houPrice  }" pattern="##.##"
+										minFractionDigits="2" ></fmt:formatNumber>
+										<c:set value="${wuliu.geshu*wuliu.firstPrice+((zhongliang-wuliu.geshu)/wuliu.houshu)*wuliu.houPrice  }" var="yunfei"></c:set>
+									</c:if>
+									<c:if test="${zhongliang-wuliu.geshu < 0 }">
+										￥<fmt:formatNumber value="${wuliu.geshu*wuliu.firstPrice }" pattern="##.##"
+										minFractionDigits="2"></fmt:formatNumber>
+										<c:set value="${wuliu.geshu*wuliu.firstPrice}" var="yunfei"></c:set>
+									</c:if>
+								</c:if>
+								<c:if test="${wuliu.wuLiuType == 'jianshu' }">
+ 									<c:if test="${jianshu-wuliu.geshu >=0 }">
+ 									￥<fmt:formatNumber value="${wuliu.geshu*wuliu.firstPrice+((jianshu-wuliu.geshu)/wuliu.houshu)*wuliu.houPrice  }" pattern="##.##" 
+										minFractionDigits="2"></fmt:formatNumber>
+										<c:set value="${wuliu.geshu*wuliu.firstPrice+((jianshu-wuliu.geshu)/wuliu.houshu)*wuliu.houPrice  }" var="yunfei"></c:set>
+									</c:if>
+									<c:if test="${jianshu-wuliu.geshu < 0 }">
+									￥<fmt:formatNumber value="${wuliu.geshu*wuliu.firstPrice }" pattern="##.##"
+ 										minFractionDigits="2"></fmt:formatNumber>
+ 										<c:set value="${wuliu.geshu*wuliu.firstPrice }" var="yunfei"></c:set>
+ 									</c:if>
+								</c:if>
+							</span>
 						</div>
 					</div>
 					<div class="last_top2"
@@ -279,17 +270,17 @@
 						<div class="tatle2"
 							style="float: right; line-height: 35px; margin-left: 45%;">
 							<span>您共需支付：</span> <span class="ap1">￥<fmt:formatNumber
-									value="${zhongliang * 6 + jine}" pattern="##.##"
+									value="${yunfei + jine}" pattern="##.##"
 									minFractionDigits="2"></fmt:formatNumber></span>
 						</div>
 					</div>
 					<div class="last_top3"
 						style="width: 100%; height: 50px; margin-top: 50px;">
-						<a href="shopcar_success.html"><div class="btn"
-								style="float: right; width: 80px; height: 30px; text-align: center; line-height: 30px; background-color: #a40c59; color: #fff; border-radius: 3px; margin-right: 15px; cursor: pointer;">提交订单</div></a>
+						<div class="btn" onclick="orderGenerate();"
+								style="float: right; width: 80px; height: 30px; text-align: center; line-height: 30px; background-color: #a40c59; color: #fff; border-radius: 3px; margin-right: 15px; cursor: pointer;">提交订单</div>
 						<div class="tatle3" style="float: right; line-height: 35px;">
 							<span>应付金额：</span> <span class="ap1">￥<fmt:formatNumber
-									value="${zhongliang * 6 + jine}" pattern="##.##"
+									value="${yunfei + jine}" pattern="##.##"
 									minFractionDigits="2"></fmt:formatNumber></span>
 						</div>
 					</div>
@@ -299,7 +290,7 @@
 					<input name="shouhuoTime" type="hidden" value="工作日、双休日与节假日均可送货" />
 					<input name="xunshufangshi" type="hidden" value="ems" /> <input
 						name="ids" type="hidden" value="${vars }" /> <input name="yunfei"
-						type="hidden" value="${zhongliang * 6 }" /> <input name="mudidi"
+						type="hidden" value="${yunfei }" /> <input name="mudidi"
 						id="mudidi" type="hidden" value="" />
 				</form>
 
@@ -416,12 +407,60 @@
 	<script>
 		function down(div3, div4) {
 			div4.style.display = "inline";
+			if (div4 == document.getElementById("n1")) {
+				$('#addressShow').hide();
+			}
 		}
 	</script>
 	<script>
 		function up(div3, div4) {
+			if(div4 == document.getElementById("n1") ){
+				$(document).ready(function(){
+					jQuery.ajax({
+						cache: true,
+						type : 'POST',
+						url : 'toJsonFmatUtil/addNewAddress',
+						data : $('#formSub').serialize(),
+						success : function(data) {
+							if(data.success == 'true'){
+								var citySelect = document.getElementById('addressChange');
+								var num = citySelect.options.length;
+								for (i = num - 1; i >= 0; i--) {
+									citySelect.remove(i);
+								}
+								var objOption = new Option("----选择收件人----", -1);
+								citySelect.options[citySelect.options.length] = objOption;
+								$.each(data.addresses,function(i, address) {
+									var objOption = new Option(address.toName, address.id,address.theDefault,true);
+									citySelect.options[citySelect.options.length] = objOption;
+								});
+							}
+						}
+					});
+			});
 			div4.style.display = "none";
+			$("#addressChange")
+			.change(
+					function() {
+						var code = $(this).val();
+						$('#addressShow').html("");
+						$option = "";
+						<c:forEach items="${addresses }" var="address">
+						if ('${address.id}' == code) {
+							$option = $option
+									+ "&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px; color: blue;'>${address.toName}&nbsp;&nbsp;</font><font style='font-size: 18px;'>(收)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话：&nbsp;&nbsp;${address.phone }</font><br><br>";
+							$option = $option
+									+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;${address.province}&nbsp;${address.city}&nbsp;</font><br><br>";
+							$option = $option
+									+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>${address.district}&nbsp;${address.other}&nbsp;</font><br><br>";
+							$option = $option
+									+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font style='font-size: 18px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮政编码:&nbsp;&nbsp;${address.toEmail}</font><br><br>";
+						}
+						</c:forEach>
+						$('#addressShow').append($option);
+					});
 		}
+	}
 	</script>
 </body>
 </html>

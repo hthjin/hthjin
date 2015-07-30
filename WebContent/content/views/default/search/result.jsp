@@ -14,12 +14,14 @@
 %>
 <base href="<%=basePath%>" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>不倒翁</title>
+<title>华腾汇金</title>
 <link href="content/static/css/style2.css" rel="stylesheet"
 	type="text/css" />
 <link href="content/static/css/index2.css" rel="stylesheet"
 	type="text/css" />
 <link href="content/static/css/style.css" rel="stylesheet"
+	type="text/css" />
+<link href="content/static/css/main.css" rel="stylesheet"
 	type="text/css" />
 <script src="content/static/js/hthjin/jquery-1.4.2.min.js"
 	type="text/javascript"></script>
@@ -37,20 +39,27 @@
 		});
 	});
 </script>
- <script type="text/javascript">
-         $(function(){
-        	 $.getJSON(
-        		  "toJsonFmatUtil/getAdvertisement",
-        		  {
-        			  whichPage: "商品筛选页面"
-        		   }, function(json) {
-        			   $.each(json.advertisementList, function(i,item){
-        				   if(item.adverDistribution.position=='商品筛选页面大眼睛'){
-                          	    $("#Adv_1").append("<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"1200\" height=\"230\"/></a>");
-        				   }
-        		   });
-         });
-         });
+<script type="text/javascript">
+	$(function() {
+		$
+				.getJSON(
+						"toJsonFmatUtil/getAdvertisement",
+						{
+							whichPage : "商品筛选页面"
+						},
+						function(json) {
+							$
+									.each(
+											json.advertisementList,
+											function(i, item) {
+												if (item.adverDistribution.position == '商品筛选页面大眼睛') {
+													$("#Adv_1")
+															.append(
+																	"<a href=\""+item.link+"\"><img src=\""+item.imagePath+"\" width=\"1200\" height=\"230\"/></a>");
+												}
+											});
+						});
+	});
 </script>
 <style>
 #nav {
@@ -58,7 +67,7 @@
 }
 </style>
 <script type="text/javascript">
-     
+	
 </script>
 </head>
 <body>
@@ -70,7 +79,74 @@
 
 		<div class="right proclas">
 			<div class="proclas_top" id="Adv_1">
+				<a href="productCenter/shopIndex">首页</a>
 			</div>
+			<script type="text/javascript">
+			$(document)
+					.ready(
+							function() {
+								var strs = '${nvabar}';
+								var str = strs.split("|");
+								var $guige = "";
+								var $guige1 = "";
+								var language = $("#language").val();
+								var special = "";
+								if ( language == 'chinese') {
+									special = "折扣";
+								} else if ( language == 'russina') {
+									special = "我是俄文折扣";
+								}
+								var brand = "";
+								if ( language == 'chinese') {
+									brand = "名品街";
+								} else if ( language == 'russina') {
+									brand = "我是俄文名品街";
+								}
+								for (var j = 0; j < str.length; j++) {
+									if (j == 0) {
+										
+										if('${page}'=='brand'){
+											$guige = $guige
+											+ "> <a href='..proscenium/categoryLei?id=-1&page=brand'>"
+											+ brand
+											+ "</a> ";
+										}else if('${page}'=='special'){
+											$guige = $guige
+											+ "> <a href='..proscenium/categoryLei?id=-1&page=special'>"
+											+ special
+											+ "</a> ";
+										}else{
+											$guige = $guige
+											+ "> <a href='search/cateComm?cateid="
+											+ str[j].split("-")[0] + "'>"
+											+ str[j].split("-")[1]
+											+ "</a> ";
+										}
+									} else {
+										$guige = $guige + "> <a href='search/result?id="
+												+ str[j].split("-")[0] + "'>"
+												+ str[j].split("-")[1]
+												+ "</a> ";
+									}
+									if (j == str.length - 1) {
+										$guige1 = ""
+												+ str[j].split("-")[1]
+												+ "</a> <div class='clear'></div>";
+									}
+								}
+								
+								if ( '${page}'=='search') {
+									if ( language == 'chinese') {
+										$('#Adv_1').append("搜索结果");
+									} else if ( language == 'russina') {
+										$('#Adv_1').append("我是俄文搜索结果");
+									}
+									
+								} else {
+									$('#Adv_1').append($guige);
+								}
+							});
+		</script>
 			<div class="proclas_all">
 				<div class="proclist_til">
 					<ul>
@@ -382,8 +458,8 @@
 										});
 
 							});
-					function buyCat(commID) {
-						var buyAmount = $('#qty0').val();
+					function buyCat(commID,index) {
+						var buyAmount = $('#qty'+index).val();
 						jQuery.ajax({
 							type : 'GET',
 							contentType : 'application/json',
@@ -408,72 +484,193 @@
 				<div class="proclist_scr">
 					<div class="fy_maintabletop3">
 						<div class="orderby">
-							<label class="fy_tb3 pricenum_sel "><a order="6"
-								name="clickFilterOrder" hidefocus="true">价格</a></label> <label
-								class="fy_tb3 salenum selected"><a order="1"
-								name="clickFilterOrder" hidefocus="true">销量</a></label>
+							<ul>
+								<li style="cursor: pointer;"><a><span id="jg1" class="fy_tb3 pricenum_sel">销量</span></a>
+									<div class="jiage" id="jiage1">
+										<a href="javascript:void(0);"
+											onclick="onClickOrderBy('orderByXiao','DESC');"><span>销量从高到低</span></a><br />
+										<a href="javascript:void(0);"
+											onclick="onClickOrderBy('orderByXiao','ASC');"><span>销量从低到高</span></a>
+									</div>
+								</li>
+								<li style="cursor: pointer;"><a><span id="jg" class="fy_tb3 salenum selected">价格</span></a>
+									<div class="jiage" id="jiage">
+										<a href="javascript:void(0);"
+											onclick="onClickOrderBy('orderByPice','DESC');"><span>价格从高到低</span></a><br />
+										<a href="javascript:void(0);"
+											onclick="onClickOrderBy('orderByPice','ASC');"><span>价格从低到高</span></a>
+									</div>
+								</li>
+							</ul>
 						</div>
 						<div class="pagin pagin-m right" style="margin-right: 20px;">
 							<div class="prev-disabled2 left"></div>
-							<span class="text"><label style="color: red;">1</label>/36</span>
+							<span class="text"><label style="color: red;">搜索到条数：</label>${fn:length(list)}</span>
 							<a class="next2" pageno="2" name="filterNextPage"
 								hidefocus="true"></a>
 						</div>
 					</div>
 				</div>
+				<script>
+				function onClickOrderBy(obj, by) {
+					$('#orderByPice').val(obj + "-" + by);
+					$('#paramForm').submit();
+				}
+					window.onload = function() {
+						tabPages({
+							pageMain : 'pageMain',
+							pageNav : 'pageNav',
+							pagePrev : 'prev',
+							pageNext : 'next',
+							curNum : 6, //每页显示的条数   
+							activeClass : 'active', //高光显示的class       
+							ini : 0
+						//初始化显示的页面  
+						});
+						function tabPages(tabPages) {
+							var pageMain = document
+									.getElementById(tabPages.pageMain); //获取内容列表     
+							var pageNav = document
+									.getElementById(tabPages.pageNav); //获取分页      
+							var pagePrev = document
+									.getElementById(tabPages.pagePrev); //上一页      
+							var pageNext = document
+									.getElementById(tabPages.pageNext); //下一页               
+							var curNum = tabPages.curNum; //每页显示数     
+							var len = Math.ceil(pageMain.children.length
+									/ curNum);
+							//alert(pageMain.children.length);
+							//计算总页数
+							var pageList = ''; //生成页码     
+							var iNum = 0; //当前的索引值index            
+							for (var i = 0; i < len; i++) {
+								pageList += '<a href="javascript:;">' + (i + 1)
+										+ '</a>';
+							}
+							pageNav.innerHTML = pageList;
+							pageNav.children[0].className = tabPages.activeClass; //头一页加高亮显示           
+							for (var i = 0; i < pageNav.children.length; i++) {
+								pageNav.children[i].index = i;
+								pageNav.children[i].onclick = function() {
+									for (var t = 0; t < pageNav.children.length; t++) {
+										pageNav.children[t].className = '';
+									}
+									this.className = tabPages.activeClass;
+									iNum = this.index;
+									ini(iNum);
+								};
+							} //下一页   
+							pageNext.onclick = function() {
+								if (iNum == len - 1) {
+
+									return false;
+								} else {
+									for (var t = 0; t < pageNav.children.length; t++) {
+										pageNav.children[t].className = '';
+									}
+									iNum++;
+									pageNav.children[iNum].className = tabPages.activeClass;
+									ini(iNum);
+								}
+							}; //上一页   
+							pagePrev.onclick = function() {
+								if (iNum == 0) {
+
+									return false;
+								} else {
+									for (var t = 0; t < pageNav.children.length; t++) {
+										pageNav.children[t].className = '';
+									}
+									iNum--;
+									pageNav.children[iNum].className = tabPages.activeClass;
+									ini(iNum);
+								}
+							};
+							function ini(iNum) {
+								for (var i = 0; i < pageMain.children.length; i++) {
+									pageMain.children[i].style.display = 'none';
+								}
+								for (var i = 0; i < curNum; i++) {
+									if (pageMain.children[(iNum * curNum + i)] == undefined) {
+										continue;
+									}
+									pageMain.children[(iNum * curNum + i)].style.display = 'block';
+								}
+							}
+							ini(iNum);
+						}
+					};
+				</script>
 				<div class="proclist_all">
-					<ul>
-						<c:forEach items="${list }" var="commShop">
-							<li><a
-								href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
-										class="proclist_all_img">
-										<img src="${commShop.shopCommImages[0].imagePath }" />
-									</p></a> <a
-								href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
-										class="proclist_all_img">
-									<p>${commShop.commoidtyName }</p></a> <a
-								href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
-										class="red">
-										￥
-										<c:if test="${!commShop.isSpecial }">
-											<fmt:formatNumber value="${commShop.unitPrice}"
-												pattern="##.##" minFractionDigits="2">
-											</fmt:formatNumber>
-										</c:if>
-										<c:if test="${commShop.isSpecial }">
-											<fmt:formatNumber
-												value="${commShop.unitPrice * commShop.special}"
-												pattern="##.##" minFractionDigits="2">
-											</fmt:formatNumber>
-										</c:if>
-										/￥${commShop.unitPrice}
-									</p></a>
-								<div class="libgc">
-									<div class="left ml6mr6">
-										<input class="icon-cut" type="button"> <input
-											id="qty0" type="text" _minsaleqty="1" value="1" isfcl="0"
-											name="input_catalog_qtc"> <input class="icon-add"
-												type="button">
-									</div>
-									<div class="fy-price-icon1 ">
-										<a name="addToCart" hidefocus="true"
-											onclick="buyCat('${commShop.commCode }');"> <img
-											border="0" src="content/static/images/btn_buy.jpg"
-											style="display: inline;"></a>
-									</div>
-								</div></li>
-						</c:forEach>
-					</ul>
+					<div class="nav1">
+						<ul>
+							<c:forEach items="${list }" var="commShop" varStatus="loop">
+								<li><a
+									href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
+											class="proclist_all_img">
+											<img src="../${commShop.shopCommImages[0].imagePath }" />
+										</p></a> <a
+									href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
+											class="proclist_all_img">
+											<p>${commShop.commoidtyName }</p></a> <a
+									href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
+											class="red">
+											￥
+											<c:if test="${!commShop.isSpecial }">
+												<fmt:formatNumber value="${commShop.unitPrice}"
+													pattern="##.##" minFractionDigits="2">
+												</fmt:formatNumber>
+											</c:if>
+											<c:if test="${commShop.isSpecial }">
+												<fmt:formatNumber
+													value="${commShop.unitPrice * commShop.special}"
+													pattern="##.##" minFractionDigits="2">
+												</fmt:formatNumber>
+											</c:if>
+											/￥${commShop.unitPrice}
+										</p></a>
+									<div class="libgc">
+										<div class="left ml6mr6">
+											<input class="icon-cut" type="button"
+												onclick="cut(${loop.index});" /> <input
+												id="qty${loop.index }" type="text" _minsaleqty="1" value="1"
+												class="text" isfcl="0" name="input_catalog_qtc" /> <input
+												class="icon-add" type="button" onclick="add(${loop.index});" />
+										</div>
+										<div class="fy-price-icon1 ">
+											<a name="addToCart" hidefocus="true"
+												onclick="buyCat('${commShop.commCode }','${loop.index }');">
+												<img border="0" src="content/static/images/btn_buy.jpg"
+												style="display: inline;" />
+											</a>
+										</div>
+									</div></li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
+				<script> 
+// 				$(function(){ // 				
+				function add(index){					
+					var t=$('#qty'+index);
+					t.val(parseInt(t.val())+1);
+				}
+				function cut(index){
+					var t=$('#qty'+index);
+					t.val(parseInt(t.val())-1);
+					if(parseInt(t.val())<1){ 
+					t.val(1); 
+					};
+				}
+				
+			</script>
 				<div class="cl"></div>
 				<div class="pages">
-					<p>
-						<a href="#" class="page_nopa">上一页</a> <a href="#"
-							class="page_onck">6</a> <a href="#">5</a> <a href="#">4</a> <a
-							href="#">3</a> <a href="#">2</a> <a href="#">1</a> <a href="#">下一页</a>
-						共36页 到第<input name="" type="text" />页 <input style="width: 50px;"
-							name="" type="button" value="跳转" />
-					</p>
+					<div id="pageBox">
+						<span id="prev">上一页</span>
+						<div id="pageNav"></div>
+						<span id="next">下一页</span>
+					</div>
 				</div>
 			</div>
 		</div>

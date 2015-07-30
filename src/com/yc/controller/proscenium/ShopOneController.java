@@ -139,6 +139,9 @@ public class ShopOneController {
 	// 免费开店
 	@RequestMapping("openShop")
 	public ModelAndView openShop(HttpServletRequest req) {
+		List<ShopCategory> list =  shopCategService.getAllByParent();
+		ModelMap mode = new ModelMap();
+		mode.put("list", list);
 		if (req.getSession().getAttribute("loginPersonnle") != null) {
 			Personnel appuser = (Personnel) req.getSession().getAttribute("loginPersonnle");
 			Shop shop = shopService.getShopByUser(appuser.getId());
@@ -148,8 +151,7 @@ public class ShopOneController {
 			}
 			System.out.println("店铺session信息：" + req.getSession().getAttribute("shop"));
 		}
-
-		return new ModelAndView("setupShop/openShop");
+		return new ModelAndView("setupShop/openShop",mode);
 	}
 
 	// 开个人店
@@ -366,8 +368,11 @@ public class ShopOneController {
 			commodity.setSpecial(special);
 			ShopCategory shopCategory = shopCategService.findById(categoryid);
 			commodity.setShopCategory(shopCategory);
-			Brand brand = brandService.getBrandName(brandName);
-			commodity.setBrand(brand);
+			System.out.println("brandName==========="+brandName);
+			if(brandName != null && !brandName.equals("")){
+				Brand brand = brandService.findById(Integer.parseInt(brandName));
+				commodity.setBrand(brand);
+			}
 			/**
 			 * 设置商品所属店面：setBelongTo commodity.setBelongTo(belongTo);
 			 */
@@ -375,7 +380,7 @@ public class ShopOneController {
 			commodity.setBelongTo(shop);
 			// 保存商品，更新规格，规格关联商品
 			if (edit.equals("1")) { // 如果是编辑商品
-				shopCommodityService.update(commodity);
+				commodity = shopCommodityService.update(commodity);
 				/**
 				 * 设置商品链接开始：proscenium/shopItem?commID=10&category=122&shopID=1&
 				 * commoName=1111
@@ -393,7 +398,7 @@ public class ShopOneController {
 				String link = "proscenium/shopItem?commID=" + commID + "&category=" + category + "&shopID=" + shopID + "&commoName=" + commoName;
 				comm.setLink(link);
 				// 重新保存商品：为了更新商品链接link
-				shopCommodityService.update(comm);
+				comm = shopCommodityService.update(comm);
 				/**
 				 * 设置商品链接结束
 				 */
@@ -402,9 +407,9 @@ public class ShopOneController {
 				commoidtySpecsService.update(commoditySpecs);
 				// 更新商品属性
 				commAttribute.setShopCommodity(commodity);
-				shopCommAttributeService.update(commAttribute);
+				commAttribute = shopCommAttributeService.update(commAttribute);
 			} else { // 如果是保存新商品
-				shopCommodityService.save(commodity);
+				commodity = shopCommodityService.save(commodity);
 				/**
 				 * 设置商品链接开始：proscenium/shopItem?commID=10&category=122&shopID=1&
 				 * commoName=1111
@@ -426,20 +431,21 @@ public class ShopOneController {
 				String link = "proscenium/shopItem?commID=" + commID + "&category=" + category + "&shopID=" + shopID + "&commoName=" + commoName;
 				comm.setLink(link);
 				// 重新保存商品：为了更新商品链接link
-				shopCommodityService.update(comm);
+				comm = shopCommodityService.update(comm);
 				/**
 				 * 设置商品链接结束
 				 */
 				// 保存商品规格
 				commoditySpecs.setShopCommSpecs(commodity);
 				if (commoditySpecs != null) {
-					commoidtySpecsService.update(commoditySpecs);
+					commoditySpecs = commoidtySpecsService.update(commoditySpecs);
 				}
 				// 保存商品属性
 				commAttribute.setShopCommodity(commodity);
-				shopCommAttributeService.save(commAttribute);
+				commAttribute = shopCommAttributeService.save(commAttribute);
 			}
 			String endType = "";
+			List<ShopCommImage> commImages = new ArrayList<ShopCommImage>();
 			if (myfile != null && myfile.length > 0) {
 				for (int i = 0; i < myfile.length; i++) {
 					ShopCommImage commImage = new ShopCommImage();
@@ -467,13 +473,16 @@ public class ShopOneController {
 
 						commImage.setImagePath("images/" + shop.getId() + "/" + commodity.getCommCode() + "/" + fname + endType);
 						commImage.setShopCommoidty(commodity);
-						shopCommImageService.save(commImage);
+						commImage = shopCommImageService.save(commImage);
+						commImages.add(commImage);
 					}
 				}
+				commodity.setShopCommImages(commImages);
+				shopCommService.update(commodity);
 			}
-			return "setupShop/publishComm";
+			return "redirect:/proscenium/publishComm";
 		} else {
-			return "failure";
+			return "redirect:/failure";
 		}
 	}
 
@@ -700,20 +709,27 @@ public class ShopOneController {
 	// }
 
 	// 出售中的商品搜索栏：map commoidtyName商品名称、commItem商品货号、commCode商品编码
-	@RequestMapping("searchCommName")
-	public ModelAndView searchCommName(HttpServletRequest req, HttpServletResponse resp) {
+	@RequestMapping(value ="searchCommName", method = RequestMethod.POST)
+	public ModelAndView searchCommName(String commoidtyName,Integer commCode,String commItem,HttpServletRequest req, HttpServletResponse resp) {
 		ModelMap mode = new ModelMap();
 		Map<String, Object> map = new HashMap<String, Object>();
-		String commoidtyName = req.getParameter("commoidtyName");
-		String commItem = req.getParameter("commItem");
-		Integer commCode = 0;
-		if (req.getParameter("commCode") != null && !req.getParameter("commCode").equals("")) {
-			commCode = Integer.parseInt(req.getParameter("commCode"));
+		if(commoidtyName != null && !commoidtyName.equals("")){
+			map.put("commoidtyName", commoidtyName);
+		}else{
+			map.put("commoidtyName", null);
 		}
-		map.put("commoidtyName", commoidtyName);
-		map.put("commItem", commItem);
-		map.put("commCode", commCode);
+		if(commItem != null && !commItem.trim().equals("")){
+			map.put("commItem", commItem);
+		}else{
+			map.put("commItem", null);
+		}
+		if(commCode != null && !commCode.equals("")){
+			map.put("commCode", commCode);
+		}else{
+			map.put("commCode", null);
+		}
 		List<ShopCommodity> commodities = shopCommodityService.getAllByParamsForBlack(map);
+		System.out.println("commodities=========="+commodities.size());
 		mode.put("commodities", commodities);
 		return new ModelAndView("setupShop/chushou", mode);
 	}
@@ -776,16 +792,40 @@ public class ShopOneController {
 		String lastDate = req.getParameter("lastDate");
 		String uname = req.getParameter("uname");
 		String orderStatusFrom = req.getParameter("orderStatusFrom");
+		if(commName != null && !commName.equals("")){
+			map.put("nameOfGoods", commName);
+		}else{
+			map.put("nameOfGoods", null);
+		}
+		if(uname != null && !uname.equals("")){
+			map.put("uname", uname);
+		}else{
+			map.put("uname", null);
+		}
 		Integer orderId = 0;
 		if (req.getParameter("orderId") != null && !req.getParameter("orderId").equals("")) {
 			orderId = Integer.valueOf(req.getParameter("orderId"));
 		}
-		map.put("nameOfGoods", commName);
-		map.put("uname", uname);
-		map.put("orderId", orderId);
-		map.put("orderStatusFrom", orderStatusFrom);
-		map.put("paymentDateLeft", firstDate);
-		map.put("paymentDateRight", lastDate);
+		if(orderId != null && orderId != 0){
+			map.put("orderId", orderId);
+		}else{
+			map.put("orderId", null);
+		}
+		if(orderStatusFrom != null && !orderStatusFrom.equals("")){
+			map.put("orderStatusFrom", orderStatusFrom);
+		}else{
+			map.put("orderStatusFrom", null);
+		}
+		if(firstDate != null && !firstDate.equals("")){
+			map.put("paymentDateLeft", firstDate);
+		}else{
+			map.put("paymentDateLeft", null);
+		}
+		if(lastDate != null && !lastDate.equals("")){
+			map.put("paymentDateRight", lastDate);
+		}else{
+			map.put("paymentDateRight", null);
+		}
 		List<OrderForm> searchOrders = orderFormService.getShopOrderByParam(map, 1);
 		mode.put("searchOrders", searchOrders);
 		return new ModelAndView("setupShop/searchOrders", mode);

@@ -2,6 +2,7 @@ package com.yc.controller.productCenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,11 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yc.entity.Cotton;
 import com.yc.entity.CottonFactory;
+import com.yc.entity.CottonType;
 import com.yc.entity.News;
+import com.yc.entity.Products;
 import com.yc.entity.ShopCategory;
 import com.yc.entity.ShopCommodity;
 import com.yc.service.ICottonFactoryService;
 import com.yc.service.INewsService;
+import com.yc.service.IProductsService;
 import com.yc.service.IShopCategoryService;
 import com.yc.service.IShopCommodityService;
 
@@ -37,6 +41,8 @@ public class ProductCenter {
 	IShopCommodityService shopCommodityService;
 	@Autowired
 	ICottonFactoryService cottonFactoryService ;
+	@Autowired
+	IProductsService productsService;
 	/**
 	 * 产品中心首页
 	 * @param request
@@ -72,7 +78,13 @@ public class ProductCenter {
 	    	foodShopList.addAll(foodShops);
 		}
 	    mode.put("foodShopList", foodShopList);
-	    List<News> news = newService.getNewsByIsThrough(true);//新闻
+	    List<Products> news = productsService.getProductsByAgricult(1);//新闻
+	    news.sort(new Comparator<Products>() {
+			@Override
+			public int compare(Products o1, Products o2) {
+				return o2.getId()-o1.getId();
+			}
+		});
 		mode.put("cateList", cateList);
 		mode.put("newsList", news);
 		return new ModelAndView("productCenter/shopIndex",mode);
@@ -89,7 +101,7 @@ public class ProductCenter {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "cottonFactory", method = RequestMethod.GET)
-	public ModelAndView cottonFactory(Integer cottonType,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView cottonFactory(String cottonType,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelMap mode=new ModelMap();
 		List<ShopCategory> cateList = categoryService.getAllByParent();
 		List<CottonFactory> cottonFactoryList=cottonFactoryService.getAllByType(cottonType);
@@ -109,17 +121,19 @@ public class ProductCenter {
 	@RequestMapping(value = "cottonInfo", method = RequestMethod.GET)
 	public ModelAndView cottonInfo(Integer factoryId,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelMap mode=new ModelMap();
+		List<ShopCategory> list = categoryService.getAllByParent();
 		CottonFactory cottonFactory=cottonFactoryService.findById(factoryId);
 		List<Cotton> cottons=cottonFactory.getCottons();
 		List<Cotton> cottonbyHand=new ArrayList<Cotton>();
 		List<Cotton> cottonbyMachine=new ArrayList<Cotton>();
 		for (int i = 0; i < cottons.size(); i++) {
-			 if("手采棉花".equals(cottons.get(i).getCottonType())){
+			 if(CottonType.shoucai == cottons.get(i).getCottonType()){
 				 cottonbyHand.add(cottons.get(i));
-			 }else if("机采棉花".equals(cottons.get(i).getCottonType())){
+			 }else if(CottonType.jicai == cottons.get(i).getCottonType()){
 				 cottonbyMachine.add(cottons.get(i));
 			 }
 		}
+		mode.put("cateList", list);
 		mode.put("cottonFactory",cottonFactory);
 		mode.put("cottonbyHand", cottonbyHand);
 		mode.put("cottonbyMachine", cottonbyMachine);

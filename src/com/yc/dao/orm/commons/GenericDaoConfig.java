@@ -35,6 +35,7 @@ import com.yc.entity.ShopCommodityAttribute;
 import com.yc.entity.ShopCommoditySpecs;
 import com.yc.entity.ShopReviews;
 import com.yc.entity.Specifications;
+import com.yc.entity.WuLiu;
 import com.yc.entity.user.DepartAndPositions;
 import com.yc.entity.user.Department;
 import com.yc.entity.user.Personnel;
@@ -195,5 +196,9 @@ public class GenericDaoConfig {
     @Bean
     public GenericDao<CottonFactory> getCottonFactoryDao() {
     	return new GenericDaoSupport<CottonFactory>(CottonFactory.class);
+    }
+    @Bean
+    public GenericDao<WuLiu> getWuLiuDao() {
+    	return new GenericDaoSupport<WuLiu>(WuLiu.class);
     }
 }

@@ -16,7 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>不倒翁</title>
+<title>华腾汇金</title>
 <link href="content/static/css/style2.css" rel="stylesheet"
 	type="text/css" />
 <link href="content/static/css/style.css" rel="stylesheet"
@@ -46,27 +46,28 @@
 	<div class="shop-car">
 		<div class="car-zi">我的购物车</div>
 		<hr />
-		<div class="content">
-			<input type="checkbox" name="allselect" id="allselect" style="float: left; margin-top: 30px;" />
-			<label style="width: 110px;  float: left; padding-top: 23px;">全选</label>
-				<div class="jiesao">商品名称</div>
-				<div class="price">商品单价</div>
-				<div class="shuliang">购买数量</div>
-				<div class="youhui">优惠金额</div>
-				<div class="xiaoji" >小计</div>
-				<div class="caozuo">操作</div>
+		<div class="content" style="border: 1px red solid;">
+			<input type="checkbox" name="allselect" id="allselect"
+				style="float: left; margin-top: 30px;" /> <label
+				style="width: 110px; float: left; padding-top: 23px;">全选</label>
+			<div class="jiesao">商品名称</div>
+			<div class="price">商品单价</div>
+			<div class="shuliang">购买数量</div>
+			<div class="youhui">优惠金额</div>
+			<div class="xiaoji">小计</div>
+			<div class="caozuo">操作</div>
 		</div>
 		<hr />
 		<c:forEach items="${list }" var="carCommodity" varStatus="loop">
 			<div class="content">
 				<input type="checkbox" name="select"
-					style="float: left; margin-top: 30px;"
+					style="float: left; margin-top: 30px; margin-left: 10px;"
 					value="${carCommodity.id },${loop.index }"
 					onclick="onclickCheck(this);" /> <a
 					href="proscenium/shopItem?commID=${carCommodity.shopCommodity.commCode }&category=${carCommodity.shopCommodity.shopCategory.categoryID }&shopID=${carCommodity.shopCommodity.belongTo.id }&commoName=${carCommodity.shopCommodity.commoidtyName }">
 					<img
-					src="${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
-					style="width: 70px; height: 70px; float: left;" />
+					src="../${carCommodity.shopCommodity.shopCommImages[0].imagePath }"
+					style="width: 70px; height: 70px; float: left; margin-left: 30px;" />
 				</a>
 				<div class="jiesao">${carCommodity.shopCommodity.commoidtyName }</div>
 				<div class="price">
@@ -76,21 +77,23 @@
 				</div>
 				<div class="shuliang">
 					<div style="float: left; margin-right: 5px;">
-						<a href="#"><img src="content/static/images/jiahao.png" width="20px"
-							height="20px" /></a>
+						<a><img src="content/static/images/jianhao.png"
+							class="icon-add" width="20px" style="cursor: pointer;"
+							onclick="cut(${loop.index});" height="20px" /></a>
 					</div>
 					<div style="float: left;">
-						<input id="amount${loop.index }" value="1"
+						<input id="amount${loop.index }"
 							style="width: 55px; height: 20px;"
 							onchange="onchangeAmount(this,${loop.index });"
 							value="${carCommodity.amount }" />
 					</div>
 					<div style="float: right; margin-left: 5px;">
-						<a href="#"><img src="content/static/images/jianhao.png" width="20px"
-							height="20px" /></a>
+						<a><img src="content/static/images/jiahao.png"
+							class="icon-cut" width="20px" style="cursor: pointer;"
+							onclick="add(${loop.index});" height="20px" /></a>
 					</div>
 				</div>
-				<div class="youhui">
+				<div class="youhui" style="margin-left: 50px;">
 					￥
 					<fmt:formatNumber value="${carCommodity.unitPrice }"
 						pattern="##.##" minFractionDigits="2"></fmt:formatNumber>
@@ -99,12 +102,13 @@
 						value="${carCommodity.price }" id="price${loop.index }"
 						name="price" />
 				</div>
-				<div class="xiaoji" id="displayPrice${loop.index }">
+				<div class="xiaoji" id="displayPrice${loop.index }"
+					style="margin-left: 50px;">
 					￥
 					<fmt:formatNumber value="${carCommodity.price }" pattern="##.##"
 						minFractionDigits="2"></fmt:formatNumber>
 				</div>
-				<div class="caozuo">
+				<div class="caozuo" style="margin-left: 40px; margin-top: -15px;">
 					<a href="user/deleteShopCar?id=${carCommodity.id }"> <img
 						src="content/static/images/shanchu.png" style="margin-top: 30px;"
 						width="20PX;" height="20PX;" /> 删除
@@ -113,13 +117,40 @@
 			</div>
 			<hr />
 		</c:forEach>
+		<script> 
+// 				$(function(){ // 				
+				function add(index){					
+					var t=$('#amount'+index);
+					t.val(parseInt(t.val())+1);
+					var price = $('#unitPrice'+index).val();
+					var num = t.val();
+					$('#price'+index).val(parseFloat(price)*num);
+					var pri = parseFloat(price)*num;
+					$('#displayPrice'+index).html("￥"+pri.toFixed(2));
+					shuaxin();
+				}
+				function cut(index){
+					var t=$('#amount'+index);
+					t.val(parseInt(t.val())-1);
+					if(parseInt(t.val())<1){ 
+					t.val(1); 
+					};
+					var price = $('#unitPrice'+index).val();
+					var num = t.val();
+					$('#price'+index).val(parseFloat(price)*num);
+					var pri = parseFloat(price)*num;
+					$('#displayPrice'+index).html("￥"+pri.toFixed(2));
+					shuaxin();
+				}
+				
+			</script>
+
 		<div class="pay">
-			
+
 			<p>
 				<a href="productCenter/shopIndex">继续购物</a>
 			</p>
-			<p style="margin-left:500px;">
-			</p>
+			<p style="margin-left: 500px;"></p>
 			<p>
 				应付金额：<font color="#FF0000"><span id="zong"> ￥<fmt:formatNumber
 							value="0.00" pattern="##.##" minFractionDigits="2"></fmt:formatNumber>

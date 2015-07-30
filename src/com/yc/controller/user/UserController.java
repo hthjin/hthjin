@@ -106,14 +106,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView login(String page,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("message");
-		return new ModelAndView("user/login");
+		Object obj = request.getSession().getAttribute("loginPage");
+		ModelMap mode = new ModelMap();
+		if (obj != null) {
+			mode.put("page", obj.toString());
+		} else {
+			if(page != null && !page.equals("")){
+				mode.put("page", page);
+			}else{
+				mode.put("page", request.getHeader("Referer"));
+			}
+		}
+		return new ModelAndView("user/login",mode);
 	}
 
 	@RequestMapping(value = "regist", method = RequestMethod.GET)
-	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ModelAndView register(String page,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelMap mode = new ModelMap();
 		Object obj = request.getSession().getAttribute("loginPage");
 		if (obj != null) {
@@ -138,7 +149,6 @@ public class UserController {
 			user.setPhone(phone);
 			user.setPassword(KL(MD5(password)));
 			user = userService.save(user);
-
 		}
 		return "redirect:/user/login?mobile=" + user.getPhone() + "&password=" + user.getPassword() + "&page=" + page;
 	}
@@ -330,6 +340,8 @@ public class UserController {
 	public ModelAndView userInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
 		ModelMap mode=new ModelMap();
+		List<ShopCategory> list = categoryService.getAllByParent();
+		mode.put("cateList", list);
 		List<OrderForm> orderForms=orderFormService.findUnderWay();
 		mode.put("orderForms", orderForms);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//可以方便地修改日期格式 
@@ -406,13 +418,20 @@ public class UserController {
 	@RequestMapping(value = "profile", method = RequestMethod.POST)
 	public String profile(Address adderess,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AppUser user = (AppUser)request.getSession().getAttribute("loginUser");
+		String province = request.getParameter("cmbProvince");
+		String city = request.getParameter("cmbCity");
+		String area = request.getParameter("cmbArea");
 		Address address=new Address();
 		address.setToName(adderess.getToName());
 		address.setRegion(adderess.getRegion());
 		address.setDetailAdress(adderess.getDetailAdress());
 		address.setPhone(adderess.getPhone());
 		address.setPostalCode(address.getPostalCode());
+		address.setOther(request.getParameter("street"));
 		address.setUser(user);
+		address.setProvince(province);
+		address.setCity(city);
+		address.setDistrict(area);
 		addressService.save(address);
 		user.getShopAddress().add(address);
 		userService.update(user);
@@ -466,6 +485,48 @@ public class UserController {
 //		return "redirect:/user/userInfo";
 	}
 	
+	//新增收货地址：
+		@RequestMapping("addNewAddress")
+		public String addNewAddress(HttpServletRequest req){
+			String shopCommId = req.getParameter("shopCommId");
+			String buyAmount = req.getParameter("buyAmount");
+			ModelMap mode = new ModelMap();
+			AppUser user = (AppUser)req.getSession().getAttribute("loginUser");
+			String toName = req.getParameter("toName");
+			String toEmail = req.getParameter("toEmail");
+			String street = req.getParameter("street");
+			String phone = req.getParameter("phone");
+			String province = req.getParameter("cmbProvince");
+			String city = req.getParameter("cmbCity");
+			String area = req.getParameter("cmbArea");
+			String defaults = req.getParameter("default");
+			Address address = new Address();
+			address.setToEmail(toEmail);
+			address.setToName(toName);
+			address.setOther(street);
+			address.setPhone(phone);
+			address.setProvince(province);
+			address.setCity(city);
+			address.setDistrict(area);
+			//设置默认地址
+			if (defaults!=null) {
+				List<Address> addresses = addressService.getAll();
+				for (int i = 0; i < addresses.size(); i++) {
+					if (addresses.get(i).getTheDefault()) {
+						addresses.get(i).setTheDefault(false);
+					}
+				}
+				address.setTheDefault(true);
+			}else {
+				address.setTheDefault(false);
+			}
+			address.setUser(user);
+			addressService.save(address);
+			List<Address> addresses = addressService.getAll();
+			mode.put("addresses", addresses);
+			return "redirect:buyCommodity?shopCommId="+shopCommId+"&buyAmount="+buyAmount;
+		}
+		
 	// MD5加码。32位
 	public static String MD5(String inStr) {
 		MessageDigest md5 = null;

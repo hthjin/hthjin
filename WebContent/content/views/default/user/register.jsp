@@ -31,6 +31,7 @@
     <div class="box">
     	<h2>用户注册</h2>
         <form action="user/regist" method="post" name="formRegist">
+        <input type="hidden" value="${page }" name="page"/>
         用&nbsp;户&nbsp; 名：<input type="text" name="phone" style="margin-left:32px;"/><br  />
         密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input  type="password" style="margin-left:34px;"  /><br  />
         确认密码：<input  type="password" name="password" /><br  />

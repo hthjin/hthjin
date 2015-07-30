@@ -51,9 +51,9 @@
 	<jsp:include page="nav.jsp" />
 	<!--头部结束-->
 	<!--面包屑-->
-	<div class="bread">
-		<div style="width: 1000px;" class="bread2">
-			<a href="hthjin">首页 </a> <span> > 物流平台</span>
+	<div class="breadcar">
+		<div style="width: 1200px;" class="bread2">
+			<div style="width:200px;height:30px; folat:left; line-height:15px;"><a href="hthjin">首页 </a> <span> &gt; 物流</span></div>
 		</div>
 	</div>
 	<!--文章内容-->

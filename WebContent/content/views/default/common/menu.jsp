@@ -16,6 +16,20 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<a class="panel-title" data-toggle="collapse"
+					data-parent="#panel-864122" href="#panel-element-542275">广告管理</a>
+			</div>
+			<div id="panel-element-542275" class="panel-collapse collapse">
+				<div class="panel-body">
+					<a href="management/advertiseDistribution">广告位管理</a>
+				</div>
+				<div class="panel-body">
+					<a href="management/advertisement">广告位分配</a>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="panel-title" data-toggle="collapse"
 					data-parent="#panel-864199" href="#panel-element-541274">首页管理</a>
 			</div>
 			<div id="panel-element-541274" class="panel-collapse collapse">
@@ -69,65 +83,6 @@
 				</div>
 				<div class="panel-body">
 					<a href="management/getAllCotton">棉花管理</a>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a class="panel-title" data-toggle="collapse"
-					data-parent="#panel-864199" href="#panel-element-5402721">名庄管理</a>
-			</div>
-			<div id="panel-element-5402721" class="panel-collapse collapse">
-				<div class="panel-body">
-					<a href="management/famousManorList">名庄列表</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/manorJurisdiction">权限分配</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/jurisdictionMaintenance">权限维护</a>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a class="panel-title" data-toggle="collapse"
-					data-parent="#panel-864199" href="#panel-element-540275">新闻管理</a>
-			</div>
-			<div id="panel-element-540275" class="panel-collapse collapse">
-				<div class="panel-body">
-					<a href="management/news">新闻发布</a>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a class="panel-title" data-toggle="collapse"
-					data-parent="#panel-864122" href="#panel-element-542275">广告管理</a>
-			</div>
-			<div id="panel-element-542275" class="panel-collapse collapse">
-				<div class="panel-body">
-					<a href="management/advertiseDistribution">广告位管理</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/advertisement">广告位分配</a>
-				</div>
-			</div>
-		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<a class="panel-title" data-toggle="collapse"
-					data-parent="#panel-864123" href="#panel-element-542285">活动管理</a>
-			</div>
-			<div id="panel-element-542285" class="panel-collapse collapse">
-				<div class="panel-body">
-					<a href="management/activityStyle">活动类型管理</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/activity">活动管理</a>
-				</div>
-				<div class="panel-body">
-					<a href="management/activityShopCommodity">活动商品管理</a>
 				</div>
 			</div>
 		</div>

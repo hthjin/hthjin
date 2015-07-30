@@ -72,7 +72,7 @@
 										<li><a
 											href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p
 													class="proclasa_all_img">
-													<img src="${commShop.shopCommImages[0].imagePath }" />
+													<img src="../${commShop.shopCommImages[0].imagePath }" />
 												</p></a><a
 											href="items/shopItem?commID=${commShop.commCode }&category=${commShop.shopCategory.categoryID }&shopID=${commShop.belongTo.id }&commoName=${commShop.commoidtyName }"><p>${commShop.commoidtyName }</p></a>
 											<a

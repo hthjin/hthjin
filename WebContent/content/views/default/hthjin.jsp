@@ -62,28 +62,10 @@ $(document).ready(function(){
     <div class="banner">
     		<div class="banner-box">
 	<div class="bd">
-        <ul>          	    
-            <li style="background:#F3E5D8;">
-                <div class="m-width">
-                	<a href="javascript:void(0);"><img src="content/static/images/banner.jpg" /></a>
-                </div>
-            </li>
-            <li style="background:#B01415">
-                <div class="m-width">
-                <a href="javascript:void(0);"><img src="content/static/images/banner2.jpg" /></a>
-                </div>
-            </li>
-            <li style="background:#C49803;">
-                <div class="m-width">
-                <a href="javascript:void(0);"><img src="content/static/images/banner3.jpg" /></a>
-                </div>
-            </li>
-            <li style="background:#FDFDF5">
-                <div class="m-width">
-                <a href="javascript:void(0);"><img src="content/static/images/banner4.jpg" /></a>
-                </div>
-            </li>  
-         
+        <ul id="Adv_1">
+        <c:forEach items="${advertisementList }" var="advertisement">
+        	<li><div class="m-width"><a href="javascript:void(0);"><img src="${advertisement.imagePath}"/></a></div></li>
+        </c:forEach>
         </ul>
     </div>
     <div class="banner-btn">
@@ -190,7 +172,7 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
-<div class="center4">
+<div class="center4" id="newsID">
 	<div class="box">
     	<div class="left">
             <div class="title">

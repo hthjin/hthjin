@@ -4,6 +4,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +22,8 @@ public class Cotton {
 	@Column
 	private String batch;// 批次
 	@Column
-	private String cottonType;// 类型
+	@Enumerated(EnumType.STRING)
+	private CottonType cottonType;// 类型
 	@Column
 	private Boolean isCheck = false;// 是否公检
 	@Column
@@ -37,7 +40,7 @@ public class Cotton {
 	private String warehouse;// 仓库
 	@Column
 	private Boolean isSell;// 是否出售
-	@ManyToOne(cascade = { CascadeType.REFRESH })
+	@ManyToOne(cascade={CascadeType.REFRESH})
 	@JoinColumn(name = "cottonFactory_id")
 	private CottonFactory cottonFactory;// 棉花工厂
 
@@ -57,11 +60,11 @@ public class Cotton {
 		this.batch = batch;
 	}
 
-	public String getCottonType() {
+	public CottonType getCottonType() {
 		return cottonType;
 	}
 
-	public void setCottonType(String cottonType) {
+	public void setCottonType(CottonType cottonType) {
 		this.cottonType = cottonType;
 	}
 
