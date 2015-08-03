@@ -6,7 +6,7 @@
 <% String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; %>
 <base href="<%=basePath%>">
-<title></title>
+<title>华腾汇金</title>
 
 <link href="content/static/css/bootstrap/bootstrap.css" rel="stylesheet">
 

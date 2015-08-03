@@ -1,6 +1,7 @@
 package com.yc.controller.management;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -134,7 +135,14 @@ public class CottonFactoryController {
 		newCotton.setPrice(cotton.getPrice());
 		newCotton.setWarehouse(cotton.getWarehouse());
 		newCotton.setWeight(cotton.getWeight());
-		cottonService.save(newCotton);
+		newCotton = cottonService.save(newCotton);
+		List<Cotton> list = cottonFactory.getCottons();
+		if (list == null ) {
+			list = new ArrayList<Cotton>();
+		}
+		list.add(cotton);
+		cottonFactory.setCottons(list);
+		cottonFactoryService.update(cottonFactory);
 		return "redirect:/management/getAllCotton";
 	}
 	

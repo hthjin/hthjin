@@ -651,7 +651,7 @@ public class CategoryManagementController {
 			specList = new ArrayList<Specifications>();
 			for (int i = 0; i < specs.length; i++) {
 				 Specifications spec = specificationsService.findById(Integer.parseInt(specs[i]));
-				 if (spec.getShopCategories().size()>0) {
+				 if (spec.getShopCategories() != null &&spec.getShopCategories().size()>0) {
 					 cateList = spec.getShopCategories();
 				 }else{
 					 cateList = new ArrayList<ShopCategory>();

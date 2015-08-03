@@ -27,7 +27,7 @@ public class CottonFactory {
 	private String linkMan;// 联系人
 	@Column
 	private String imagePath;// 工厂地址
-	@OneToMany(mappedBy = "cottonFactory",cascade={CascadeType.REFRESH})
+	@OneToMany(mappedBy = "cottonFactory",cascade={CascadeType.REFRESH,CascadeType.MERGE,CascadeType.DETACH})
 	private List<Cotton> cottons;// 产品信息
 
 	public String getImagePath() {
